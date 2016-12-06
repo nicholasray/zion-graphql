@@ -33,6 +33,10 @@ class Image {
     this.data = data;
   }
 
+  id() {
+    return this.data.id;
+  }
+
   filename() {
     return this.data.filename
   }

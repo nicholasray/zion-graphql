@@ -24,6 +24,7 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
