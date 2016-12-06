@@ -11,6 +11,7 @@ var knex = require('knex')({
 var schema = buildSchema(`
   type Image {
     id: ID!
+    tripId: ID!
     filename: String!
     url(size: String!): String!
     createdAt: String!
@@ -19,12 +20,16 @@ var schema = buildSchema(`
 
   type Trip {
     id: ID!
+    images:[Image]!
+    lat: Float
+    lng: Float
     createdAt: String!
     updatedAt: String!
   }
 
   type Query {
-    images(limit: Int, offset: Int): [Image]
+    allImages(limit: Int, offset: Int): [Image]
+    allTrips: [Trip]
   }
 `);
 
@@ -35,6 +40,10 @@ class Image {
 
   id() {
     return this.data.id;
+  }
+
+  tripId() {
+    return this.data.trip_id;
   }
 
   filename() {
@@ -50,10 +59,39 @@ class Image {
   }
 }
 
+class Trip {
+  constructor(data) {
+    this.data = data
+  }
+
+  id() {
+    return this.data.id;
+  }
+
+  lat() {
+    return this.data.lat;
+  }
+
+  lng() {
+    return this.data.lng
+  }
+
+  images() {
+    return knex.select('*').from('images').where({trip_id: this.id()}).then((rows) => {
+      return rows.map((row) => {return new Image(row)});
+    });
+  }
+}
+
 
 // The root provides the top-level API endpoints
 var root = {
-  images: ({limit, offset}) => {
+  allTrips: () => {
+    return knex.select('*').from('trips').then((rows) => {
+      return rows.map((row) => {return new Trip(row)});
+    })
+  },
+  allImages: ({limit, offset}) => {
     return knex.select('*').from('images').limit(limit).offset(offset).then((rows) => {
       return rows.map((row) => {return new Image(row)});
     })

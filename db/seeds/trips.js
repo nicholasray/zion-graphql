@@ -4,15 +4,15 @@ exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('trips').del()
     .then(function () {
-      let promises = []
+      let promises = [];
       for (var i = 0; i < 1000; i++) {
         promises.push(
-          knex('trips').insert({
+          knex('trips').returning('id').insert({
             distance: getRandomInt(1, 100),
             description: faker.lorem.sentence(),
             lat: faker.address.latitude(),
             lng: faker.address.longitude(),
-          }).returning('id').then((id) => {
+          }).then((id) => {
             return knex('images').insert({
               trip_id: id[0],
               filename: faker.system.fileName(),
