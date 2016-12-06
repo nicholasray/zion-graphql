@@ -1,12 +1,31 @@
+var faker = require('faker');
+
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('trips').del()
     .then(function () {
-      return Promise.all([
-        // Inserts seed entries
-        knex('trips').insert({id: 1, colName: 'rowValue1'}),
-        knex('table_name').insert({id: 2, colName: 'rowValue2'}),
-        knex('table_name').insert({id: 3, colName: 'rowValue3'})
-      ]);
+      let promises = []
+      for (var i = 0; i < 1000; i++) {
+        promises.push(
+          knex('trips').insert({
+            distance: getRandomInt(1, 100),
+            description: faker.lorem.sentence(),
+            lat: faker.address.latitude(),
+            lng: faker.address.longitude(),
+          }).returning('id').then((id) => {
+            return knex('images').insert({
+              trip_id: id[0],
+              filename: faker.system.fileName(),
+            })
+          })
+        );
+      }
+
+      return Promise.all(promises);
     });
 };
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
