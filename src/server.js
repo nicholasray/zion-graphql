@@ -2,9 +2,31 @@ var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 var knex = require('knex')({
+  debug: true,
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
+var DataLoader = require('dataloader');
+
+const getImagesWithTripIds = (ids) => {
+  return knex.select("*").from('images').whereIn('trip_id', ids).then(rows => {
+    const rowMap = {};
+
+    rows.map(row => {
+      if (row.trip_id in rowMap) {
+        rowMap[row.trip_id] = rowMap[row.trip_id].push(new Image(row));
+      }
+
+      rowMap[row.trip_id] = [new Image(row)];
+    })
+
+
+    return ids.map(id => {
+      return rowMap[id] ? rowMap[id] : [];
+    })
+  });
+}
+const ImageLoader = new DataLoader(keys => getImagesWithTripIds(keys));
 
 
 // Construct a schema, using GraphQL schema language
@@ -77,11 +99,10 @@ class Trip {
   }
 
   images() {
-    return knex.select('*').from('images').where({trip_id: this.id()}).then((rows) => {
-      return rows.map((row) => {return new Image(row)});
-    });
+    return ImageLoader.load(this.id());
   }
 }
+
 
 
 // The root provides the top-level API endpoints

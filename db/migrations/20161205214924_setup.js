@@ -19,6 +19,7 @@ exports.up = function(knex, Promise) {
           .onDelete('CASCADE');
         table.string('filename');
         table.timestamps(true, true);
+        table.index(['trip_id']);
     }),
   ]);
 };

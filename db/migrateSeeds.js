@@ -7,5 +7,6 @@ knex.migrate.latest()
 })
 .then(function() {
   // migrations are finished
-  console.log("Migrations and seed data done")
+  console.log("Migrations and seed data done");
+  process.exit();
 });
