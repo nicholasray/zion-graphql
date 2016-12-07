@@ -8,6 +8,12 @@ var knex = require('knex')({
 });
 var DataLoader = require('dataloader');
 
+const createLoaders = () => {
+  return {
+    images: new DataLoader(keys => getImagesWithTripIds(keys)),
+  };
+};
+
 const getImagesWithTripIds = (ids) => {
   return knex.select("*").from('images').whereIn('trip_id', ids).then(rows => {
     const rowMap = {};
@@ -26,8 +32,6 @@ const getImagesWithTripIds = (ids) => {
     })
   });
 }
-const ImageLoader = new DataLoader(keys => getImagesWithTripIds(keys));
-
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
@@ -82,8 +86,9 @@ class Image {
 }
 
 class Trip {
-  constructor(data) {
-    this.data = data
+  constructor(data, imageDao) {
+    this.data = data;
+    this.imageDao = imageDao;
   }
 
   id() {
@@ -99,7 +104,7 @@ class Trip {
   }
 
   images() {
-    return ImageLoader.load(this.id());
+    return this.imageDao.load(this.id());
   }
 }
 
@@ -107,9 +112,9 @@ class Trip {
 
 // The root provides the top-level API endpoints
 var root = {
-  allTrips: () => {
+  allTrips: (args, ctx) => {
     return knex.select('*').from('trips').then((rows) => {
-      return rows.map((row) => {return new Trip(row)});
+      return rows.map((row) => {return new Trip(row, ctx.dataLoaders.images)});
     })
   },
   allImages: ({limit, offset}) => {
@@ -125,6 +130,9 @@ app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
+  context: {
+    dataLoaders: createLoaders(),
+  }
 }));
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
