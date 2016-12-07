@@ -2,7 +2,7 @@ var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 var knex = require('knex')({
-  debug: true,
+  debug: process.env.DEBUG || false,
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
