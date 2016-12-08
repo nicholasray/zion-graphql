@@ -6,32 +6,14 @@ var knex = require('knex')({
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
-var DataLoader = require('dataloader');
 
-const createLoaders = () => {
-  return {
-    images: new DataLoader(keys => getImagesWithTripIds(keys)),
-  };
-};
+var Trip = require('./trip');
+var Image = require('./image');
+var GraphqlConfig = require('./graphql/config');
+const gqlConfig = new GraphqlConfig();
 
-const getImagesWithTripIds = (ids) => {
-  return knex.select("*").from('images').whereIn('trip_id', ids).then(rows => {
-    const rowMap = {};
-
-    rows.map(row => {
-      if (row.trip_id in rowMap) {
-        rowMap[row.trip_id] = rowMap[row.trip_id].push(new Image(row));
-      }
-
-      rowMap[row.trip_id] = [new Image(row)];
-    })
-
-
-    return ids.map(id => {
-      return rowMap[id] ? rowMap[id] : [];
-    })
-  });
-}
+Trip.init(knex, gqlConfig);
+Image.init(knex, gqlConfig);
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
@@ -59,79 +41,14 @@ var schema = buildSchema(`
   }
 `);
 
-class Image {
-  constructor(data) {
-    this.data = data;
-  }
-
-  id() {
-    return this.data.id;
-  }
-
-  tripId() {
-    return this.data.trip_id;
-  }
-
-  filename() {
-    return this.data.filename
-  }
-
-  url({size}) {
-    return `www.s3.com/${size}/${this.filename()}`
-  }
-
-  createdAt() {
-    return this.data.created_at
-  }
-}
-
-class Trip {
-  constructor(data, imageDao) {
-    this.data = data;
-    this.imageDao = imageDao;
-  }
-
-  id() {
-    return this.data.id;
-  }
-
-  lat() {
-    return this.data.lat;
-  }
-
-  lng() {
-    return this.data.lng
-  }
-
-  images() {
-    return this.imageDao.load(this.id());
-  }
-}
-
-
-
-// The root provides the top-level API endpoints
-var root = {
-  allTrips: (args, ctx) => {
-    return knex.select('*').from('trips').then((rows) => {
-      return rows.map((row) => {return new Trip(row, ctx.dataLoaders.images)});
-    })
-  },
-  allImages: ({limit, offset}) => {
-    return knex.select('*').from('images').limit(limit).offset(offset).then((rows) => {
-      return rows.map((row) => {return new Image(row)});
-    })
-  }
-}
-
 var app = express();
 app.set('port', (process.env.PORT || 8080));
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  rootValue: root,
+  rootValue: gqlConfig.getEndpoints(),
   graphiql: true,
   context: {
-    dataLoaders: createLoaders(),
+    dataLoaders: gqlConfig.getLoaders(),
   }
 }));
 app.listen(app.get('port'));
