@@ -7,10 +7,10 @@ var knex = require('knex')({
   connection: process.env.DATABASE_URL
 });
 
-var Trip = require('./trip');
-var Image = require('./image');
 var GraphqlConfig = require('./graphql/config');
 const gqlConfig = new GraphqlConfig();
+var Trip = require('./trip');
+var Image = require('./image');
 
 Trip.init(knex, gqlConfig);
 Image.init(knex, gqlConfig);
