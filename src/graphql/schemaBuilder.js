@@ -1,15 +1,15 @@
 class SchemaBuilder {
   constructor() {
     this.types = '';
-    this.endpoints = '';
+    this.queryEndpoints = '';
   }
 
   addTypes(type) {
     this.types += `\n${type}`
   }
 
-  addEndpoints(endpoint) {
-    this.endpoints += `${endpoint}`;
+  addQueryEndpoints(endpoint) {
+    this.queryEndpoints += `${endpoint}`;
   }
 
   build() {
@@ -17,7 +17,7 @@ class SchemaBuilder {
       ${this.types}
 
       type Query {
-        ${this.endpoints}
+        ${this.queryEndpoints}
       }
     `;
   }

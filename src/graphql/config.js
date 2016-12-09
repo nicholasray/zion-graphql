@@ -1,7 +1,10 @@
-class GraphqlConfig {
+const SchemaBuilder = require('./schemaBuilder');
+
+class Config {
   constructor() {
     this.loaders = {};
     this.endpoints = {};
+    this.schemaBuilder = new SchemaBuilder();
   }
 
   getLoaders() {
@@ -12,6 +15,10 @@ class GraphqlConfig {
     return this.endpoints;
   }
 
+  getSchema() {
+    return this.schemaBuilder.build();
+  }
+
   addLoaders(loader) {
     this.loaders = Object.assign({}, this.loaders, loader);
   }
@@ -19,6 +26,11 @@ class GraphqlConfig {
   addEndpoints(endpoints) {
     this.endpoints = Object.assign({}, this.endpoints, endpoints)
   }
+
+  addSchemaTypesAndEndpoints(types, queryEndpoints) {
+    this.schemaBuilder.addTypes(types);
+    this.schemaBuilder.addQueryEndpoints(queryEndpoints);
+  }
 }
 
-module.exports = GraphqlConfig;
+module.exports = Config;

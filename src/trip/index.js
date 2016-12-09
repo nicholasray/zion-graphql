@@ -1,10 +1,11 @@
-var DataLoader = require('dataloader');
-var Trip = require('./model');
-var Dao = require('./dao')
+const DataLoader = require('dataloader');
+const Trip = require('./model');
+const Dao = require('./dao')
 
 function init(db, config) {
   initLoaders(db, config);
   initEndpoints(db, config);
+  initSchema(config);
 }
 
 function initLoaders(db, config) {
@@ -15,7 +16,23 @@ function initLoaders(db, config) {
   config.addLoaders(loaders);
 }
 
-function initSchema() {
+function initSchema(config) {
+  const types = `
+    type Trip {
+      id: ID!
+      images:[Image]!
+      lat: Float
+      lng: Float
+      createdAt: String!
+      updatedAt: String!
+    }
+  `;
+
+  const queryEndpoints = `
+    allTrips: [Trip]
+  `;
+
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints);
 }
 
 function initEndpoints(db, config) {

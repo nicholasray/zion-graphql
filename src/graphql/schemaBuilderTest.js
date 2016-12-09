@@ -25,7 +25,7 @@ describe('SchemaBuilder', () => {
 
         // when
         subject.addTypes(type);
-        subject.addEndpoints(endpoint);
+        subject.addQueryEndpoints(endpoint);
         const result = subject.build();
 
         // expect
@@ -74,10 +74,10 @@ describe('SchemaBuilder', () => {
 
         // when
         subject.addTypes(dogType);
-        subject.addEndpoints(dogEndpoint)
+        subject.addQueryEndpoints(dogEndpoint)
 
         subject.addTypes(catType);
-        subject.addEndpoints(catEndpoint)
+        subject.addQueryEndpoints(catEndpoint)
         const result = subject.build();
 
         // expect
