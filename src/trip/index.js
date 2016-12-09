@@ -33,4 +33,3 @@ function initEndpoints(db, config) {
 module.exports = {
   init
 }
-

@@ -9,7 +9,7 @@ install:
 before_script:
   - docker -v
   - docker-compose -v
-  - docker-compose up
+  - docker-compose up -d
   - node db/migrateSeeds.js
 env:
   global:
