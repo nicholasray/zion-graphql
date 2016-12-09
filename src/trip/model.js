@@ -19,6 +19,14 @@ class Trip {
   images() {
     return this.imageDao.load(this.id());
   }
+
+  createdAt() {
+    return this.data.created_at;
+  }
+
+  updatedAt() {
+    return this.data.updated_at;
+  }
 }
 
 module.exports = Trip;

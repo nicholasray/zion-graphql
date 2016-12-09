@@ -20,7 +20,11 @@ class Image {
   }
 
   createdAt() {
-    return this.data.created_at
+    return this.data.created_at;
+  }
+
+  updatedAt() {
+    return this.data.updated_at;
   }
 }
 
