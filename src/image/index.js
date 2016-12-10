@@ -1,13 +1,14 @@
 const Image = require('./model');
+const Dao = require('./dao')
 
 function init(db, config) {
-  initLoaders(db, config);
-  initEndpoints(db, config);
+  const dao = new Dao(db);
+  initEndpoints(dao, config);
   initSchema(config);
-}
 
-function initLoaders(db, config) {
-  return {};
+  return {
+    dao
+  }
 }
 
 function initSchema(config) {
@@ -24,16 +25,14 @@ function initSchema(config) {
 
   const queryEndpoints = `
     allImages(limit: Int, offset: Int): [Image]
-  `
+  `;
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
 }
 
-function initEndpoints(db, config) {
+function initEndpoints(dao, config) {
   const endpoints = {
     allImages: ({limit, offset}) => {
-      return db.select('*').from('images').limit(limit).offset(offset).then((rows) => {
-        return rows.map((row) => {return new Image(row)});
-      })
+      return dao.all({limit, offset});
     }
   }
 

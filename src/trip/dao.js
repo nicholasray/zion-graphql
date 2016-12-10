@@ -1,24 +1,18 @@
-var Image = require('../image/model');
+const Image = require('../image/model');
+const Trip = require('./model');
 
-const getImagesWithTripIds = (ids, db) => {
-  return db.select("*").from('images').whereIn('trip_id', ids).then(rows => {
-    const rowMap = {};
+class Dao {
+  constructor(db, imageDao) {
+    this.db = db;
+    this.imageDao = imageDao;
+    this.tableName = "trips";
+  }
 
-    rows.map(row => {
-      if (row.trip_id in rowMap) {
-        rowMap[row.trip_id] = rowMap[row.trip_id].push(new Image(row));
-      }
-
-      rowMap[row.trip_id] = [new Image(row)];
+  all(opts) {
+    return this.db.select('*').from(this.tableName).then((rows) => {
+      return rows.map((row) => {return new Trip(row, this.imageDao)});
     })
-
-
-    return ids.map(id => {
-      return rowMap[id] ? rowMap[id] : [];
-    })
-  });
+  }
 }
 
-module.exports = {
-  getImagesWithTripIds
-}
+module.exports = Dao;

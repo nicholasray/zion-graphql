@@ -1,19 +1,17 @@
 const DataLoader = require('dataloader');
 const Trip = require('./model');
 const Dao = require('./dao')
+const ImageDao = require('../image/dao');
 
-function init(db, config) {
-  initLoaders(db, config);
-  initEndpoints(db, config);
+function init(db, imageDao, config) {
+  const dao = new Dao(db, imageDao);
+
+  initEndpoints(dao, config);
   initSchema(config);
-}
 
-function initLoaders(db, config) {
-  const loaders = {
-    images: new DataLoader(keys => Dao.getImagesWithTripIds(keys, db)),
+  return {
+    dao
   }
-
-  config.addLoaders(loaders);
 }
 
 function initSchema(config) {
@@ -35,12 +33,10 @@ function initSchema(config) {
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
 }
 
-function initEndpoints(db, config) {
+function initEndpoints(dao, config) {
   const endpoints = {
     allTrips: (args, ctx) => {
-      return db.select('*').from('trips').then((rows) => {
-        return rows.map((row) => {return new Trip(row, ctx.dataLoaders.images)});
-      })
+      return dao.all(args);
     }
   };
 

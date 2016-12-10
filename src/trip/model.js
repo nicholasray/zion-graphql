@@ -17,7 +17,7 @@ class Trip {
   }
 
   images() {
-    return this.imageDao.load(this.id());
+    return this.imageDao.find(this.id());
   }
 
   createdAt() {
