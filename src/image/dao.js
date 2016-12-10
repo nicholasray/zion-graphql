@@ -1,15 +1,17 @@
 const Image = require('./model');
 const DataLoader = require('dataloader');
+const Builder = require('../lib/sql/builder');
 
 class Dao {
   constructor(db, batchLoader) {
     this.db = db;
     this.tableName = 'images';
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys, db));
+    this.builder = new Builder(db);
   }
 
   all({limit, offset}) {
-    return this.db.select('*').from(this.tableName).limit(limit).offset(offset).then((rows) => {
+    return this.builder.select({limit, offset, table: this.tableName}).then((rows) => {
       return rows.map((row) => {return new Image(row)});
     })
   }

@@ -7,7 +7,7 @@ const knex = require('knex')({
   connection: process.env.DATABASE_URL
 });
 
-const GqlConfig = require('./graphql/config');
+const GqlConfig = require('./lib/graphql/config');
 const gqlConfig = new GqlConfig();
 
 const Image = require('./image');
