@@ -8,8 +8,22 @@ class Dao {
     this.tableName = "trips";
   }
 
-  all({limit, offset}) {
-    return this.db.select('*').from(this.tableName).limit(limit).offset(offset).then((rows) => {
+  all({limit, offset, bounds}) {
+    var query = this.db.select('*').from(this.tableName);
+
+    if (limit) {
+      query.limit(limit);
+    }
+
+    if (offset) {
+      query.offset(offset);
+    }
+
+    if (bounds) {
+      query.where('lat', '>', bounds.seLat).andWhere('lng', '>', bounds.nwLng).andWhere('lat', '<', bounds.nwLat).andWhere('lng', '<', bounds.seLng);
+    }
+
+    return query.then((rows) => {
       return rows.map((row) => {return new Trip(row, this.imageDao)});
     })
   }

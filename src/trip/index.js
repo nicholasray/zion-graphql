@@ -24,10 +24,17 @@ function initSchema(config) {
       createdAt: String!
       updatedAt: String!
     }
+
+    input BoundsInput {
+      seLat: Float!
+      seLng: Float!
+      nwLat: Float!
+      nwLng: Float!
+    }
   `;
 
   const queryEndpoints = `
-    allTrips(limit: Int, offset: Int): [Trip]
+    allTrips(limit: Int, offset: Int, bounds: BoundsInput): [Trip]
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
@@ -35,8 +42,8 @@ function initSchema(config) {
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    allTrips: ({limit, offset}, ctx) => {
-      return dao.all({limit, offset});
+    allTrips: ({limit, offset, bounds}, ctx) => {
+      return dao.all({limit, offset, bounds});
     }
   };
 
