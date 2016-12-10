@@ -27,7 +27,7 @@ function initSchema(config) {
   `;
 
   const queryEndpoints = `
-    allTrips: [Trip]
+    allTrips(limit: Int, offset: Int): [Trip]
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
@@ -35,8 +35,8 @@ function initSchema(config) {
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    allTrips: (args, ctx) => {
-      return dao.all(args);
+    allTrips: ({limit, offset}, ctx) => {
+      return dao.all({limit, offset});
     }
   };
 

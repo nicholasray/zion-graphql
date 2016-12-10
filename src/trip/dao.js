@@ -8,8 +8,8 @@ class Dao {
     this.tableName = "trips";
   }
 
-  all(opts) {
-    return this.db.select('*').from(this.tableName).then((rows) => {
+  all({limit, offset}) {
+    return this.db.select('*').from(this.tableName).limit(limit).offset(offset).then((rows) => {
       return rows.map((row) => {return new Trip(row, this.imageDao)});
     })
   }
