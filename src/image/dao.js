@@ -6,7 +6,7 @@ class Dao {
   constructor(db, batchLoader) {
     this.db = db;
     this.tableName = 'images';
-    this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys, db));
+    this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
     this.builder = new Builder(db);
   }
 

@@ -17,7 +17,7 @@ describe('Client', () => {
       })
       .then(res => {
         expect(res).to.have.property('distance');
-        expect(res).to.have.property('duration');
+        expect(res).to.have.deep.property('duration.value');
         expect(res.status).to.equal('OK');
       });
     })
@@ -33,11 +33,11 @@ describe('Client', () => {
       .then(res => {
         expect(res).to.have.lengthOf(2);
         expect(res[0]).to.have.property('distance');
-        expect(res[0]).to.have.property('duration');
+        expect(res[0]).to.have.deep.property('duration.value');
         expect(res[0].status).to.equal('OK');
 
         expect(res[1]).to.have.property('distance');
-        expect(res[1]).to.have.property('duration');
+        expect(res[1]).to.have.deep.property('duration.value');
         expect(res[1].status).to.equal('OK');
       });
     })

@@ -3,8 +3,8 @@ const Trip = require('./model');
 const Dao = require('./dao')
 const ImageDao = require('../image/dao');
 
-function init(db, imageDao, config) {
-  const dao = new Dao(db, imageDao);
+function init(db, imageDao, travelDao, config) {
+  const dao = new Dao(db, imageDao, travelDao);
 
   initEndpoints(dao, config);
   initSchema(config);

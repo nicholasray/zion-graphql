@@ -3,9 +3,10 @@ const Trip = require('./model');
 const Builder = require('../lib/sql/builder');
 
 class Dao {
-  constructor(db, imageDao) {
+  constructor(db, imageDao, travelDao) {
     this.db = db;
     this.imageDao = imageDao;
+    this.travelDao = travelDao;
     this.tableName = "trips";
     this.builder = new Builder(db);
   }
@@ -18,7 +19,7 @@ class Dao {
     }
 
     return query.then((rows) => {
-      return rows.map((row) => {return new Trip(row, this.imageDao)});
+      return rows.map((row) => {return new Trip(row, this.imageDao, this.travelDao)});
     })
   }
 }

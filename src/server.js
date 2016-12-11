@@ -10,11 +10,13 @@ const knex = require('knex')({
 const GqlConfig = require('./lib/graphql/config');
 const gqlConfig = new GqlConfig();
 
+const Travel = require('./travel');
 const Image = require('./image');
 const Trip = require('./trip');
 
+const { dao: travelDao } = Travel.init();
 const { dao: imageDao } = Image.init(knex, gqlConfig);
-Trip.init(knex, imageDao, gqlConfig);
+Trip.init(knex, imageDao, travelDao, gqlConfig);
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(gqlConfig.getSchema());
