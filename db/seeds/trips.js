@@ -8,10 +8,21 @@ exports.seed = function(knex, Promise) {
       for (var i = 0; i < 1000; i++) {
         promises.push(
           knex('trips').returning('id').insert({
-            distance: getRandomInt(1, 100),
+            distance: faker.random.number({
+              min: 1,
+              max: 100
+            }),
             description: faker.lorem.sentence(),
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
+            lat: faker.random.number({
+              min: 38,
+              max: 41,
+              precision: .0001
+            }),
+            lng: faker.random.number({
+              min: -109,
+              max: -112,
+              precision: .0001
+            }),
           }).then((id) => {
             return knex('images').insert({
               trip_id: id[0],
@@ -24,9 +35,3 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}

@@ -21,7 +21,7 @@ function initSchema(config) {
       images:[Image]!
       lat: Float
       lng: Float
-      travelTime(lat: Float!, lng: Float!): Int!
+      travelTime(lat: Float!, lng: Float!): Int
       createdAt: String!
       updatedAt: String!
     }
