@@ -1,7 +1,12 @@
+const googleClient = require('@google/maps');
+
 class Trip {
   constructor(data, imageDao) {
     this.data = data;
     this.imageDao = imageDao;
+    this.gClient = googleClient.createClient({
+      key: process.env.GOOGLE_API_KEY
+    })
   }
 
   id() {
@@ -18,6 +23,11 @@ class Trip {
 
   images() {
     return this.imageDao.find(this.id());
+  }
+
+  travelTime({lat, lng}) {
+    console.log(lat, lng);
+    return 1;
   }
 
   createdAt() {
