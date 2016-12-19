@@ -16,9 +16,16 @@ function init(db, imageDao, travelDao, config) {
 
 function initSchema(config) {
   const types = `
+    enum TripOrderBy {
+      FEATURED
+      DISTANCE
+      DISTANCE_DESC
+    }
+
     type Trip {
       id: ID!
       images:[Image]!
+      distance: Int
       lat: Float
       lng: Float
       travelTime(lat: Float!, lng: Float!): Int
@@ -35,7 +42,7 @@ function initSchema(config) {
   `;
 
   const queryEndpoints = `
-    allTrips(limit: Int, offset: Int, bounds: BoundsInput): [Trip]
+    allTrips(limit: Int, offset: Int, bounds: BoundsInput, sort: [TripOrderBy] = [FEATURED]): [Trip]
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
@@ -43,8 +50,8 @@ function initSchema(config) {
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    allTrips: ({limit, offset, bounds}, ctx) => {
-      return dao.all({limit, offset, bounds});
+    allTrips: ({limit, offset, bounds, sort}, ctx) => {
+      return dao.all({limit, offset, bounds, sort});
     }
   };
 

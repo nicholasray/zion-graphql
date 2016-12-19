@@ -32,6 +32,10 @@ class Trip {
     })
   }
 
+  distance() {
+    return this.data.distance;
+  }
+
   createdAt() {
     return this.data.created_at;
   }
