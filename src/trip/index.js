@@ -1,12 +1,14 @@
 const DataLoader = require('dataloader');
 const Trip = require('./model');
-const Dao = require('./dao')
+const Dao = require('./dao');
+const ConnectionDao = require('./connectionDao');
 const ImageDao = require('../image/dao');
 
 function init(db, imageDao, travelDao, config) {
   const dao = new Dao(db, imageDao, travelDao);
+  const connectionDao = new ConnectionDao(db, dao);
 
-  initEndpoints(dao, config);
+  initEndpoints(dao, connectionDao, config);
   initSchema(config);
 
   return {
@@ -20,6 +22,15 @@ function initSchema(config) {
       FEATURED
       DISTANCE
       DISTANCE_DESC
+    }
+
+    type TripConnection {
+      totalCount: Int!
+      edges: [TripEdge]!
+    }
+
+    type TripEdge {
+      node: Trip
     }
 
     type Trip {
@@ -42,16 +53,16 @@ function initSchema(config) {
   `;
 
   const queryEndpoints = `
-    allTrips(limit: Int, offset: Int, bounds: BoundsInput, sort: [TripOrderBy] = [FEATURED]): [Trip]
+    allTrips(limit: Int, offset: Int, bounds: BoundsInput, sort: [TripOrderBy] = [FEATURED]): TripConnection!
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
 }
 
-function initEndpoints(dao, config) {
+function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allTrips: ({limit, offset, bounds, sort}, ctx) => {
-      return dao.all({limit, offset, bounds, sort});
+      return connectionDao.all({limit, offset, bounds, sort});
     }
   };
 
