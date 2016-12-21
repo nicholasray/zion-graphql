@@ -16,7 +16,7 @@ class Image {
   }
 
   url({size}) {
-    return `www.s3.com/${size}/${this.filename()}`
+    return `https://venturetrailhead-images.s3.amazonaws.com/${this.filename()}.JPG`;
   }
 
   createdAt() {

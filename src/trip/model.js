@@ -13,6 +13,14 @@ class Trip {
     return this.data.id;
   }
 
+  name() {
+    return this.data.name;
+  }
+
+  description() {
+    return this.data.description;
+  }
+
   lat() {
     return this.data.lat;
   }

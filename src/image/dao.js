@@ -24,9 +24,10 @@ class Dao {
     return this.db.select("*").from(this.tableName).whereIn('trip_id', ids).then(rows => {
       const rowMap = {};
 
-      rows.map(row => {
+      rows.forEach(row => {
         if (row.trip_id in rowMap) {
-          rowMap[row.trip_id] = rowMap[row.trip_id].push(new Image(row));
+          rowMap[row.trip_id].push(new Image(row));
+          return;
         }
 
         rowMap[row.trip_id] = [new Image(row)];

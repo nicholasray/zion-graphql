@@ -9,13 +9,17 @@ class Dao {
     this.table = "trips";
   }
 
-  all({limit, offset, bounds, sort}) {
+  all({limit, offset, bounds, sort, distance}) {
     const builder = new Builder(this.db);
 
     builder.select({limit, offset, table: this.table})
 
     if (bounds) {
       builder.withinBounds(bounds);
+    }
+
+    if (distance) {
+      builder.withinDistance(distance);
     }
 
     if (sort) {

@@ -32,6 +32,19 @@ describe('Builder', () => {
     })
   })
 
+  describe("#withinDistance", () => {
+    it("returns distance sql statement", () => {
+      const result = subject.select({table: "trips"}).withinDistance({
+        min: 5,
+        max: 10
+      });
+
+
+      // expect
+      expect(result.build().toString()).to.equal('select * from "trips" where "distance" >= 5 and "distance" <= 10');
+    })
+  })
+
   describe("#orderBy", () => {
     context("with FEATURED", () => {
       it("returns correct order statement", () => {

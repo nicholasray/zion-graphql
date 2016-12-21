@@ -1,8 +1,11 @@
 var config      = require('../knexfile.js');
 var knex        = require('knex')(config);
 
-knex.migrate.latest()
-.then(function() {
+knex.migrate.rollback()
+.then(() => {
+  return knex.migrate.latest();
+})
+.then(() => {
   return knex.seed.run();
 })
 .then(function() {

@@ -17,6 +17,10 @@ class ConnectionDao {
       builder.withinBounds(opts.bounds);
     }
 
+    if (opts.distance) {
+      builder.withinDistance(opts.distance);
+    }
+
     return builder.build().then((rows) => {
       return new Connection(parseInt(rows[0].count), opts, this.dao);
     })

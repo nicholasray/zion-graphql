@@ -22,6 +22,12 @@ class Builder {
     return this;
   }
 
+  withinDistance(range) {
+    this.query = this.query.where('distance', '>=', range.min).where('distance', '<=', range.max);
+
+    return this;
+  }
+
   orderBy(sorters) {
     sorters.forEach(sorter => {
       if (sorter == "FEATURED") {

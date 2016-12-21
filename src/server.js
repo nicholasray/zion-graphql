@@ -1,6 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
+const cors = require('cors');
 const knex = require('knex')({
   debug: process.env.DEBUG || false,
   client: 'pg',
@@ -22,6 +23,7 @@ Trip.init(knex, imageDao, travelDao, gqlConfig);
 const schema = buildSchema(gqlConfig.getSchema());
 
 const app = express();
+app.use(cors());
 app.set('port', (process.env.PORT || 8080));
 app.use('/graphql', graphqlHTTP({
   schema: schema,
