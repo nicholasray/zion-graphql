@@ -48,18 +48,34 @@ exports.seed = function(knex, Promise) {
 
 function getFilenames() {
   const l = [
-    "thumb-DSCF1282.jpg",
-    "thumb-DSCF1284.jpg",
-    "thumb-DSCF1285.jpg",
-    "thumb-DSCF1286.jpg",
-    "thumb-DSCF1287.jpg",
-    "thumb-DSCF1288.jpg",
-    "thumb-DSCF1289.jpg",
-    "thumb-DSCF1290.jpg",
-    "thumb-DSCF1291.jpg",
-    "thumb-DSCF1293.jpg",
-    "thumb-DSCF1294.jpg",
-    "thumb-DSCF1295.jpg"
+    "DSCF1260.jpg",
+    "DSCF1261.jpg",
+    "DSCF1263.jpg",
+    "DSCF1265.jpg",
+    "DSCF1266.jpg",
+    "DSCF1270.jpg",
+    "DSCF1271.jpg",
+    "DSCF1272.jpg",
+    "DSCF1273.jpg",
+    "DSCF1274.jpg",
+    "DSCF1275.jpg",
+    "DSCF1276.jpg",
+    "DSCF1277.jpg",
+    "DSCF1278.jpg",
+    "DSCF1280.jpg",
+    "DSCF1281.jpg",
+    "DSCF1282.jpg",
+    "DSCF1284.jpg",
+    "DSCF1285.jpg",
+    "DSCF1286.jpg",
+    "DSCF1287.jpg",
+    "DSCF1288.jpg",
+    "DSCF1289.jpg",
+    "DSCF1290.jpg",
+    "DSCF1291.jpg",
+    "DSCF1293.jpg",
+    "DSCF1294.jpg",
+    "DSCF1295.jpg"
   ]
 
   shuffle(l);

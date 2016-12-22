@@ -16,7 +16,7 @@ class Image {
   }
 
   url({size}) {
-    return `https://adventuretrailhead-target.s3.amazonaws.com/images/${this.filename()}`;
+    return `https://adventuretrailhead-dest.s3.amazonaws.com/images/${size}/${this.filename()}`;
   }
 
   createdAt() {
