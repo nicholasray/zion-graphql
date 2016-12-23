@@ -13,6 +13,10 @@ class Trip {
     return this.data.id;
   }
 
+  slug() {
+    return this.data.slug;
+  }
+
   name() {
     return this.data.name;
   }

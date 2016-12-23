@@ -35,6 +35,7 @@ function initSchema(config) {
 
     type Trip {
       id: ID!
+      slug: ID!
       name: String!
       description: String!
       images:[Image]!
@@ -61,6 +62,7 @@ function initSchema(config) {
 
   const queryEndpoints = `
     allTrips(distance: DistanceInput, limit: Int, offset: Int, bounds: BoundsInput, sort: [TripOrderBy] = [FEATURED]): TripConnection!
+    trip(id: ID!): Trip
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
@@ -70,6 +72,9 @@ function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allTrips: (args, ctx) => {
       return connectionDao.all(args);
+    },
+    trip: ({id}) => {
+      return dao.findById(id);
     }
   };
 

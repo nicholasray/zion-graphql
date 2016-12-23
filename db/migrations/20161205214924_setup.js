@@ -2,12 +2,14 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('trips', function(table) {
         table.increments('id').primary();
+        table.string('slug').notNullable();
         table.string('name');
         table.float('distance');
         table.string('description');
         table.float('lat');
         table.float('lng');
         table.timestamps(true, true);
+        table.unique('slug');
         table.index(['lat', 'lng']);
     }),
 

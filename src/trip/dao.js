@@ -9,6 +9,17 @@ class Dao {
     this.table = "trips";
   }
 
+  findById(id) {
+    const where = Number.isInteger(parseInt(id)) ? {id} : {slug: id};
+    return this.db.select("*").from(this.table).where(where).then(rows => {
+      if (rows[0] == undefined) {
+        return null;
+      }
+
+      return new Trip(rows[0], this.imageDao, this.travelDao);
+    })
+  }
+
   all({limit, offset, bounds, sort, distance}) {
     const builder = new Builder(this.db);
 
@@ -26,7 +37,7 @@ class Dao {
       builder.orderBy(sort)
     }
 
-    return builder.build().then((rows) => {
+    return builder.build().then(rows => {
       return rows.map((row) => {return new Trip(row, this.imageDao, this.travelDao)});
     })
   }

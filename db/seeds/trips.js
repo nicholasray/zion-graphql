@@ -6,13 +6,15 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       let promises = [];
       for (var i = 0; i < 1000; i++) {
+        var name = faker.lorem.words(3);
         promises.push(
           knex('trips').returning('id').insert({
             distance: faker.random.number({
               min: 1,
               max: 100
             }),
-            name: faker.lorem.words(2),
+            slug: slugify(name),
+            name,
             description: faker.lorem.words(2),
             lat: faker.random.number({
               min: 38,
@@ -45,6 +47,14 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
+function slugify(text) {
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+}
 
 function getFilenames() {
   const l = [
