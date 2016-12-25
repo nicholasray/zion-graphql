@@ -3,9 +3,11 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('trips', function(table) {
         table.increments('id').primary();
         table.string('slug').notNullable();
+        table.string('map_id');
         table.string('name');
+        table.string('tagline');
         table.float('distance');
-        table.string('description');
+        table.text('description');
         table.float('lat');
         table.float('lng');
         table.timestamps(true, true);

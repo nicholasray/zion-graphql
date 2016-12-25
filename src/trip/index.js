@@ -36,7 +36,9 @@ function initSchema(config) {
     type Trip {
       id: ID!
       slug: ID!
+      mapUrl: String
       name: String!
+      tagline: String
       description: String!
       images:[Image]!
       distance: Int

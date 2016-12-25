@@ -13,9 +13,11 @@ exports.seed = function(knex, Promise) {
               min: 1,
               max: 100
             }),
-            slug: slugify(name),
+            slug: slugify(name) + i,
+            map_id: 'DG1G',
             name,
-            description: faker.lorem.words(2),
+            tagline: faker.lorem.words(7),
+            description: getMarkdown(),
             lat: faker.random.number({
               min: 38,
               max: 41,
@@ -47,6 +49,11 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
+
+function getMarkdown() {
+  return faker.lorem.paragraphs(3) + '\n\n <iframe style="margin-top:25px; margin-bottom:25px" width="100%" height="290" src="https://www.youtube.com/embed/fci4ylynQwI" frameborder="0" allowfullscreen></iframe>\n\n' + faker.lorem.paragraphs(3);
+}
+
 function slugify(text) {
   return text.toString().toLowerCase()
     .replace(/\s+/g, '-')           // Replace spaces with -

@@ -17,8 +17,20 @@ class Trip {
     return this.data.slug;
   }
 
+  mapUrl() {
+    if (this.data.map_id == null) {
+      return null;
+    }
+
+    return `https://caltopo.com/m/${this.data.map_id}`;
+  }
+
   name() {
     return this.data.name;
+  }
+
+  tagline() {
+    return this.data.tagline;
   }
 
   description() {
