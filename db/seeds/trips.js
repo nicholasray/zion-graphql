@@ -28,18 +28,63 @@ exports.seed = function(knex, Promise) {
               max: -112,
               precision: .0001
             }),
-          }).then((id) => {
+          }).then((tripId) => {
             const promises = [];
 
             promises.push(knex('images').insert({
-              trip_id: id[0],
+              trip_id: tripId[0],
               filename: getFilenames()[0],
             }));
 
             promises.push(knex('images').insert({
-              trip_id: id[0],
+              trip_id: tripId[0],
               filename: getFilenames()[0],
             }));
+
+            promises.push(knex('campsites').returning('id').insert({
+                name: "C" + faker.random.number({
+                  min: 1,
+                  max: 10
+                }),
+                lat: faker.random.number({
+                  min: 38,
+                  max: 41,
+                  precision: .0001
+                }),
+                lng: faker.random.number({
+                  min: -109,
+                  max: -112,
+                  precision: .0001
+                })
+              }).then(campsiteId => {
+                let promises = [];
+
+                promises.push(knex('itineraries').returning('id').insert({
+                  trip_id: tripId[0]
+                }).then(itineraryId => {
+                  return knex('itinerary_plans').insert({
+                    itinerary_id: itineraryId[0],
+                    campsite_id: campsiteId[0],
+                    day: 1,
+                    miles: faker.random.number({min: 1, max: 10}),
+                    elevation_gain: 500
+                  })
+                }));
+
+                promises.push(knex('trip_campsites').returning('id').insert({
+                  trip_id: tripId[0],
+                  campsite_id: campsiteId[0]
+                }));
+
+                promises.push(knex('campsite_images').insert({
+                  campsite_id: campsiteId[0],
+                  filename: getFilenames()[0]
+                }))
+
+                return Promise.all(promises);
+              })
+            );
+
 
             return Promise.all(promises);
           })
@@ -49,6 +94,9 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
+
+function createCampsite(tripId) {
+}
 
 function getMarkdown() {
   return faker.lorem.paragraphs(3) + '\n\n <iframe style="margin-top:25px; margin-bottom:25px" width="100%" height="290" src="https://www.youtube.com/embed/fci4ylynQwI" frameborder="0" allowfullscreen></iframe>\n\n' + faker.lorem.paragraphs(3);

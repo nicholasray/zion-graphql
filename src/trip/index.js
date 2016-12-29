@@ -4,8 +4,8 @@ const Dao = require('./dao');
 const ConnectionDao = require('./connectionDao');
 const ImageDao = require('../image/dao');
 
-function init(db, imageDao, travelDao, config) {
-  const dao = new Dao(db, imageDao, travelDao);
+function init(db, imageDao, travelDao, campsiteDao, itineraryDao, config) {
+  const dao = new Dao(db, imageDao, travelDao, campsiteDao, itineraryDao);
   const connectionDao = new ConnectionDao(db, dao);
 
   initEndpoints(dao, connectionDao, config);
@@ -35,12 +35,14 @@ function initSchema(config) {
 
     type Trip {
       id: ID!
+      images:[Image]!
+      campsites: [Campsite]!
+      itineraries: [Itinerary]!
       slug: ID!
       mapUrl: String
       name: String!
       tagline: String
       description: String!
-      images:[Image]!
       distance: Int
       lat: Float
       lng: Float
