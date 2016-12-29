@@ -96,18 +96,12 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-      dropIfExists(knex, 'images'),
-      dropIfExists(knex, 'campsite_images'),
-      dropIfExists(knex, 'itinerary_plans'),
-      dropIfExists(knex, 'itineraries'),
-      dropIfExists(knex, 'trip_campsites'),
-      dropIfExists(knex, 'campsites'),
-      dropIfExists(knex, 'trips')
+      knex.schema.dropTableIfExists('images'),
+      knex.schema.dropTableIfExists('campsite_images'),
+      knex.schema.dropTableIfExists('itinerary_plans'),
+      knex.schema.dropTableIfExists('itineraries'),
+      knex.schema.dropTableIfExists('trip_campsites'),
+      knex.schema.dropTableIfExists('campsites'),
+      knex.schema.dropTableIfExists('trips')
   ])
 };
-
-function dropIfExists(knex, table) {
-  return knex.schema.hasTable(table).then(exists => {
-    return knex.schema.dropTable(table);
-  });
-}
