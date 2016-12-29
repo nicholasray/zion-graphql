@@ -108,6 +108,6 @@ exports.down = function(knex, Promise) {
 
 function dropIfExists(knex, table) {
   return knex.schema.hasTable(table).then(exists => {
-    knex.schema.dropTable(table);
+    return knex.schema.dropTable(table);
   });
 }
