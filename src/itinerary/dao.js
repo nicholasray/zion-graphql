@@ -16,7 +16,7 @@ class Dao {
   }
 
   withTripIds(ids) {
-    return this.db.select('*').from(this.tableName).whereIn('trip_id', ids).then(rows => {
+    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('trip_id', ids).leftJoin('itinerary_plans', 'itinerary_plans.itinerary_id', 'itineraries.id').groupBy(`${this.tableName}.id`).orderByRaw('count(itinerary_plans.id) ASC').then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {

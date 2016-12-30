@@ -1,18 +1,18 @@
 const Edge = require('../lib/graphql/edge');
 
 class Connection {
-  constructor(count, opts, dao) {
-    this.count = count;
+  constructor(opts, tripDao, connectionDao) {
     this.opts = opts
-    this.dao = dao;
+    this.tripDao = tripDao;
+    this.connectionDao = connectionDao;
   }
 
   totalCount() {
-    return this.count;
+    return this.connectionDao.totalCount(this.opts);
   }
 
   edges() {
-    return this.dao.all(this.opts).then(rows => {
+    return this.tripDao.all(this.opts).then(rows => {
       return rows.map(row => {
         return new Edge(row);
       })

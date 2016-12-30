@@ -2,13 +2,13 @@ const Builder = require('./builder');
 const Connection = require('./connection');
 
 class ConnectionDao {
-  constructor(db, dao) {
+  constructor(db, tripDao) {
     this.db = db;
-    this.dao = dao;
+    this.tripDao = tripDao;
     this.table = "trips";
   }
 
-  all(opts) {
+  totalCount(opts) {
     const builder = new Builder(this.db);
 
     builder.selectCount(this.table);
@@ -21,9 +21,13 @@ class ConnectionDao {
       builder.withinDistance(opts.distance);
     }
 
-    return builder.build().then((rows) => {
-      return new Connection(parseInt(rows[0].count), opts, this.dao);
+    return builder.build().then(rows => {
+      return parseInt(rows[0].count);
     })
+  }
+
+  all(opts) {
+    return new Connection(opts, this.tripDao, this);
   }
 }
 
