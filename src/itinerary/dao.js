@@ -16,7 +16,7 @@ class Dao {
   }
 
   withTripIds(ids) {
-    return this.db.select('*').from(this.tableName).whereIn('itineraries.trip_id', ids).then(rows => {
+    return this.db.select('*').from(this.tableName).whereIn('trip_id', ids).then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {

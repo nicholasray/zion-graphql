@@ -18,8 +18,8 @@ class ItineraryPlan extends Model {
     return this.data.day;
   }
 
-  miles() {
-    return this.data.miles;
+  distance() {
+    return this.data.distance;
   }
 
   elevationGain() {

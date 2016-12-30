@@ -20,7 +20,7 @@ class Dao {
       const rowMap = {};
 
       rows.forEach(row => {
-        if (row.trip_id in rowMap) {
+        if (row.itinerary_id in rowMap) {
           rowMap[row.itinerary_id].push(new ItineraryPlan(row, this.campsiteDao));
           return;
         }

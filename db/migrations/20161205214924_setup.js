@@ -42,7 +42,7 @@ exports.up = function(knex, Promise) {
         .notNullable()
         .onDelete('CASCADE');
       table.integer('day');
-      table.float('miles');
+      table.float('distance');
       table.integer('elevation_gain');
       table.index('itinerary_id');
       table.index('campsite_id');

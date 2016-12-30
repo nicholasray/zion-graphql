@@ -17,7 +17,7 @@ function initSchema(config) {
       itineraryId: ID!
       campsite: Campsite
       day: Int
-      miles: Float
+      distance: Float
       elevationGain: Int
       createdAt: String!
       updatedAt: String!

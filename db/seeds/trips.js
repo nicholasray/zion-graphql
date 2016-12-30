@@ -66,9 +66,32 @@ exports.seed = function(knex, Promise) {
                     itinerary_id: itineraryId[0],
                     campsite_id: campsiteId[0],
                     day: 1,
-                    miles: faker.random.number({min: 1, max: 10}),
-                    elevation_gain: 500
+                    distance: faker.random.number({min: 1, max: 10}),
+                    elevation_gain: faker.random.number({min: -500, max: 500})
                   })
+                }));
+
+                promises.push(knex('itineraries').returning('id').insert({
+                  trip_id: tripId[0]
+                }).then(itineraryId => {
+                  let promises = [];
+                  promises.push(knex('itinerary_plans').insert({
+                    itinerary_id: itineraryId[0],
+                    campsite_id: campsiteId[0],
+                    day: 1,
+                    distance: faker.random.number({min: 1, max: 10}),
+                    elevation_gain: faker.random.number({min: -500, max: 500})
+                  }));
+
+                  promises.push(knex('itinerary_plans').insert({
+                    itinerary_id: itineraryId[0],
+                    campsite_id: campsiteId[0],
+                    day: 2,
+                    distance: faker.random.number({min: 1, max: 10}),
+                    elevation_gain: faker.random.number({min: -500, max: 500})
+                  }));
+
+                  return Promise.all(promises);
                 }));
 
                 promises.push(knex('trip_campsites').returning('id').insert({
