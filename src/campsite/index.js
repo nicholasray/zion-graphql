@@ -1,8 +1,8 @@
 const Campsite = require('./model');
 const Dao = require('./dao')
 
-function init(db, config) {
-  const dao = new Dao(db);
+function init(db, campsiteImageDao, config) {
+  const dao = new Dao(db, campsiteImageDao);
   initSchema(config);
 
   return {
@@ -14,6 +14,7 @@ function initSchema(config) {
   const types = `
     type Campsite {
       id: ID!
+      images: [CampsiteImage]!
       name: String
       lat: Float
       lng: Float

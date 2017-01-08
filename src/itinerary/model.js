@@ -13,6 +13,14 @@ class Itinerary extends Model {
   plans() {
     return this.itineraryPlanDao.withItineraryId(this.id());
   }
+
+  start() {
+    return this.data.start;
+  }
+
+  end() {
+    return this.data.end;
+  }
 }
 
 module.exports = Itinerary;

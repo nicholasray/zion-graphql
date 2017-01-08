@@ -15,8 +15,14 @@ class Image {
     return this.data.filename
   }
 
-  url({size}) {
-    return `https://adventuretrailhead-dest.s3.amazonaws.com/images/${size}/${this.filename()}`;
+  caption() {
+    return this.data.caption;
+  }
+
+  url({sizes}) {
+    return sizes.map(size => {
+      return `https://adventuretrailhead-dest.s3.amazonaws.com/images/${size.toLowerCase()}/${this.filename()}`;
+    })
   }
 
   createdAt() {

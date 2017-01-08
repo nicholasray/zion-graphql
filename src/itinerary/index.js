@@ -16,6 +16,8 @@ function initSchema(config) {
       id: ID!
       tripId: ID!
       plans: [ItineraryPlan]!
+      start: String
+      end: String
       createdAt: String!
       updatedAt: String!
     }

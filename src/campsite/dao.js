@@ -3,12 +3,13 @@ const DataLoader = require('dataloader');
 const Builder = require('../lib/sql/builder');
 
 class Dao {
-  constructor(db, batchLoader, findByLoader) {
+  constructor(db, campsiteImageDao, batchLoader, findByLoader) {
     this.db = db;
     this.tableName = 'campsites';
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
     this.findByLoader = findByLoader || new DataLoader(keys => this.withIds(keys));
     this.builder = new Builder(db);
+    this.campsiteImageDao = campsiteImageDao;
   }
 
   findById(id) {
@@ -20,7 +21,7 @@ class Dao {
       const rowMap = {};
 
       rows.forEach(row => {
-        rowMap[row.id] = new Campsite(row);
+        rowMap[row.id] = new Campsite(row, this.campsiteImageDao);
       })
 
       return ids.map(id => {
@@ -39,11 +40,12 @@ class Dao {
 
       rows.forEach(row => {
         if (row.trip_id in rowMap) {
-          rowMap[row.trip_id].push(new Campsite(row));
+          console.log('in campsite dao', this.campsiteImageDao);
+          rowMap[row.trip_id].push(new Campsite(row, this.campsiteImageDao));
           return;
         }
 
-        rowMap[row.trip_id] = [new Campsite(row)];
+        rowMap[row.trip_id] = [new Campsite(row, this.campsiteImageDao)];
       })
 
 

@@ -26,6 +26,8 @@ exports.up = function(knex, Promise) {
         .inTable('trips')
         .notNullable()
         .onDelete('CASCADE');
+      table.string('start');
+      table.string('end')
       table.index('trip_id');
     }),
 
@@ -63,6 +65,7 @@ exports.up = function(knex, Promise) {
         .notNullable()
         .onDelete('CASCADE');
       table.string('filename');
+      table.string('caption');
       table.index('campsite_id');
     }),
 
@@ -89,6 +92,7 @@ exports.up = function(knex, Promise) {
           .notNullable()
           .onDelete('CASCADE');
         table.string('filename');
+        table.string('caption');
         table.index(['trip_id']);
     }),
   ]);

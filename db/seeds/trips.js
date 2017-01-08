@@ -34,11 +34,44 @@ exports.seed = function(knex, Promise) {
             promises.push(knex('images').insert({
               trip_id: tripId[0],
               filename: getFilenames()[0],
+              caption: faker.lorem.sentence()
             }));
 
             promises.push(knex('images').insert({
               trip_id: tripId[0],
               filename: getFilenames()[0],
+              caption: faker.lorem.sentence()
+            }));
+
+            promises.push(knex('campsites').returning('id').insert({
+                name: "C" + faker.random.number({
+                  min: 1,
+                  max: 10
+                }),
+                lat: faker.random.number({
+                  min: 38,
+                  max: 41,
+                  precision: .0001
+                }),
+                lng: faker.random.number({
+                  min: -109,
+                  max: -112,
+                  precision: .0001
+                })
+            }).then(campsiteId => {
+              let promises = [];
+              promises.push(knex('campsite_images').insert({
+                campsite_id: campsiteId[0],
+                filename: getFilenames()[0],
+                caption: faker.lorem.sentence()
+              }));
+
+              promises.push(knex('trip_campsites').returning('id').insert({
+                trip_id: tripId[0],
+                campsite_id: campsiteId[0]
+              }));
+
+              return Promise.all(promises);
             }));
 
             promises.push(knex('campsites').returning('id').insert({
@@ -60,7 +93,9 @@ exports.seed = function(knex, Promise) {
                 let promises = [];
 
                 promises.push(knex('itineraries').returning('id').insert({
-                  trip_id: tripId[0]
+                  trip_id: tripId[0],
+                  start: faker.lorem.word(),
+                  end: faker.lorem.word()
                 }).then(itineraryId => {
                   return knex('itinerary_plans').insert({
                     itinerary_id: itineraryId[0],
@@ -72,7 +107,9 @@ exports.seed = function(knex, Promise) {
                 }));
 
                 promises.push(knex('itineraries').returning('id').insert({
-                  trip_id: tripId[0]
+                  trip_id: tripId[0],
+                  start: faker.lorem.word(),
+                  end: faker.lorem.word()
                 }).then(itineraryId => {
                   let promises = [];
                   promises.push(knex('itinerary_plans').insert({
@@ -101,7 +138,20 @@ exports.seed = function(knex, Promise) {
 
                 promises.push(knex('campsite_images').insert({
                   campsite_id: campsiteId[0],
-                  filename: getFilenames()[0]
+                  filename: getFilenames()[0],
+                  caption: faker.lorem.sentence()
+                }))
+
+                promises.push(knex('campsite_images').insert({
+                  campsite_id: campsiteId[0],
+                  filename: getFilenames()[0],
+                  caption: faker.lorem.sentence()
+                }))
+
+                promises.push(knex('campsite_images').insert({
+                  campsite_id: campsiteId[0],
+                  filename: getFilenames()[0],
+                  caption: faker.lorem.sentence()
                 }))
 
                 return Promise.all(promises);
