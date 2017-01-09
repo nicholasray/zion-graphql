@@ -31,128 +31,28 @@ exports.seed = function(knex, Promise) {
           }).then((tripId) => {
             const promises = [];
 
-            promises.push(knex('images').insert({
-              trip_id: tripId[0],
-              filename: getFilenames()[0],
-              caption: faker.lorem.sentence()
-            }));
-
-            promises.push(knex('images').insert({
-              trip_id: tripId[0],
-              filename: getFilenames()[0],
-              caption: faker.lorem.sentence()
-            }));
-
-            promises.push(knex('campsites').returning('id').insert({
-                name: "C" + faker.random.number({
-                  min: 1,
-                  max: 10
-                }),
-                lat: faker.random.number({
-                  min: 38,
-                  max: 41,
-                  precision: .0001
-                }),
-                lng: faker.random.number({
-                  min: -109,
-                  max: -112,
-                  precision: .0001
-                })
-            }).then(campsiteId => {
-              let promises = [];
-              promises.push(knex('campsite_images').insert({
-                campsite_id: campsiteId[0],
-                filename: getFilenames()[0],
-                caption: faker.lorem.sentence()
-              }));
-
-              promises.push(knex('trip_campsites').returning('id').insert({
-                trip_id: tripId[0],
-                campsite_id: campsiteId[0]
-              }));
-
-              return Promise.all(promises);
-            }));
-
-            promises.push(knex('campsites').returning('id').insert({
-                name: "C" + faker.random.number({
-                  min: 1,
-                  max: 10
-                }),
-                lat: faker.random.number({
-                  min: 38,
-                  max: 41,
-                  precision: .0001
-                }),
-                lng: faker.random.number({
-                  min: -109,
-                  max: -112,
-                  precision: .0001
-                })
-              }).then(campsiteId => {
+            promises.push(createTripImage(tripId, knex));
+            promises.push(createTripImage(tripId, knex));
+            promises.push(createCampsiteWithImages(tripId, knex));
+            promises.push(createCampsiteWithImages(tripId, knex));
+            promises.push(createCampsiteWithImages(tripId, knex));
+            promises.push(createCampsite(tripId, knex).then(campsiteId => {
                 let promises = [];
 
-                promises.push(knex('itineraries').returning('id').insert({
-                  trip_id: tripId[0],
-                  start: faker.lorem.word(),
-                  end: faker.lorem.word()
-                }).then(itineraryId => {
-                  return knex('itinerary_plans').insert({
-                    itinerary_id: itineraryId[0],
-                    campsite_id: campsiteId[0],
-                    day: 1,
-                    distance: faker.random.number({min: 1, max: 10}),
-                    elevation_gain: faker.random.number({min: -500, max: 500})
-                  })
+                promises.push(createItinerary(tripId, knex).then(itineraryId => {
+                  return createItineraryPlans(1, itineraryId, campsiteId, knex);
                 }));
 
-                promises.push(knex('itineraries').returning('id').insert({
-                  trip_id: tripId[0],
-                  start: faker.lorem.word(),
-                  end: faker.lorem.word()
-                }).then(itineraryId => {
+                promises.push(createItinerary(tripId, knex).then(itineraryId => {
                   let promises = [];
-                  promises.push(knex('itinerary_plans').insert({
-                    itinerary_id: itineraryId[0],
-                    campsite_id: campsiteId[0],
-                    day: 1,
-                    distance: faker.random.number({min: 1, max: 10}),
-                    elevation_gain: faker.random.number({min: -500, max: 500})
-                  }));
-
-                  promises.push(knex('itinerary_plans').insert({
-                    itinerary_id: itineraryId[0],
-                    campsite_id: campsiteId[0],
-                    day: 2,
-                    distance: faker.random.number({min: 1, max: 10}),
-                    elevation_gain: faker.random.number({min: -500, max: 500})
-                  }));
+                  promises.push(createItineraryPlans(1, itineraryId, campsiteId, knex));
+                  promises.push(createItineraryPlans(2, itineraryId, campsiteId, knex));
 
                   return Promise.all(promises);
                 }));
 
-                promises.push(knex('trip_campsites').returning('id').insert({
-                  trip_id: tripId[0],
-                  campsite_id: campsiteId[0]
-                }));
-
-                promises.push(knex('campsite_images').insert({
-                  campsite_id: campsiteId[0],
-                  filename: getFilenames()[0],
-                  caption: faker.lorem.sentence()
-                }))
-
-                promises.push(knex('campsite_images').insert({
-                  campsite_id: campsiteId[0],
-                  filename: getFilenames()[0],
-                  caption: faker.lorem.sentence()
-                }))
-
-                promises.push(knex('campsite_images').insert({
-                  campsite_id: campsiteId[0],
-                  filename: getFilenames()[0],
-                  caption: faker.lorem.sentence()
-                }))
+                promises.push(createTripCampsite(tripId, campsiteId, knex));
+                promises.push(createCampsiteImage(campsiteId, knex));
 
                 return Promise.all(promises);
               })
@@ -168,7 +68,75 @@ exports.seed = function(knex, Promise) {
     });
 };
 
-function createCampsite(tripId) {
+
+function createTripCampsite(tripId, campsiteId, knex) {
+  return knex('trip_campsites').returning('id').insert({
+    trip_id: tripId[0],
+    campsite_id: campsiteId[0]
+  });
+}
+
+function createTripImage(tripId, knex) {
+  return knex('images').insert({
+    trip_id: tripId[0],
+    filename: getFilenames()[0],
+    caption: faker.lorem.sentence()
+  });
+}
+
+function createItinerary(tripId, knex) {
+  return knex('itineraries').returning('id').insert({
+    trip_id: tripId[0],
+    start: faker.lorem.word(),
+    end: faker.lorem.word()
+  });
+}
+
+function createItineraryPlans(day, itineraryId, campsiteId, knex) {
+  return knex('itinerary_plans').insert({
+    itinerary_id: itineraryId[0],
+    campsite_id: campsiteId[0],
+    day,
+    distance: faker.random.number({min: 1, max: 10}),
+    elevation_gain: faker.random.number({min: -500, max: 500})
+  });
+}
+
+function createCampsiteImage(campsiteId, knex) {
+  return knex('campsite_images').insert({
+    campsite_id: campsiteId[0],
+    filename: getFilenames()[0],
+    caption: faker.lorem.sentence()
+  });
+}
+
+function createCampsiteWithImages(tripId, knex) {
+  return createCampsite(tripId, knex).then(campsiteId => {
+    let promises = [];
+    promises.push(createCampsiteImage(campsiteId, knex));
+    promises.push(createTripCampsite(tripId, campsiteId, knex));
+
+    return Promise.all(promises);
+  });
+}
+
+function createCampsite(tripId, knex) {
+  return knex('campsites').returning('id').insert({
+      name: "C" + faker.random.number({
+        min: 1,
+        max: 10
+      }),
+      lat: faker.random.number({
+        min: 38,
+        max: 41,
+        precision: .0001
+      }),
+      lng: faker.random.number({
+        min: -109,
+        max: -112,
+        precision: .0001
+      })
+  });
 }
 
 function getMarkdown() {
