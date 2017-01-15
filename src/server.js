@@ -19,7 +19,7 @@ const Itinerary = require('./itinerary');
 const ItineraryPlan = require('./itineraryPlan');
 const Area = require('./area');
 const User = require('./user');
-const TripReport = require('./trip/report');
+const TripReport = require('./tripReport');
 const Trip = require('./trip');
 
 const { dao: travelDao } = Travel.init();

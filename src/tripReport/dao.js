@@ -1,6 +1,6 @@
 const Report = require('./model');
 const DataLoader = require('dataloader');
-const Builder = require('../../lib/sql/builder');
+const Builder = require('../lib/sql/builder');
 
 class Dao {
   constructor(db, daos, batchLoader) {

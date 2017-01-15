@@ -1,4 +1,4 @@
-const Model = require('../../lib/model');
+const Model = require('../lib/model');
 
 class Report extends Model {
   constructor(data, { userDao }) {
