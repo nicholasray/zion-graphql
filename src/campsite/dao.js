@@ -40,7 +40,6 @@ class Dao {
 
       rows.forEach(row => {
         if (row.trip_id in rowMap) {
-          console.log('in campsite dao', this.campsiteImageDao);
           rowMap[row.trip_id].push(new Campsite(row, this.campsiteImageDao));
           return;
         }

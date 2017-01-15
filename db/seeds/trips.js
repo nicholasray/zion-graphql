@@ -6,33 +6,19 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       let promises = [];
       for (var i = 0; i < 1000; i++) {
-        var name = faker.lorem.words(3);
-        promises.push(
-          knex('trips').returning('id').insert({
-            distance: faker.random.number({
-              min: 1,
-              max: 100
-            }),
-            slug: slugify(name) + i,
-            map_id: 'DG1G',
-            name,
-            tagline: faker.lorem.words(7),
-            description: getMarkdown(),
-            lat: faker.random.number({
-              min: 38,
-              max: 41,
-              precision: .0001
-            }),
-            lng: faker.random.number({
-              min: -109,
-              max: -112,
-              precision: .0001
-            }),
-          }).then((tripId) => {
-            const promises = [];
+        promises.push(createArea(knex).then(areaId => {
+          let promises = [];
+
+          promises.push(createTrip(areaId, knex));
+
+          return Promise.all(promises);
+        }).then(results => {
+            let tripId = results[0];
+            let promises = [];
 
             promises.push(createTripImage(tripId, knex));
             promises.push(createTripImage(tripId, knex));
+            promises.push(createCampsiteWithImages(tripId, knex));
             promises.push(createCampsiteWithImages(tripId, knex));
             promises.push(createCampsiteWithImages(tripId, knex));
             promises.push(createCampsiteWithImages(tripId, knex));
@@ -58,15 +44,118 @@ exports.seed = function(knex, Promise) {
               })
             );
 
-
             return Promise.all(promises);
           })
-        );
+        )
       }
 
       return Promise.all(promises);
     });
 };
+
+function createArea(knex) {
+  let name = faker.lorem.words(3);
+  return knex('areas').returning('id').insert({
+    name,
+    slug: slugify(name) + faker.random.number({min: 1, max: 1000000}),
+    lat: faker.random.number({
+      min: 38,
+      max: 41,
+      precision: .0001
+    }),
+    lng: faker.random.number({
+      min: -109,
+      max: -112,
+      precision: .0001
+    }),
+    jan_avg_high: 52,
+    jan_avg_low: 29,
+    jan_record_high: 71,
+    jan_record_low: -2,
+    jan_avg_precip: 1.6,
+    feb_avg_high: 57,
+    feb_avg_low: 31,
+    feb_record_high: 78,
+    feb_record_low: 4,
+    feb_avg_precip: 1.6,
+    mar_avg_high: 63,
+    mar_avg_low: 36,
+    mar_record_high: 86,
+    mar_record_low: 12,
+    mar_avg_precip: 1.7,
+    apr_avg_high: 73,
+    apr_avg_low: 43,
+    apr_record_high: 94,
+    apr_record_low: 23,
+    apr_avg_precip: 1.3,
+    may_avg_high: 83,
+    may_avg_low: 52,
+    may_record_high: 102,
+    may_record_low: 22,
+    may_avg_precip: 0.7,
+    june_avg_high: 83,
+    june_avg_low: 52,
+    june_record_high: 102,
+    june_record_low: 22,
+    june_avg_precip: 0.6,
+    july_avg_high: 100,
+    july_avg_low: 68,
+    july_record_high: 115,
+    july_record_low: 51,
+    july_avg_precip: 0.8,
+    aug_avg_high: 97,
+    aug_avg_low: 69,
+    aug_record_high: 111,
+    aug_record_low: 50,
+    aug_avg_precip: 1.6,
+    sept_avg_high: 91,
+    sept_avg_low: 60,
+    sept_record_high: 110,
+    sept_record_low: 33,
+    sept_avg_precip: 0.8,
+    oct_avg_high: 78,
+    oct_avg_low: 49,
+    oct_record_high: 97,
+    oct_record_low: 23,
+    oct_avg_precip: 1,
+    nov_avg_high: 63,
+    nov_avg_low: 37,
+    nov_record_high: 83,
+    nov_record_low: 13,
+    nov_avg_precip: 1.2,
+    dec_avg_high: 53,
+    dec_avg_low: 30,
+    dec_record_high: 71,
+    dec_record_low: 6,
+    dec_avg_precip: 1.5
+  });
+}
+
+function createTrip(areaId, knex) {
+  let name = faker.lorem.words(3);
+  return knex('trips').returning('id').insert({
+    area_id: areaId[0],
+    distance: faker.random.number({
+      min: 1,
+      max: 100
+    }),
+    slug: slugify(name) + faker.random.number({min: 1, max: 100000}),
+    map_id: 'DG1G',
+    name,
+    tagline: faker.lorem.words(7),
+    description: getMarkdown(),
+    lat: faker.random.number({
+      min: 38,
+      max: 41,
+      precision: .0001
+    }),
+    lng: faker.random.number({
+      min: -109,
+      max: -112,
+      precision: .0001
+    })
+  });
+}
 
 
 function createTripCampsite(tripId, campsiteId, knex) {

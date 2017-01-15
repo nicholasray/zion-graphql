@@ -17,6 +17,7 @@ const CampsiteImage = require('./campsiteImage');
 const Campsite = require('./campsite');
 const Itinerary = require('./itinerary');
 const ItineraryPlan = require('./itineraryPlan');
+const Area = require('./area');
 const Trip = require('./trip');
 
 const { dao: travelDao } = Travel.init();
@@ -25,7 +26,8 @@ const { dao: campsiteImageDao } = CampsiteImage.init(knex, gqlConfig);
 const { dao: campsiteDao } = Campsite.init(knex, campsiteImageDao, gqlConfig);
 const { dao: itineraryPlanDao } = ItineraryPlan.init(knex, campsiteDao, gqlConfig);
 const { dao: itineraryDao } = Itinerary.init(knex, itineraryPlanDao, gqlConfig);
-Trip.init(knex, imageDao, travelDao, campsiteDao, itineraryDao, gqlConfig);
+const { dao: areaDao } = Area.init(knex, gqlConfig);
+Trip.init(knex, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao }, gqlConfig);
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(gqlConfig.getSchema());

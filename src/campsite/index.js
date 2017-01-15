@@ -1,4 +1,3 @@
-const Campsite = require('./model');
 const Dao = require('./dao')
 
 function init(db, campsiteImageDao, config) {

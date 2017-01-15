@@ -1,11 +1,10 @@
-const DataLoader = require('dataloader');
 const Trip = require('./model');
 const Dao = require('./dao');
 const ConnectionDao = require('./connectionDao');
 const ImageDao = require('../image/dao');
 
-function init(db, imageDao, travelDao, campsiteDao, itineraryDao, config) {
-  const dao = new Dao(db, imageDao, travelDao, campsiteDao, itineraryDao);
+function init(db, daos, config) {
+  const dao = new Dao(db, daos);
   const connectionDao = new ConnectionDao(db, dao);
 
   initEndpoints(dao, connectionDao, config);
@@ -35,6 +34,7 @@ function initSchema(config) {
 
     type Trip {
       id: ID!
+      area: Area!
       images:[Image]!
       campsites: [Campsite]!
       itineraries: [Itinerary]!

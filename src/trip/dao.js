@@ -2,12 +2,9 @@ const Trip = require('./model');
 const Builder = require('./builder');
 
 class Dao {
-  constructor(db, imageDao, travelDao, campsiteDao, itineraryDao) {
+  constructor(db, daos) {
     this.db = db;
-    this.imageDao = imageDao;
-    this.travelDao = travelDao;
-    this.campsiteDao = campsiteDao;
-    this.itineraryDao = itineraryDao;
+    this.daos = daos;
     this.table = "trips";
   }
 
@@ -18,7 +15,7 @@ class Dao {
         return null;
       }
 
-      return new Trip(rows[0], this.imageDao, this.travelDao, this.campsiteDao, this.itineraryDao);
+      return new Trip(rows[0], this.daos);
     })
   }
 
@@ -40,7 +37,7 @@ class Dao {
     }
 
     return builder.build().then(rows => {
-      return rows.map((row) => {return new Trip(row, this.imageDao, this.travelDao, this.campsiteDao, this.itineraryDao)});
+      return rows.map((row) => {return new Trip(row, this.daos)});
     })
   }
 }
