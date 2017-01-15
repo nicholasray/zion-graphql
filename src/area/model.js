@@ -57,44 +57,44 @@ class Area extends Model {
     return this.data.feb_record_low;
   }
 
-  marchAvgLow() {
-    return this.data.march_avg_low;
+  marAvgLow() {
+    return this.data.mar_avg_low;
   }
 
-  marchAvgHigh() {
-    return this.data.march_avg_high;
+  marAvgHigh() {
+    return this.data.mar_avg_high;
   }
 
-  marchAvgPrecip() {
-    return this.data.march_avg_precip;
+  marAvgPrecip() {
+    return this.data.mar_avg_precip;
   }
 
-  marchRecordHigh() {
-    return this.data.march_record_high;
+  marRecordHigh() {
+    return this.data.mar_record_high;
   }
 
-  marchRecordLow() {
-    return this.data.march_record_low;
+  marRecordLow() {
+    return this.data.mar_record_low;
   }
 
-  aprilAvgLow() {
-    return this.data.april_avg_low;
+  aprAvgLow() {
+    return this.data.apr_avg_low;
   }
 
-  aprilAvgHigh() {
-    return this.data.april_avg_high;
+  aprAvgHigh() {
+    return this.data.apr_avg_high;
   }
 
-  aprilAvgPrecip() {
-    return this.data.april_avg_precip;
+  aprAvgPrecip() {
+    return this.data.apr_avg_precip;
   }
 
-  aprilRecordHigh() {
-    return this.data.april_record_high;
+  aprRecordHigh() {
+    return this.data.apr_record_high;
   }
 
-  aprilRecordLow() {
-    return this.data.april_record_low;
+  aprRecordLow() {
+    return this.data.apr_record_low;
   }
 
   mayAvgLow() {
