@@ -48,6 +48,8 @@ function initSchema(config) {
       lat: Float
       lng: Float
       travelTime(lat: Float!, lng: Float!): Int
+      season: String
+      directions: String
       createdAt: String!
       updatedAt: String!
     }

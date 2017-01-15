@@ -40,6 +40,14 @@ class Trip {
     return this.data.permit;
   }
 
+  season() {
+    return this.data.season;
+  }
+
+  directions() {
+    return this.data.directions;
+  }
+
   mapUrl() {
     if (this.data.map_id == null) {
       return null;
@@ -58,6 +66,10 @@ class Trip {
 
   description() {
     return this.data.description;
+  }
+
+  season() {
+    return this.data.season;
   }
 
   lat() {

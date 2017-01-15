@@ -90,6 +90,8 @@ exports.up = function(knex, Promise) {
         table.text('permit');
         table.float('lat');
         table.float('lng');
+        table.text('season');
+        table.text('directions');
         table.unique('slug');
         table.index(['lat', 'lng']);
         table.index('area_id');

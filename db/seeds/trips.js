@@ -139,11 +139,13 @@ function createTrip(areaId, knex) {
       min: 1,
       max: 100
     }),
+    season: faker.lorem.paragraph(),
     slug: slugify(name) + faker.random.number({min: 1, max: 100000}),
     map_id: 'DG1G',
     name,
     tagline: faker.lorem.words(7),
     description: getMarkdown(),
+    directions: faker.lorem.paragraph(),
     permit: faker.lorem.paragraph(),
     lat: faker.random.number({
       min: 38,
