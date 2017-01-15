@@ -11,6 +11,10 @@ class Image {
     return this.data.trip_id;
   }
 
+  rank() {
+    return this.data.rank;
+  }
+
   filename() {
     return this.data.filename
   }

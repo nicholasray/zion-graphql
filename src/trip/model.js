@@ -36,6 +36,10 @@ class Trip {
     return this.data.slug;
   }
 
+  permit() {
+    return this.data.permit;
+  }
+
   mapUrl() {
     if (this.data.map_id == null) {
       return null;

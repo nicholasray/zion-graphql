@@ -9,6 +9,10 @@ class CampsiteImage extends Model {
     return this.data.campsite_id;
   }
 
+  rank() {
+    return this.data.rank;
+  }
+
   filename() {
     return this.data.filename;
   }

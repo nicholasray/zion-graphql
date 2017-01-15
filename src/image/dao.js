@@ -11,7 +11,7 @@ class Dao {
   }
 
   all({limit, offset}) {
-    return this.builder.select({limit, offset, table: this.tableName}).then((rows) => {
+    return this.builder.select({limit, offset, table: this.tableName}).orderBy('rank', 'asc').then((rows) => {
       return rows.map((row) => {return new Image(row)});
     })
   }
@@ -21,7 +21,7 @@ class Dao {
   }
 
   withTripIds(ids) {
-    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('trip_id', ids).then(rows => {
+    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('trip_id', ids).orderBy('rank', 'asc').then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {

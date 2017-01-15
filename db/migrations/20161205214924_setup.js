@@ -87,6 +87,7 @@ exports.up = function(knex, Promise) {
         table.string('tagline');
         table.float('distance');
         table.text('description');
+        table.text('permit');
         table.float('lat');
         table.float('lng');
         table.unique('slug');
@@ -139,6 +140,7 @@ exports.up = function(knex, Promise) {
         .inTable('campsites')
         .notNullable()
         .onDelete('CASCADE');
+      table.integer('rank')
       table.string('filename');
       table.string('caption');
       table.index('campsite_id');
@@ -166,6 +168,7 @@ exports.up = function(knex, Promise) {
           .inTable('trips')
           .notNullable()
           .onDelete('CASCADE');
+        table.integer('rank')
         table.string('filename');
         table.string('caption');
         table.index(['trip_id']);
@@ -182,7 +185,6 @@ exports.down = function(knex, Promise) {
       knex.schema.dropTableIfExists('trip_campsites'),
       knex.schema.dropTableIfExists('campsites'),
       knex.schema.dropTableIfExists('trips'),
-      knex.schema.dropTableIfExists('weather_histories'),
       knex.schema.dropTableIfExists('areas')
   ])
 };

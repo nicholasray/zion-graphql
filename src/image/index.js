@@ -23,6 +23,7 @@ function initSchema(config) {
     type Image {
       id: ID!
       tripId: ID!
+      rank: Int
       filename: String!
       url(sizes: [TripImageSize!]!): [String]!
       caption: String

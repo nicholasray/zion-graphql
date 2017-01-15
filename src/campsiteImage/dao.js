@@ -15,7 +15,7 @@ class Dao {
   }
 
   withCampsiteIds(ids) {
-    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('campsite_id', ids).then(rows => {
+    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('campsite_id', ids).orderBy('rank', 'asc').then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {

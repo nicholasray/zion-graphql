@@ -18,62 +18,62 @@ function initSchema(config) {
       lng: Float
       janAvgHigh: Int
       janAvgLow: Int
-      janAvgPrecip: Int
+      janAvgPrecip: Float
       janRecordHigh: Int
       janRecordLow: Int
       febAvgHigh: Int
       febAvgLow: Int
-      febAvgPrecip: Int
+      febAvgPrecip: Float
       febRecordHigh: Int
       febRecordLow: Int
       marAvgHigh: Int
       marAvgLow: Int
-      marAvgPrecip: Int
+      marAvgPrecip: Float
       marRecordHigh: Int
       marRecordLow: Int
       aprAvgHigh: Int
       aprAvgLow: Int
-      aprAvgPrecip: Int
+      aprAvgPrecip: Float
       aprRecordHigh: Int
       aprRecordLow: Int
       mayAvgHigh: Int
       mayAvgLow: Int
-      mayAvgPrecip: Int
+      mayAvgPrecip: Float
       mayRecordHigh: Int
       mayRecordLow: Int
       juneAvgHigh: Int
       juneAvgLow: Int
-      juneAvgPrecip: Int
+      juneAvgPrecip: Float
       juneRecordHigh: Int
       juneRecordLow: Int
       julyAvgHigh: Int
       julyAvgLow: Int
-      julyAvgPrecip: Int
+      julyAvgPrecip: Float
       julyRecordHigh: Int
       julyRecordLow: Int
       augAvgHigh: Int
       augAvgLow: Int
-      augAvgPrecip: Int
+      augAvgPrecip: Float
       augRecordHigh: Int
       augRecordLow: Int
       septAvgHigh: Int
       septAvgLow: Int
-      septAvgPrecip: Int
+      septAvgPrecip: Float
       septRecordHigh: Int
       septRecordLow: Int
       octAvgHigh: Int
       octAvgLow: Int
-      octAvgPrecip: Int
+      octAvgPrecip: Float
       octRecordHigh: Int
       octRecordLow: Int
       novAvgHigh: Int
       novAvgLow: Int
-      novAvgPrecip: Int
+      novAvgPrecip: Float
       novRecordHigh: Int
       novRecordLow: Int
       decAvgHigh: Int
       decAvgLow: Int
-      decAvgPrecip: Int
+      decAvgPrecip: Float
       decRecordHigh: Int
       decRecordLow: Int
       createdAt: String!

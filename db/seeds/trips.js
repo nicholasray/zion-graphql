@@ -16,12 +16,12 @@ exports.seed = function(knex, Promise) {
             let tripId = results[0];
             let promises = [];
 
-            promises.push(createTripImage(tripId, knex));
-            promises.push(createTripImage(tripId, knex));
-            promises.push(createCampsiteWithImages(tripId, knex));
-            promises.push(createCampsiteWithImages(tripId, knex));
-            promises.push(createCampsiteWithImages(tripId, knex));
-            promises.push(createCampsiteWithImages(tripId, knex));
+            promises.push(createTripImage(tripId, 1, knex));
+            promises.push(createTripImage(tripId, 2, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, knex));
+            promises.push(createCampsiteWithImages(tripId, 2, knex));
+            promises.push(createCampsiteWithImages(tripId, 3, knex));
+            promises.push(createCampsiteWithImages(tripId, 4, knex));
             promises.push(createCampsite(tripId, knex).then(campsiteId => {
                 let promises = [];
 
@@ -38,7 +38,7 @@ exports.seed = function(knex, Promise) {
                 }));
 
                 promises.push(createTripCampsite(tripId, campsiteId, knex));
-                promises.push(createCampsiteImage(campsiteId, knex));
+                promises.push(createCampsiteImage(campsiteId, 5, knex));
 
                 return Promise.all(promises);
               })
@@ -93,10 +93,10 @@ function createArea(knex) {
     may_record_high: 102,
     may_record_low: 22,
     may_avg_precip: 0.7,
-    june_avg_high: 83,
-    june_avg_low: 52,
-    june_record_high: 102,
-    june_record_low: 22,
+    june_avg_high: 93,
+    june_avg_low: 60,
+    june_record_high: 114,
+    june_record_low: 40,
     june_avg_precip: 0.6,
     july_avg_high: 100,
     july_avg_low: 68,
@@ -144,6 +144,7 @@ function createTrip(areaId, knex) {
     name,
     tagline: faker.lorem.words(7),
     description: getMarkdown(),
+    permit: faker.lorem.paragraph(),
     lat: faker.random.number({
       min: 38,
       max: 41,
@@ -165,9 +166,10 @@ function createTripCampsite(tripId, campsiteId, knex) {
   });
 }
 
-function createTripImage(tripId, knex) {
+function createTripImage(tripId, rank, knex) {
   return knex('images').insert({
     trip_id: tripId[0],
+    rank,
     filename: getFilenames()[0],
     caption: faker.lorem.sentence()
   });
@@ -191,18 +193,19 @@ function createItineraryPlans(day, itineraryId, campsiteId, knex) {
   });
 }
 
-function createCampsiteImage(campsiteId, knex) {
+function createCampsiteImage(campsiteId, rank, knex) {
   return knex('campsite_images').insert({
     campsite_id: campsiteId[0],
     filename: getFilenames()[0],
+    rank,
     caption: faker.lorem.sentence()
   });
 }
 
-function createCampsiteWithImages(tripId, knex) {
+function createCampsiteWithImages(tripId, rank, knex) {
   return createCampsite(tripId, knex).then(campsiteId => {
     let promises = [];
-    promises.push(createCampsiteImage(campsiteId, knex));
+    promises.push(createCampsiteImage(campsiteId, rank, knex));
     promises.push(createTripCampsite(tripId, campsiteId, knex));
 
     return Promise.all(promises);

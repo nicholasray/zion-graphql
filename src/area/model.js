@@ -242,7 +242,7 @@ class Area extends Model {
   }
 
   decAvgHigh() {
-    return this.data.dec_avg_low;
+    return this.data.dec_avg_high;
   }
 
   decAvgPrecip() {

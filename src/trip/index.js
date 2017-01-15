@@ -39,6 +39,7 @@ function initSchema(config) {
       campsites: [Campsite]!
       itineraries: [Itinerary]!
       slug: ID!
+      permit: String
       mapUrl: String
       name: String!
       tagline: String
