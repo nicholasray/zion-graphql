@@ -3,12 +3,13 @@ const TravelClient = require('../lib/travel/client');
 const TravelDao = require('../travel/dao');
 
 class Trip {
-  constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao }) {
+  constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }) {
     this.data = data;
     this.imageDao = imageDao;
     this.travelDao = travelDao;
     this.campsiteDao = campsiteDao;
     this.areaDao = areaDao;
+    this.reportDao = reportDao;
     this.itineraryDao = itineraryDao;
   }
 
@@ -30,6 +31,10 @@ class Trip {
 
   itineraries() {
     return this.itineraryDao.withTripId(this.id());
+  }
+
+  reports() {
+    return this.reportDao.withTripId(this.id());
   }
 
   slug() {

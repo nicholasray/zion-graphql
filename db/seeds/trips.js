@@ -10,12 +10,15 @@ exports.seed = function(knex, Promise) {
           let promises = [];
 
           promises.push(createTrip(areaId, knex));
+          promises.push(createUser(knex));
 
           return Promise.all(promises);
         }).then(results => {
             let tripId = results[0];
+            let userId = results[1];
             let promises = [];
 
+            promises.push(createTripReport(tripId, userId, knex));
             promises.push(createTripImage(tripId, 1, knex));
             promises.push(createTripImage(tripId, 2, knex));
             promises.push(createCampsiteWithImages(tripId, 1, knex));
@@ -52,6 +55,20 @@ exports.seed = function(knex, Promise) {
       return Promise.all(promises);
     });
 };
+
+function createUser(knex) {
+  return knex('users').returning('id').insert({
+    name: faker.lorem.words(2)
+  });
+}
+
+function createTripReport(tripId, userId, knex) {
+  return knex('trip_reports').returning('id').insert({
+    trip_id: tripId[0],
+    user_id: userId[0],
+    description: getMarkdown(),
+  })
+}
 
 function createArea(knex) {
   let name = faker.lorem.words(3);

@@ -97,6 +97,28 @@ exports.up = function(knex, Promise) {
         table.index('area_id');
     }),
 
+    knex.schema.createTable('trip_reports', function(table) {
+        defaultColumns(table);
+        table.integer('trip_id')
+          .references('id')
+          .inTable('trips')
+          .notNullable()
+          .onDelete('CASCADE');
+        table.integer('user_id')
+          .references('id')
+          .inTable('users')
+          .notNullable()
+          .onDelete('CASCADE');
+        table.text('description');
+        table.index('trip_id');
+        table.index('user_id');
+    }),
+
+    knex.schema.createTable('users', function(table) {
+        defaultColumns(table);
+        table.string('name');
+    }),
+
     knex.schema.createTable('itineraries', table => {
       defaultColumns(table);
       table.integer('trip_id')
@@ -186,6 +208,8 @@ exports.down = function(knex, Promise) {
       knex.schema.dropTableIfExists('itineraries'),
       knex.schema.dropTableIfExists('trip_campsites'),
       knex.schema.dropTableIfExists('campsites'),
+      knex.schema.dropTableIfExists('trip_reports'),
+      knex.schema.dropTableIfExists('users'),
       knex.schema.dropTableIfExists('trips'),
       knex.schema.dropTableIfExists('areas')
   ])
