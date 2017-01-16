@@ -116,6 +116,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('users', function(table) {
         defaultColumns(table);
+        table.integer('facebook_id')
         table.string('name');
     }),
 

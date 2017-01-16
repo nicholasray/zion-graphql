@@ -13,6 +13,7 @@ function initSchema(config) {
   const types = `
     type User {
       id: ID!
+      profilePicUrl: String
       name: String
     }
   `

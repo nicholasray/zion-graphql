@@ -8,6 +8,10 @@ class User extends Model {
   name() {
     return this.data.name;
   }
+
+  profilePicUrl() {
+    return `https://graph.facebook.com/${this.data.facebook_id}/picture?type=normal`
+  }
 }
 
 module.exports = User;

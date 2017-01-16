@@ -58,6 +58,7 @@ exports.seed = function(knex, Promise) {
 
 function createUser(knex) {
   return knex('users').returning('id').insert({
+    facebook_id: 584807405,
     name: faker.lorem.words(2)
   });
 }
@@ -66,7 +67,7 @@ function createTripReport(tripId, userId, knex) {
   return knex('trip_reports').returning('id').insert({
     trip_id: tripId[0],
     user_id: userId[0],
-    description: getMarkdown(),
+    description: getMarkdown('kCtz_5F0H2o'),
   })
 }
 
@@ -250,8 +251,8 @@ function createCampsite(tripId, knex) {
   });
 }
 
-function getMarkdown() {
-  return faker.lorem.paragraphs(3) + '\n\n <iframe style="margin-top:25px; margin-bottom:25px" width="100%" height="290" src="https://www.youtube.com/embed/fci4ylynQwI" frameborder="0" allowfullscreen></iframe>\n\n' + faker.lorem.paragraphs(3);
+function getMarkdown(videoId = 'fci4ylynQwI') {
+  return faker.lorem.paragraphs(3) + '\n\n <iframe style="margin-top:25px; margin-bottom:25px" width="100%" height="290" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allowfullscreen></iframe>\n\n' + faker.lorem.paragraphs(3);
 }
 
 function slugify(text) {
