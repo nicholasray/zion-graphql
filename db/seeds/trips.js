@@ -59,7 +59,8 @@ exports.seed = function(knex, Promise) {
 function createUser(knex) {
   return knex('users').returning('id').insert({
     facebook_id: 584807405,
-    name: faker.lorem.words(2)
+    name: faker.lorem.words(2),
+    email: faker.internet.email()
   });
 }
 

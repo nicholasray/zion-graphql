@@ -118,6 +118,8 @@ exports.up = function(knex, Promise) {
         defaultColumns(table);
         table.integer('facebook_id')
         table.string('name');
+        table.string('email');
+        table.unique('email');
     }),
 
     knex.schema.createTable('itineraries', table => {
