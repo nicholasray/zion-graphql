@@ -8,12 +8,24 @@ class Validator {
   }
 
   validate(model) {
+    const promises = [];
     const errors = [];
+
     if (!this.validator.isEmail(model.email)) {
       errors.push(new ResponseError('email', 'Email is not valid.'))
     }
 
-    return errors;
+    const promise = this.dao.findByEmail(model.email).then(result => {
+      if (result != null) {
+        errors.push(new ResponseError('email', 'Email is already registered.'));
+      }
+    });
+
+    promises.push(promise);
+
+    return Promise.all(promises).then(() => {
+      return errors;
+    })
   }
 }
 

@@ -75,16 +75,16 @@ function initEndpoints(dao, validator, connectionDao, config) {
       return dao.findById(id);
     },
     createUser: ({input}) => {
-      const errors = validator.validate(input);
-
-      if (errors.length > 0) {
-        return {
-          user: null,
-          errors
+      return validator.validate(input).then(errors => {
+        if (errors.length > 0) {
+          return {
+            user: null,
+            errors
+          }
         }
-      }
 
-      return dao.create(input);
+        return dao.create(input);
+      })
     },
     updateUser: ({id, input}) => {
       return dao.update(id, input);
