@@ -14,6 +14,21 @@ describe('Validator', () => {
   })
 
   describe('#validate', () => {
+    context("with blank email", () => {
+      it("returns an error", () => {
+        const promise = subject.validate({
+          email: ''
+        })
+
+        return promise.then(result => {
+          // expect
+          expect(result).to.not.be.empty;
+          expect(result[0].key).to.equal('email');
+          expect(result[0].message).to.equal('Email cannot be blank.');
+        });
+      })
+    })
+
     context("with invalid email", () => {
       it("returns an error", () => {
         // when

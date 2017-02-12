@@ -11,6 +11,10 @@ class Validator {
     const promises = [];
     const errors = [];
 
+    if (this.validator.isEmpty(model.email)) {
+      errors.push(new ResponseError('email', 'Email cannot be blank.'))
+    }
+
     if (!this.validator.isEmail(model.email)) {
       errors.push(new ResponseError('email', 'Email is not valid.'))
     }

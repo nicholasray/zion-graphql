@@ -20,7 +20,7 @@ function initSchema(config) {
     input UserInput {
       firstName: String
       lastName: String
-      email: String
+      email: String!
     }
 
     type User {
