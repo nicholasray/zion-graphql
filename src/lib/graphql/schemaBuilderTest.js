@@ -17,34 +17,34 @@ describe('SchemaBuilder', () => {
             id: ID!
             createdAt: String!
           }
+
+          input DogInput {
+            createdAt: String
+          }
         `;
 
         const endpoint = `
           allDogs(limit: Int): [Dog]
         `;
 
+        const mutation = `
+          createDog(input: DogInput): Dog
+        `
+
         // when
         subject.addTypes(type);
         subject.addQueryEndpoints(endpoint);
+        subject.addMutationEndpoints(mutation);
         const result = subject.build();
 
         // expect
-        const expected = `
-          type Dog {
-            id: ID!
-            createdAt: String!
-          }
-
-          type Query {
-            allDogs(limit: Int): [Dog]
-          }
-        `;
-
+        console.log(result);
         expect(result).to.match(/type Dog {/);
         expect(result).to.match(/id: ID!/);
         expect(result).to.match(/createdAt: String!/);
         expect(result).to.match(/type Query {/);
         expect(result).to.match(/allDogs\(limit: Int\): \[Dog\]/);
+        expect(result).to.match(/createDog\(input: DogInput\): Dog/);
       })
     })
 

@@ -29,7 +29,7 @@ const { dao: campsiteDao } = Campsite.init(knex, campsiteImageDao, gqlConfig);
 const { dao: itineraryPlanDao } = ItineraryPlan.init(knex, campsiteDao, gqlConfig);
 const { dao: itineraryDao } = Itinerary.init(knex, itineraryPlanDao, gqlConfig);
 const { dao: areaDao } = Area.init(knex, gqlConfig);
-const { dao: userDao } = User.init(knex, gqlConfig);
+const { dao: userDao } = User.init(knex, {}, gqlConfig);
 const { dao: reportDao } = TripReport.init(knex, { userDao },  gqlConfig);
 Trip.init(knex, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
 

@@ -27,9 +27,11 @@ class Config {
     this.endpoints = Object.assign({}, this.endpoints, endpoints)
   }
 
-  addSchemaTypesAndEndpoints(types, queryEndpoints) {
+  addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints = '') {
     this.schemaBuilder.addTypes(types);
     this.schemaBuilder.addQueryEndpoints(queryEndpoints);
+
+    this.schemaBuilder.addMutationEndpoints(mutationEndpoints)
   }
 }
 

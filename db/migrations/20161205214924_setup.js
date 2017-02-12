@@ -117,8 +117,10 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('users', function(table) {
         defaultColumns(table);
         table.integer('facebook_id')
-        table.string('name');
+        table.string('first_name');
+        table.string('last_name');
         table.string('email');
+        table.timestamp('newsletter_subscribed_at');
         table.unique('email');
     }),
 

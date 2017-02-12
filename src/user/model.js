@@ -1,12 +1,24 @@
 const Model = require('../lib/model');
 
 class User extends Model {
-  constructor(data) {
+  constructor(data, daos) {
     super(data);
   }
 
-  name() {
-    return this.data.name;
+  firstName() {
+    return this.data.first_name;
+  }
+
+  lastName() {
+    return this.data.last_name;
+  }
+
+  email() {
+    return this.data.email;
+  }
+
+  newsletterSubscribedAt() {
+    return this.data.newsletter_subscribed_at;
   }
 
   profilePicUrl() {

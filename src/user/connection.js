@@ -1,9 +1,9 @@
 const Edge = require('../lib/graphql/edge');
 
 class Connection {
-  constructor(opts, tripDao, connectionDao) {
+  constructor(opts, userDao, connectionDao) {
     this.opts = opts;
-    this.tripDao = tripDao;
+    this.userDao = userDao;
     this.connectionDao = connectionDao;
   }
 
@@ -12,7 +12,7 @@ class Connection {
   }
 
   edges() {
-    return this.tripDao.all(this.opts).then(rows => {
+    return this.userDao.all(this.opts).then(rows => {
       return rows.map(row => {
         return new Edge(row);
       })
