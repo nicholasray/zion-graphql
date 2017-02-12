@@ -1,6 +1,7 @@
 var config      = require('../knexfile.js');
 console.log(config);
 var knex        = require('knex')(config);
+console.log(knex);
 
 knex.migrate.rollback()
 .then(() => {
