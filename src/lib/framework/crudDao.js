@@ -11,6 +11,12 @@ class CrudDao {
     this.findByLoader = new DataLoader(keys => this.withIds(keys));
   }
 
+  totalCount(opts) {
+    return this.db.count("*").from(this.tableName).then(rows => {
+      return parseInt(rows[0].count);
+    });
+  }
+
   findById(id) {
     return this.findByLoader.load(id);
   }

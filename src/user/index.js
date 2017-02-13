@@ -1,10 +1,11 @@
 const Dao = require('./dao');
-const ConnectionDao = require('./connectionDao');
+const ConnectionDao = require('../lib/framework/connectionDao');
 const Validator = require('./validator');
+const Response = require('../lib/framework/response');
 
 function init(db, daos, config) {
   const dao = new Dao(db, daos);
-  const connectionDao = new ConnectionDao(db, dao);
+  const connectionDao = new ConnectionDao(dao);
   const validator = new Validator(dao);
 
   initEndpoints(dao, validator, connectionDao, config);
@@ -77,10 +78,7 @@ function initEndpoints(dao, validator, connectionDao, config) {
     createUser: ({input}) => {
       return validator.validate(input).then(errors => {
         if (errors.length > 0) {
-          return {
-            user: null,
-            errors
-          }
+          return new Response(null, errors);
         }
 
         return dao.create(input);

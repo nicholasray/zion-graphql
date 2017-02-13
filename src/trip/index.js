@@ -1,11 +1,11 @@
 const Trip = require('./model');
 const Dao = require('./dao');
-const ConnectionDao = require('./connectionDao');
+const ConnectionDao = require('../lib/framework/connectionDao');
 const ImageDao = require('../image/dao');
 
 function init(db, daos, config) {
   const dao = new Dao(db, daos);
-  const connectionDao = new ConnectionDao(db, dao);
+  const connectionDao = new ConnectionDao(dao);
 
   initEndpoints(dao, connectionDao, config);
   initSchema(config);

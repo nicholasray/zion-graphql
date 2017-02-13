@@ -8,6 +8,24 @@ class Dao {
     this.table = "trips";
   }
 
+  totalCount(opts) {
+    const builder = new Builder(this.db);
+
+    builder.selectCount(this.table);
+
+    if (opts.bounds) {
+      builder.withinBounds(opts.bounds);
+    }
+
+    if (opts.distance) {
+      builder.withinDistance(opts.distance);
+    }
+
+    return builder.build().then(rows => {
+      return parseInt(rows[0].count);
+    })
+  }
+
   findById(id) {
     const where = Number.isInteger(parseInt(id)) ? {id} : {slug: id};
     return this.db.select("*").from(this.table).where(where).then(rows => {

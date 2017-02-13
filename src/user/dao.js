@@ -1,5 +1,4 @@
 const User = require('./model');
-const Response = require('./response');
 const DataLoader = require('dataloader');
 const Builder = require('../lib/sql/builder');
 const CrudDao = require('../lib/framework/crudDao');

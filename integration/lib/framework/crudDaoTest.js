@@ -1,6 +1,26 @@
 const { expect } = require('chai');
 
 exports.shouldBehaveLikeCrudDao = function() {
+  describe("#totalCount", function() {
+    context("with no opts", function() {
+      beforeEach(function() {
+        return this.db.insert({}, "id").into(this.tableName).then(id => {
+          this.id = id[0];
+        });
+      })
+
+      it("returns the total count", function() {
+        // when
+        const promise = this.subject.totalCount({});
+
+        // expect
+        return promise.then(result => {
+          expect(result).to.equal(1);
+        })
+      })
+    })
+  })
+
   describe("#findById", function() {
     context("with present record", function() {
       beforeEach(function() {
