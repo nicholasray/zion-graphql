@@ -39,6 +39,18 @@ exports.shouldBehaveLikeCrudDao = function() {
         })
       })
     })
+
+    context("with absent record", function() {
+      it("returns null", function() {
+        // when
+        const promise = this.subject.findById(0)
+
+        // expect
+        return promise.then(result => {
+          expect(result).to.be.null;
+        })
+      })
+    })
   })
 
   describe("#all", function() {
