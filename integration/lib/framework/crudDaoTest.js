@@ -118,5 +118,18 @@ exports.shouldBehaveLikeCrudDao = function() {
         })
       })
     })
+
+    context("with absent record", function() {
+      it("raises an error", function() {
+        // when
+        const promise = this.subject.update(0, {id: 1});
+
+        // expect
+        return promise.catch(result => {
+          expect(result).to.be.instanceOf(Error);
+        })
+
+      })
+    })
   })
 };
