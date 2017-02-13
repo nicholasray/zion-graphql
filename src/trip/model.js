@@ -1,20 +1,17 @@
 const googleClient = require('@google/maps');
 const TravelClient = require('../lib/travel/client');
 const TravelDao = require('../travel/dao');
+const Model = require('../lib/framework/model');
 
-class Trip {
+class Trip extends Model {
   constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }) {
-    this.data = data;
+    super(data);
     this.imageDao = imageDao;
     this.travelDao = travelDao;
     this.campsiteDao = campsiteDao;
     this.areaDao = areaDao;
     this.reportDao = reportDao;
     this.itineraryDao = itineraryDao;
-  }
-
-  id() {
-    return this.data.id;
   }
 
   area() {
@@ -94,14 +91,6 @@ class Trip {
 
   distance() {
     return this.data.distance;
-  }
-
-  createdAt() {
-    return this.data.created_at;
-  }
-
-  updatedAt() {
-    return this.data.updated_at;
   }
 }
 

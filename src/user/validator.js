@@ -1,5 +1,5 @@
 const ValidatorJS = require('validator');
-const ResponseError = require('../lib/responseError');
+const ResponseError = require('../lib/framework/responseError');
 
 class Validator {
   constructor(dao, validator) {

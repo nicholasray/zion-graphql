@@ -1,4 +1,4 @@
-const Model = require('../lib/model');
+const Model = require('../lib/framework/model');
 
 class CampsiteImage extends Model {
   constructor(data) {

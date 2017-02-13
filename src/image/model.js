@@ -1,6 +1,8 @@
-class Image {
+const Model = require('../lib/framework/model');
+
+class Image extends Model {
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 
   id() {
@@ -27,14 +29,6 @@ class Image {
     return sizes.map(size => {
       return `https://adventuretrailhead-dest.s3.amazonaws.com/images/${size.toLowerCase()}/${this.filename()}`;
     })
-  }
-
-  createdAt() {
-    return this.data.created_at;
-  }
-
-  updatedAt() {
-    return this.data.updated_at;
   }
 }
 

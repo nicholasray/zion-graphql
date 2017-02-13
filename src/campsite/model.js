@@ -1,4 +1,4 @@
-const Model = require('../lib/model');
+const Model = require('../lib/framework/model');
 
 class Campsite extends Model {
   constructor(data, campsiteImageDao) {
