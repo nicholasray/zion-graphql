@@ -3,8 +3,20 @@ function defaultColumns(table) {
   table.timestamps(true, true);
 }
 
+function updatedAtTrigger(knex, tableName) {
+  return knex.raw(`CREATE TRIGGER update_${tableName}_modtime BEFORE UPDATE ON ${tableName} FOR EACH ROW EXECUTE PROCEDURE update_modified_column();`);
+}
+
+
 exports.up = function(knex, Promise) {
   return Promise.all([
+    knex.raw(`CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';`),
     knex.schema.createTable('areas', table => {
       defaultColumns(table);
       table.string('slug').notNullable();
@@ -72,6 +84,8 @@ exports.up = function(knex, Promise) {
       table.float('dec_record_high');
       table.float('dec_record_low');
       table.unique('slug');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'areas');
     }),
 
     knex.schema.createTable('trips', function(table) {
@@ -95,6 +109,8 @@ exports.up = function(knex, Promise) {
         table.unique('slug');
         table.index(['lat', 'lng']);
         table.index('area_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'trips');
     }),
 
     knex.schema.createTable('trip_reports', function(table) {
@@ -112,6 +128,8 @@ exports.up = function(knex, Promise) {
         table.text('description');
         table.index('trip_id');
         table.index('user_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'trip_reports');
     }),
 
     knex.schema.createTable('users', function(table) {
@@ -122,6 +140,8 @@ exports.up = function(knex, Promise) {
         table.string('email');
         table.timestamp('newsletter_subscribed_at');
         table.unique('email');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'users');
     }),
 
     knex.schema.createTable('itineraries', table => {
@@ -134,6 +154,8 @@ exports.up = function(knex, Promise) {
       table.string('start');
       table.string('end')
       table.index('trip_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'itineraries');
     }),
 
     knex.schema.createTable('itinerary_plans', table => {
@@ -153,6 +175,8 @@ exports.up = function(knex, Promise) {
       table.integer('elevation_gain');
       table.index('itinerary_id');
       table.index('campsite_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'itinerary_plans');
     }),
 
     knex.schema.createTable('campsites', table => {
@@ -160,6 +184,8 @@ exports.up = function(knex, Promise) {
       table.string('name');
       table.float('lat');
       table.float('lng');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'campsites');
     }),
 
     knex.schema.createTable('campsite_images', table => {
@@ -173,6 +199,8 @@ exports.up = function(knex, Promise) {
       table.string('filename');
       table.string('caption');
       table.index('campsite_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'campsite_images');
     }),
 
     knex.schema.createTable('trip_campsites', table => {
@@ -188,6 +216,8 @@ exports.up = function(knex, Promise) {
         .notNullable()
         .onDelete('CASCADE');
       table.index('trip_id');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'trip_campsites');
     }),
 
     knex.schema.createTable('images', function(table) {
@@ -201,6 +231,8 @@ exports.up = function(knex, Promise) {
         table.string('filename');
         table.string('caption');
         table.index(['trip_id']);
+    }).then(() => {
+      updatedAtTrigger(knex, 'images');
     }),
   ]);
 };

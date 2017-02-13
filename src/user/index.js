@@ -45,7 +45,7 @@ function initSchema(config) {
     }
 
     type UserResponse {
-      user: User
+      node: User
       errors: [ResponseError!]!
     }
 

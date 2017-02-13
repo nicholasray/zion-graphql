@@ -5,25 +5,30 @@ const knex = require('knex')({
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
+const shared = require('../framework/crudDaoTest');
 
-describe('Dao', () => {
+describe('Dao', function() {
   var subject;
 
-  beforeEach(() => {
-    subject = new Dao(knex);
+  beforeEach(function() {
+    this.subject = new Dao(knex);
+    this.db = knex;
+    this.tableName = "users";
+
+    return knex('users').del();
   })
 
-  describe("#findByEmail", () => {
-    context("with present email", () => {
-      beforeEach(() => {
-        return knex('users').del().then(() => {
+  shared.shouldBehaveLikeCrudDao();
+
+  describe("#findByEmail", function() {
+    context("with present email", function() {
+      beforeEach(function() {
           return knex.insert({email: "Keanu.Ortiz@gmail.com"}).from("users")
-        })
       })
 
-      it("return the user record", () => {
+      it("return the user record", function() {
         // when
-        const promise = subject.findByEmail("Keanu.Ortiz@gmail.com");
+        const promise = this.subject.findByEmail("Keanu.Ortiz@gmail.com");
 
         // expect
         return promise.then(result => {
@@ -32,9 +37,9 @@ describe('Dao', () => {
       })
     })
 
-    context("with absent email", () => {
-      it("returns null", () => {
-        const promise = subject.findByEmail("test@test.com")
+    context("with absent email", function() {
+      it("returns null", function() {
+        const promise = this.subject.findByEmail("test@test.com")
 
         // expect
         return promise.then(result => {
