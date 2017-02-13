@@ -1,17 +1,16 @@
 const Trip = require('./model');
 const Builder = require('./builder');
+const CrudDao = require('../lib/framework/crudDao');
 
-class Dao {
+class Dao extends CrudDao {
   constructor(db, daos) {
-    this.db = db;
-    this.daos = daos;
-    this.table = "trips";
+    super({db, daos, model: Trip, tableName: "trips"});
   }
 
   totalCount(opts) {
     const builder = new Builder(this.db);
 
-    builder.selectCount(this.table);
+    builder.selectCount(this.tableName);
 
     if (opts.bounds) {
       builder.withinBounds(opts.bounds);
@@ -28,7 +27,7 @@ class Dao {
 
   findById(id) {
     const where = Number.isInteger(parseInt(id)) ? {id} : {slug: id};
-    return this.db.select("*").from(this.table).where(where).then(rows => {
+    return this.db.select("*").from(this.tableName).where(where).then(rows => {
       if (rows[0] == undefined) {
         return null;
       }
@@ -40,7 +39,7 @@ class Dao {
   all({limit, offset, bounds, sort, distance}) {
     const builder = new Builder(this.db);
 
-    builder.select({limit, offset, table: this.table})
+    builder.select({limit, offset, table: this.tableName})
 
     if (bounds) {
       builder.withinBounds(bounds);

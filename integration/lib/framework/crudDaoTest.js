@@ -4,9 +4,9 @@ exports.shouldBehaveLikeCrudDao = function() {
   describe("#totalCount", function() {
     context("with no opts", function() {
       beforeEach(function() {
-        return this.db.insert({}, "id").into(this.tableName).then(id => {
-          this.id = id[0];
-        });
+        return this.factory.create().then(rows => {
+          this.id = rows[0].id;
+        })
       })
 
       it("returns the total count", function() {
@@ -24,9 +24,9 @@ exports.shouldBehaveLikeCrudDao = function() {
   describe("#findById", function() {
     context("with present record", function() {
       beforeEach(function() {
-        return this.db.insert({}, "id").into(this.tableName).then(id => {
-          this.id = id[0];
-        });
+        return this.factory.create().then(rows => {
+          this.id = rows[0].id;
+        })
       })
 
       it("returns the record", function() {
@@ -46,10 +46,10 @@ exports.shouldBehaveLikeCrudDao = function() {
       beforeEach(function() {
         this.ids = [];
 
-        return this.db.insert({}, "id").into(this.tableName).then(id => {
-          this.ids.push(id[0]);
-          return this.db.insert({}, "id").into(this.tableName).then(id => {
-            this.ids.push(id[0]);
+        return this.factory.create().then(rows => {
+          this.ids.push(rows[0].id);
+          return this.factory.create().then(rows => {
+            this.ids.push(rows[0].id)
           })
         });
       })
@@ -61,8 +61,7 @@ exports.shouldBehaveLikeCrudDao = function() {
         // expect
         return promise.then(results => {
           expect(results).to.have.lengthOf(2);
-          expect(results[0].id()).to.equal(this.ids[1]);
-          expect(results[1].id()).to.equal(this.ids[0]);
+          expect([results[0].id(), results[1].id()]).to.include.members([this.ids[0], this.ids[1]]);
         })
       })
     })
@@ -82,9 +81,15 @@ exports.shouldBehaveLikeCrudDao = function() {
 
   describe("#create", function() {
     context("with input", function() {
+      beforeEach(function() {
+        return this.factory.build().then(builtAttrs => {
+          this.attrs = builtAttrs;
+        })
+      })
+
       it("creates record", function() {
         // when
-        const promise = this.subject.create({});
+        const promise = this.subject.create(this.attrs);
 
         // expect
         return promise.then(result => {
@@ -97,10 +102,10 @@ exports.shouldBehaveLikeCrudDao = function() {
   describe("#update", function() {
     context("with present record", function() {
       beforeEach(function() {
-        return this.db.insert({}, "*").into(this.tableName).then(result => {
-          this.id = result[0].id;
-          this.updatedAt =  result[0].updated_at;
-        });
+        return this.factory.create().then(rows => {
+          this.id = rows[0].id;
+          this.updatedAt = rows[0].updated_at;
+        })
       })
 
       it("updates record", function() {

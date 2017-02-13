@@ -1,10 +1,7 @@
 const { expect } = require('chai');
 const Dao = require('../../../src/user/dao');
-const knex = require('knex')({
-  debug: process.env.DEBUG || false,
-  client: 'pg',
-  connection: process.env.DATABASE_URL
-});
+const factory = require('../../support/factories/user');
+const knex = require('../../support/db');
 const shared = require('../framework/crudDaoTest');
 
 describe('Dao', function() {
@@ -13,9 +10,10 @@ describe('Dao', function() {
   beforeEach(function() {
     this.subject = new Dao(knex);
     this.db = knex;
-    this.tableName = "users";
+    this.factory = factory;
+    this.tableName = this.subject.tableName;
 
-    return knex('users').del();
+    return this.db(this.tableName).del();
   })
 
   shared.shouldBehaveLikeCrudDao();
