@@ -60,7 +60,7 @@ class CrudDao {
 
   create(input) {
     return this.db.insert(this.convertInput(input), '*').from(this.tableName).then(rows => {
-      const node = new this.model(rows[0]);
+      const node = new this.model(rows[0], this.daos);
 
       this.afterSaves.map(afterSave => {
         afterSave.call(node);

@@ -12,7 +12,6 @@ class Client {
   }
 
   subscribe(user, listId) {
-    console.log(listId);
     return this.client.post(`${this.root}/lists/${listId}/members`, {
       email_address: user.email,
       status: "subscribed",
