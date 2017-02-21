@@ -4,6 +4,7 @@ class Builder {
   constructor(dbConn) {
     this.db = dbConn || db
   }
+
   select({limit, offset, table}) {
     var query = this.db.select('*').from(table);
 
@@ -17,7 +18,6 @@ class Builder {
 
     return query;
   }
-
 }
 
 module.exports = Builder;
