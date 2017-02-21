@@ -30,8 +30,9 @@ amqp.connect(process.env.RABBITMQ_BIGWIG_RX_URL).then(function(conn) {
       console.log(" [x] '%s'", msg.content.toString());
 
       const data = JSON.parse(msg.content.toString());
-      mailClient.subscribe(data, listId);
-      ch.ack(msg);
+      return mailClient.subscribe(data, listId).then(response => {
+        ch.ack(msg);
+      });
     }
   });
 }).catch(console.warn);
