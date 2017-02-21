@@ -20,7 +20,7 @@ amqp.connect(process.env.RABBITMQ_BIGWIG_RX_URL).then(function(conn) {
       });
     });
     ok = ok.then(function(queue) {
-      return ch.consume(queue, process, {noAck: true});
+      return ch.consume(queue, process);
     });
     return ok.then(function() {
       console.log('[*] Waiting for messages. To exit press CTRL+C');
@@ -31,6 +31,7 @@ amqp.connect(process.env.RABBITMQ_BIGWIG_RX_URL).then(function(conn) {
 
       const data = JSON.parse(msg.content.toString());
       mailClient.subscribe(data, listId);
+      ch.ack(msg);
     }
   });
 }).catch(console.warn);
