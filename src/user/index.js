@@ -22,6 +22,7 @@ function initSchema(config) {
       firstName: String
       lastName: String
       email: String!
+      newsletterSubscribedAt: String
     }
 
     type User {
@@ -78,7 +79,7 @@ function initEndpoints(dao, validator, connectionDao, config) {
     createUser: ({input}) => {
       return validator.validate(input).then(errors => {
         if (errors.length > 0) {
-          return new Response(null, errors);
+          return new Response(null, [], errors);
         }
 
         return dao.create(input);

@@ -9,6 +9,11 @@ class CrudDao {
     this.model = opts.model;
     this.tableName = opts.tableName
     this.findByLoader = new DataLoader(keys => this.withIds(keys));
+    this.afterSaves = [];
+  }
+
+  addAfterSave(afterSave) {
+    this.afterSaves.push(afterSave);
   }
 
   totalCount(opts) {
@@ -55,7 +60,13 @@ class CrudDao {
 
   create(input) {
     return this.db.insert(this.convertInput(input), '*').from(this.tableName).then(rows => {
-      return new Response(new this.model(rows[0], this.daos));
+      const node = new this.model(rows[0]);
+
+      this.afterSaves.map(afterSave => {
+        afterSave.call(node);
+      });
+
+      return new Response(node, this.daos);
     });
   }
 

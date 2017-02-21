@@ -8,6 +8,21 @@ const knex = require('knex')({
   connection: process.env.DATABASE_URL
 });
 
+function initConnection() {
+  return require('amqplib').connect(process.env.RABBITMQ_BIGWIG_TX_URL).then(conn => {
+    return conn.createChannel().then(ch => {
+      return ch.assertExchange('create-user', 'fanout', {durable: false}).then(() => {
+        return ch;
+      })
+    })
+  }).catch(console.warn);
+}
+
+init();
+
+async function init() {
+  const channel = await initConnection();
+
 const GqlConfig = require('./lib/graphql/config');
 const gqlConfig = new GqlConfig();
 
@@ -33,6 +48,8 @@ const { dao: userDao } = User.init(knex, {}, gqlConfig);
 const { dao: reportDao } = TripReport.init(knex, { userDao },  gqlConfig);
 Trip.init(knex, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
 
+const Newsletter = require('./newsletter').init(userDao, channel);
+
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(gqlConfig.getSchema());
 
@@ -49,3 +66,4 @@ app.use('/graphql', graphqlHTTP({
 }));
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
+}

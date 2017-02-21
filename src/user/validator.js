@@ -19,6 +19,10 @@ class Validator {
       errors.push(new ResponseError('email', 'Email is not valid.'))
     }
 
+    if (model.newsletterSubscribedAt && !this.validator.isDate(model.newsletterSubscribedAt)) {
+      errors.push(new ResponseError('newsletterSubscribedAt', 'Newsletter subscribed at must be a valid date.'))
+    }
+
     const promise = this.dao.findByEmail(model.email).then(result => {
       if (result != null) {
         errors.push(new ResponseError('email', 'Email is already registered.'));

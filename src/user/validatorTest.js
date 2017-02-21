@@ -14,6 +14,36 @@ describe('Validator', () => {
   })
 
   describe('#validate', () => {
+    context("with invalid date", () => {
+      it("returns an error", () => {
+        const promise = subject.validate({
+          email: 'test@example.com',
+          newsletterSubscribedAt: 'foo'
+        })
+
+        return promise.then(result => {
+          // expect
+          expect(result).to.not.be.empty;
+          expect(result[0].key).to.equal('newsletterSubscribedAt');
+          expect(result[0].message).to.equal('Newsletter subscribed at must be a valid date.');
+        })
+      })
+    })
+
+    context("with valid date", () => {
+      it("returns no error", () => {
+        const promise = subject.validate({
+          email: 'test@example.com',
+          newsletterSubscribedAt: new Date().toISOString()
+        })
+
+        return promise.then(result => {
+          // expect
+          expect(result).to.be.empty
+        })
+      })
+    })
+
     context("with blank email", () => {
       it("returns an error", () => {
         const promise = subject.validate({

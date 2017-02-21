@@ -1,7 +1,8 @@
 class Response {
-  constructor(node = null, errors = []) {
+  constructor(node = null, daos, errors = []) {
     this.data = {};
     this.data.node = node;
+    this.data.daos = daos;
     this.data.errors = errors;
   }
 
