@@ -1,4 +1,3 @@
-const knex = require('knex')({});
 const db = require('knex')({client: 'pg'});
 
 class Builder {
