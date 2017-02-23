@@ -10,9 +10,9 @@ const mailClient = new Client();
 amqp.connect(process.env.RABBITMQ_BIGWIG_RX_URL).then(function(conn) {
   process.once('SIGINT', function() { conn.close(); });
   return conn.createChannel().then(function(ch) {
-    var ok = ch.assertExchange(exchangeName, 'fanout', {durable: false});
+    var ok = ch.assertExchange(exchangeName, 'fanout', {durable: true});
     ok = ok.then(function() {
-      return ch.assertQueue('', {exclusive: true});
+      return ch.assertQueue('newsletter-subscription');
     });
     ok = ok.then(function(qok) {
       return ch.bindQueue(qok.queue, exchangeName, '').then(function() {

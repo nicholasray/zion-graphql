@@ -11,7 +11,7 @@ const knex = require('knex')({
 function initConnection() {
   return require('amqplib').connect(process.env.RABBITMQ_BIGWIG_TX_URL).then(conn => {
     return conn.createChannel().then(ch => {
-      return ch.assertExchange('create-user', 'fanout', {durable: false}).then(() => {
+      return ch.assertExchange('create-user', 'fanout', {durable: true}).then(() => {
         return ch;
       })
     })

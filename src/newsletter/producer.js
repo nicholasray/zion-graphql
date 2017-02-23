@@ -12,7 +12,7 @@ class Producer {
       newsletterSubscribedAt: user.newsletterSubscribedAt(),
     };
 
-    return this.channel.publish('create-user', '', new Buffer(JSON.stringify(payload)));
+    return this.channel.publish('create-user', '', new Buffer(JSON.stringify(payload), { persistent: true }));
   }
 }
 

@@ -18,7 +18,8 @@ class Client {
     }, {
       auth: this.auth
     }).then(response => {
-      console.log(response);
+      console.log("Subscribed!");
+      return response;
     }).catch(error => {
       console.log(error.response.data);
     })
