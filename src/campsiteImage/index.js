@@ -11,19 +11,12 @@ function init(db, config) {
 
 function initSchema(config) {
   const types = `
-    enum CampsiteImageSize {
-      SMALL
-      MEDIUM
-      LARGE
-      XLARGE
-    }
-
     type CampsiteImage {
       id: ID!
       campsiteId: ID!
       rank: Int
       filename: String!
-      url(sizes: [CampsiteImageSize!]!): [String]!
+      url: ImageUrl!
       caption: String
       createdAt: String!
       updatedAt: String!

@@ -26,6 +26,7 @@ async function init() {
 const GqlConfig = require('./lib/graphql/config');
 const gqlConfig = new GqlConfig();
 
+const ImageUrl = require('./imageUrl');
 const Travel = require('./travel');
 const Image = require('./tripImage');
 const CampsiteImage = require('./campsiteImage');
@@ -37,6 +38,7 @@ const User = require('./user');
 const TripReport = require('./tripReport');
 const Trip = require('./trip');
 
+ImageUrl.init(gqlConfig);
 const { dao: travelDao } = Travel.init();
 const { dao: imageDao } = Image.init(knex, gqlConfig);
 const { dao: campsiteImageDao } = CampsiteImage.init(knex, gqlConfig);

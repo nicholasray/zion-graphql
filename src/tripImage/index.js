@@ -13,19 +13,12 @@ function init(db, config) {
 
 function initSchema(config) {
   const types = `
-    enum TripImageSize {
-      SMALL
-      MEDIUM
-      LARGE
-      XLARGE
-    }
-
     type TripImage {
       id: ID!
       tripId: ID!
       rank: Int
       filename: String!
-      url(sizes: [TripImageSize!]!): [String]!
+      url: ImageUrl!
       caption: String
       createdAt: String!
       updatedAt: String!

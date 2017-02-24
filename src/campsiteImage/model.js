@@ -1,8 +1,10 @@
 const Model = require('../lib/framework/model');
+const ImageUrl = require('../imageUrl/model');
 
 class CampsiteImage extends Model {
   constructor(data) {
     super(data);
+    this.imageUrl = new ImageUrl(data);
   }
 
   campsiteId() {
@@ -21,10 +23,8 @@ class CampsiteImage extends Model {
     return this.data.caption;
   }
 
-  url({sizes}) {
-    return sizes.map(size => {
-      return `https://adventuretrailhead-dest.s3.amazonaws.com/images/${size.toLowerCase()}/${this.filename()}`;
-    })
+  url() {
+    return this.imageUrl;
   }
 
 }
