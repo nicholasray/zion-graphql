@@ -27,7 +27,7 @@ const GqlConfig = require('./lib/graphql/config');
 const gqlConfig = new GqlConfig();
 
 const Travel = require('./travel');
-const Image = require('./image');
+const Image = require('./tripImage');
 const CampsiteImage = require('./campsiteImage');
 const Campsite = require('./campsite');
 const Itinerary = require('./itinerary');

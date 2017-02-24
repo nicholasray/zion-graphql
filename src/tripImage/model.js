@@ -1,6 +1,6 @@
 const Model = require('../lib/framework/model');
 
-class Image extends Model {
+class TripImage extends Model {
   constructor(data) {
     super(data);
   }
@@ -32,4 +32,4 @@ class Image extends Model {
   }
 }
 
-module.exports = Image;
+module.exports = TripImage;

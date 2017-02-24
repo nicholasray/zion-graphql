@@ -220,7 +220,7 @@ $$ language 'plpgsql';`),
       return updatedAtTrigger(knex, 'trip_campsites');
     }),
 
-    knex.schema.createTable('images', function(table) {
+    knex.schema.createTable('trip_images', function(table) {
         defaultColumns(table);
         table.integer('trip_id')
           .references('id')
@@ -232,14 +232,14 @@ $$ language 'plpgsql';`),
         table.string('caption');
         table.index(['trip_id']);
     }).then(() => {
-      updatedAtTrigger(knex, 'images');
+      updatedAtTrigger(knex, 'trip_images');
     }),
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-      knex.schema.dropTableIfExists('images'),
+      knex.schema.dropTableIfExists('trip_images'),
       knex.schema.dropTableIfExists('campsite_images'),
       knex.schema.dropTableIfExists('itinerary_plans'),
       knex.schema.dropTableIfExists('itineraries'),

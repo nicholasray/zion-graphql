@@ -189,7 +189,7 @@ function createTripCampsite(tripId, campsiteId, knex) {
 }
 
 function createTripImage(tripId, rank, knex) {
-  return knex('images').insert({
+  return knex('trip_images').insert({
     trip_id: tripId[0],
     rank,
     filename: getFilenames()[0],

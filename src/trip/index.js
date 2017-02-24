@@ -1,7 +1,7 @@
 const Trip = require('./model');
 const Dao = require('./dao');
 const ConnectionDao = require('../lib/framework/connectionDao');
-const ImageDao = require('../image/dao');
+const ImageDao = require('../tripImage/dao');
 
 function init(db, daos, config) {
   const dao = new Dao(db, daos);
