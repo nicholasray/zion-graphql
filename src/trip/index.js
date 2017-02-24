@@ -35,7 +35,7 @@ function initSchema(config) {
     type Trip {
       id: ID!
       area: Area!
-      images:[Image]!
+      images:[TripImage]!
       campsites: [Campsite]!
       itineraries: [Itinerary]!
       reports: [TripReport]!

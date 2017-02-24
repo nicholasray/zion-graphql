@@ -20,7 +20,7 @@ function initSchema(config) {
       XLARGE
     }
 
-    type Image {
+    type TripImage {
       id: ID!
       tripId: ID!
       rank: Int
@@ -33,7 +33,7 @@ function initSchema(config) {
   `;
 
   const queryEndpoints = `
-    allImages(limit: Int, offset: Int): [Image]
+    allImages(limit: Int, offset: Int): [TripImage]
   `;
   config.addSchemaTypesAndEndpoints(types, queryEndpoints);
 }
