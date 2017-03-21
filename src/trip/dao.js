@@ -42,8 +42,16 @@ class Dao extends CrudDao {
   }
 
   related(trip) {
-    return this.db.select('*').from(this.tableName).where({area_id: trip.areaId()}).limit(3).orderBy('created_at', 'desc').then(rows => {
-      return rows.map(row => new Trip(row, this.getDaos()))
+    return this.db.select('*').from(this.tableName).where({area_id: trip.areaId()}).whereNot({id: trip.id()}).limit(3).orderBy('created_at', 'desc').then(rows => {
+      var trips = rows.map(row => new Trip(row, this.getDaos()))
+
+      if (trips.length < 3) {
+        return this.db.select('*').from(this.tableName).whereNot({id: trip.id()}).limit(3).orderBy('created_at').then(rows => {
+          return rows.map(row => new Trip(row, this.getDaos()));
+        })
+      }
+
+      return trips;
     })
   }
 
