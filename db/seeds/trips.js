@@ -167,6 +167,7 @@ function createTrip(areaId, knex) {
     description: getMarkdown(),
     directions: faker.lorem.paragraph(),
     permit: faker.lorem.paragraph(),
+    permit_path: faker.helpers.randomize(['/zion', '/canyonlands', null]),
     lat: faker.random.number({
       min: 38,
       max: 41,

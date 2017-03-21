@@ -7,6 +7,11 @@ class Dao extends CrudDao {
     super({db, daos, model: Trip, tableName: "trips"});
   }
 
+  getDaos() {
+    const daos = Object.assign({}, this.daos, {tripDao: this});
+    return daos;
+  }
+
   totalCount(opts) {
     const builder = new Builder(this.db);
 
@@ -32,7 +37,13 @@ class Dao extends CrudDao {
         return null;
       }
 
-      return new Trip(rows[0], this.daos);
+      return new Trip(rows[0], this.getDaos());
+    })
+  }
+
+  related(trip) {
+    return this.db.select('*').from(this.tableName).where({area_id: trip.areaId()}).limit(3).orderBy('created_at', 'desc').then(rows => {
+      return rows.map(row => new Trip(row, this.getDaos()))
     })
   }
 
@@ -54,7 +65,7 @@ class Dao extends CrudDao {
     }
 
     return builder.build().then(rows => {
-      return rows.map((row) => {return new Trip(row, this.daos)});
+      return rows.map((row) => {return new Trip(row, this.getDaos())});
     })
   }
 }

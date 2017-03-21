@@ -106,6 +106,7 @@ $$ language 'plpgsql';`),
         table.float('lng');
         table.text('season');
         table.text('directions');
+        table.string('permit_path');
         table.unique('slug');
         table.index(['lat', 'lng']);
         table.index('area_id');

@@ -41,6 +41,7 @@ function initSchema(config) {
       reports: [TripReport]!
       slug: ID!
       permit: String
+      permitPath: String
       mapUrl: String
       name: String!
       tagline: String
@@ -51,8 +52,29 @@ function initSchema(config) {
       travelTime(lat: Float!, lng: Float!): Int
       season: String
       directions: String
+      relatedTrips: [Trip]!
       createdAt: String!
       updatedAt: String!
+    }
+
+    input TripInput {
+      areaId: ID!
+      slug: ID!
+      permit: String
+      mapUrl: String
+      name: String!
+      tagline: String
+      description: String!
+      distance: Int
+      lat: Float
+      lng: Float
+      season: String
+      directions: String
+    }
+
+    type TripResponse {
+      node: Trip
+      errors: [ResponseError!]!
     }
 
     input BoundsInput {
@@ -73,7 +95,12 @@ function initSchema(config) {
     trip(id: ID!): Trip
   `;
 
-  config.addSchemaTypesAndEndpoints(types, queryEndpoints);
+  const mutationEndpoints = `
+    createTrip(input: TripInput): TripResponse
+    updateTrip(id: ID!, input: TripInput): TripResponse
+  `
+
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
 }
 
 function initEndpoints(dao, connectionDao, config) {
@@ -83,6 +110,12 @@ function initEndpoints(dao, connectionDao, config) {
     },
     trip: ({id}) => {
       return dao.findById(id);
+    },
+    createTrip: ({input}) => {
+      return dao.create(input);
+    },
+    updateTrip: ({id, input}) => {
+      return dao.update(id, input);
     }
   };
 

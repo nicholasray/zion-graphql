@@ -4,7 +4,7 @@ const TravelDao = require('../travel/dao');
 const Model = require('../lib/framework/model');
 
 class Trip extends Model {
-  constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }) {
+  constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao, tripDao }) {
     super(data);
     this.imageDao = imageDao;
     this.travelDao = travelDao;
@@ -12,6 +12,11 @@ class Trip extends Model {
     this.areaDao = areaDao;
     this.reportDao = reportDao;
     this.itineraryDao = itineraryDao;
+    this.tripDao = tripDao;
+  }
+
+  areaId() {
+    return this.data.area_id;
   }
 
   area() {
@@ -40,6 +45,10 @@ class Trip extends Model {
 
   permit() {
     return this.data.permit;
+  }
+
+  permitPath() {
+    return this.data.permit_path;
   }
 
   season() {
@@ -91,6 +100,10 @@ class Trip extends Model {
 
   distance() {
     return this.data.distance;
+  }
+
+  relatedTrips() {
+    return this.tripDao.related(this);
   }
 }
 
