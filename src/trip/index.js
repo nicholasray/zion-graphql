@@ -58,13 +58,13 @@ function initSchema(config) {
     }
 
     input TripInput {
-      areaId: ID!
-      slug: ID!
+      areaId: ID
+      slug: ID
       permit: String
       mapUrl: String
-      name: String!
+      name: String
       tagline: String
-      description: String!
+      description: String
       distance: Int
       lat: Float
       lng: Float

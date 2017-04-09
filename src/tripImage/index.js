@@ -19,22 +19,43 @@ function initSchema(config) {
       rank: Int
       filename: String!
       url: ImageUrl!
+      title: String
+      alt: String
       caption: String
       createdAt: String!
       updatedAt: String!
     }
+
+    input TripImageInput {
+      trip_id: ID!
+      image_id: ID!
+      rank: Int
+    }
+
+    type TripImageResponse {
+      node: TripImage
+      errors: [ResponseError!]!
+    }
   `;
 
-  const queryEndpoints = `
-    allImages(limit: Int, offset: Int): [TripImage]
-  `;
-  config.addSchemaTypesAndEndpoints(types, queryEndpoints);
+  const mutationEndpoints = `
+    createTripImage(input: TripImageInput): TripImageResponse
+    updateTripImage(id: ID!, input: TripImageInput): TripImageResponse
+  `
+
+  config.addSchemaTypesAndEndpoints(types, '', mutationEndpoints);
 }
 
 function initEndpoints(dao, config) {
   const endpoints = {
     allImages: ({limit, offset}) => {
       return dao.all({limit, offset});
+    },
+    createTripImage: ({input}) => {
+      return dao.create(input);
+    },
+    updateTripImage: ({id, input}) => {
+      return dao.update(id, input);
     }
   }
 

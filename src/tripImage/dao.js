@@ -1,19 +1,11 @@
-const Image = require('./model');
+const TripImage = require('./model');
 const DataLoader = require('dataloader');
-const Builder = require('../lib/sql/builder');
+const CrudDao = require('../lib/framework/crudDao');
 
-class Dao {
+class Dao extends CrudDao {
   constructor(db, batchLoader) {
-    this.db = db;
-    this.tableName = 'trip_images';
+    super({db, model: TripImage, tableName: 'trip_images'});
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
-    this.builder = new Builder(db);
-  }
-
-  all({limit, offset}) {
-    return this.builder.select({limit, offset, table: this.tableName}).orderBy('rank', 'asc').then((rows) => {
-      return rows.map((row) => {return new Image(row)});
-    })
   }
 
   withTripId(id) {
@@ -21,16 +13,18 @@ class Dao {
   }
 
   withTripIds(ids) {
-    return this.db.select(`${this.tableName}.*`).from(this.tableName).whereIn('trip_id', ids).orderBy('rank', 'asc').then(rows => {
+    return this.db.select(`${this.tableName}.*`, 'images.filename', 'images.alt', 'images.title', 'images.caption').from(this.tableName).innerJoin('images', `${this.tableName}.image_id`, 'images.id').whereIn('trip_id', ids).orderBy('rank', 'asc').then(rows => {
       const rowMap = {};
+
+      console.log(rows);
 
       rows.forEach(row => {
         if (row.trip_id in rowMap) {
-          rowMap[row.trip_id].push(new Image(row));
+          rowMap[row.trip_id].push(new TripImage(row));
           return;
         }
 
-        rowMap[row.trip_id] = [new Image(row)];
+        rowMap[row.trip_id] = [new TripImage(row)];
       })
 
       return ids.map(id => {

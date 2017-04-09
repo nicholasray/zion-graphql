@@ -189,17 +189,20 @@ $$ language 'plpgsql';`),
       return updatedAtTrigger(knex, 'campsites');
     }),
 
-    knex.schema.createTable('campsite_images', table => {
-      defaultColumns(table);
-      table.integer('campsite_id')
-        .references('id')
-        .inTable('campsites')
-        .notNullable()
-        .onDelete('CASCADE');
-      table.integer('rank')
-      table.string('filename');
-      table.string('caption');
-      table.index('campsite_id');
+    knex.schema.createTable('campsite_images', function(table) {
+        defaultColumns(table);
+        table.integer('campsite_id')
+          .references('id')
+          .inTable('campsites')
+          .notNullable()
+          .onDelete('CASCADE');
+        table.integer('image_id')
+          .references('id')
+          .inTable('images')
+          .notNullable()
+          .onDelete('CASCADE');
+        table.integer('rank');
+        table.unique(['campsite_id', 'image_id']);
     }).then(() => {
       return updatedAtTrigger(knex, 'campsite_images');
     }),
@@ -217,8 +220,20 @@ $$ language 'plpgsql';`),
         .notNullable()
         .onDelete('CASCADE');
       table.index('trip_id');
+      table.unique(['campsite_id', 'trip_id']);
     }).then(() => {
       return updatedAtTrigger(knex, 'trip_campsites');
+    }),
+
+    knex.schema.createTable('images', function(table) {
+        defaultColumns(table);
+        table.string('filename');
+        table.string('title');
+        table.string('caption');
+        table.string('alt');
+        table.index('filename');
+    }).then(() => {
+      return updatedAtTrigger(knex, 'images');
     }),
 
     knex.schema.createTable('trip_images', function(table) {
@@ -228,12 +243,15 @@ $$ language 'plpgsql';`),
           .inTable('trips')
           .notNullable()
           .onDelete('CASCADE');
-        table.integer('rank')
-        table.string('filename');
-        table.string('caption');
-        table.index(['trip_id']);
+        table.integer('image_id')
+          .references('id')
+          .inTable('images')
+          .notNullable()
+          .onDelete('CASCADE');
+        table.integer('rank');
+        table.unique(['trip_id', 'image_id']);
     }).then(() => {
-      updatedAtTrigger(knex, 'trip_images');
+      return updatedAtTrigger(knex, 'trip_images');
     }),
   ]);
 };
@@ -247,6 +265,7 @@ exports.down = function(knex, Promise) {
       knex.schema.dropTableIfExists('trip_campsites'),
       knex.schema.dropTableIfExists('campsites'),
       knex.schema.dropTableIfExists('trip_reports'),
+      knex.schema.dropTableIfExists('images'),
       knex.schema.dropTableIfExists('users'),
       knex.schema.dropTableIfExists('trips'),
       knex.schema.dropTableIfExists('areas')

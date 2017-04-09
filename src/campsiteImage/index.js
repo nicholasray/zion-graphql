@@ -17,6 +17,8 @@ function initSchema(config) {
       rank: Int
       filename: String!
       url: ImageUrl!
+      title: String
+      alt: String
       caption: String
       createdAt: String!
       updatedAt: String!

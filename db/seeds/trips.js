@@ -181,7 +181,6 @@ function createTrip(areaId, knex) {
   });
 }
 
-
 function createTripCampsite(tripId, campsiteId, knex) {
   return knex('trip_campsites').returning('id').insert({
     trip_id: tripId[0],
@@ -190,11 +189,12 @@ function createTripCampsite(tripId, campsiteId, knex) {
 }
 
 function createTripImage(tripId, rank, knex) {
-  return knex('trip_images').insert({
-    trip_id: tripId[0],
-    rank,
-    filename: getFilenames()[0],
-    caption: faker.lorem.sentence()
+  return createImage(knex).then(imageId => {
+    return knex('trip_images').insert({
+      trip_id: tripId[0],
+      image_id: imageId[0],
+      rank,
+    });
   });
 }
 
@@ -217,12 +217,13 @@ function createItineraryPlans(day, itineraryId, campsiteId, knex) {
 }
 
 function createCampsiteImage(campsiteId, rank, knex) {
-  return knex('campsite_images').insert({
-    campsite_id: campsiteId[0],
-    filename: getFilenames()[0],
-    rank,
-    caption: faker.lorem.sentence()
-  });
+  createImage(knex).then(imageId => {
+    return knex('campsite_images').insert({
+      campsite_id: campsiteId[0],
+      image_id: imageId[0],
+      rank
+    });
+  })
 }
 
 function createCampsiteWithImages(tripId, rank, knex) {
@@ -232,6 +233,15 @@ function createCampsiteWithImages(tripId, rank, knex) {
     promises.push(createTripCampsite(tripId, campsiteId, knex));
 
     return Promise.all(promises);
+  });
+}
+
+function createImage(knex) {
+  return knex('images').returning('id').insert({
+    filename: getFilenames()[0],
+    title: faker.lorem.word(),
+    caption: faker.lorem.word(),
+    alt: faker.lorem.words(2),
   });
 }
 

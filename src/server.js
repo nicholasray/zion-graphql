@@ -28,7 +28,8 @@ const gqlConfig = new GqlConfig();
 
 const ImageUrl = require('./imageUrl');
 const Travel = require('./travel');
-const Image = require('./tripImage');
+const TripImage = require('./tripImage');
+const Image = require('./image');
 const CampsiteImage = require('./campsiteImage');
 const Campsite = require('./campsite');
 const Itinerary = require('./itinerary');
@@ -40,6 +41,7 @@ const Trip = require('./trip');
 
 ImageUrl.init(gqlConfig);
 const { dao: travelDao } = Travel.init();
+const { dao: tripImageDao } = TripImage.init(knex, gqlConfig);
 const { dao: imageDao } = Image.init(knex, gqlConfig);
 const { dao: campsiteImageDao } = CampsiteImage.init(knex, gqlConfig);
 const { dao: campsiteDao } = Campsite.init(knex, campsiteImageDao, gqlConfig);
@@ -48,7 +50,7 @@ const { dao: itineraryDao } = Itinerary.init(knex, itineraryPlanDao, gqlConfig);
 const { dao: areaDao } = Area.init(knex, gqlConfig);
 const { dao: userDao } = User.init(knex, {}, gqlConfig);
 const { dao: reportDao } = TripReport.init(knex, { userDao },  gqlConfig);
-Trip.init(knex, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
+Trip.init(knex, { imageDao: tripImageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
 
 const Newsletter = require('./newsletter').init(userDao, channel);
 

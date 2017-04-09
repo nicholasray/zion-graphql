@@ -76,7 +76,9 @@ class CrudDao {
         throw new Error('no record exists with id ' + id);
       }
 
-      return new this.model(rows[0], this.daos);
+      const node = new this.model(rows[0], this.daos);
+
+      return new Response(node, this.daos);
     })
   }
 
