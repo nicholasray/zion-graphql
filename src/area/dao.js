@@ -9,6 +9,10 @@ class Dao {
     this.findByLoader = findByLoader || new DataLoader(keys => this.withIds(keys));
   }
 
+  resetCache() {
+    this.findByLoader.clearAll();
+  }
+
   findById(id) {
     return this.findByLoader.load(id);
   }

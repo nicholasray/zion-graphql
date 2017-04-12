@@ -10,6 +10,10 @@ class Dao {
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
   }
 
+  resetCache() {
+    this.loader.clearAll();
+  }
+
   withTripId(id) {
     return this.loader.load(id);
   }

@@ -11,6 +11,10 @@ class Dao {
     this.builder = new Builder(db);
   }
 
+  resetCache() {
+    this.loader.clearAll();
+  }
+
   withItineraryId(id) {
     return this.loader.load(id);
   }

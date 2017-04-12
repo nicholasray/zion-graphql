@@ -8,6 +8,33 @@ class Dao extends CrudDao {
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
   }
 
+  resetCache() {
+    super.resetCache();
+    this.loader.clearAll();
+  }
+
+  create(input) {
+    if (input.rank != null) {
+      return super.create(input);
+    }
+
+    return this.db.transaction(trx => {
+      return this.db.select(`${this.tableName}.*`).from(this.tableName).limit(1).orderBy('rank', 'desc').where({trip_id: input.trip_id}).whereNotNull('rank').transacting(trx).then(rows => {
+        console.log('rows', rows);
+        input = Object.assign({}, input, {rank: 1})
+
+        if (rows.length > 0) {
+          input = Object.assign({}, input, {rank: rows[0].rank + 1})
+        }
+
+        return super.create(input, trx);
+      })
+      .then(trx.commit)
+      .catch(trx.rollback)
+    })
+
+  }
+
   withTripId(id) {
     return this.loader.load(id);
   }

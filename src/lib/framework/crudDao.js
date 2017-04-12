@@ -12,6 +12,10 @@ class CrudDao {
     this.afterSaves = [];
   }
 
+  resetCache() {
+    this.findByLoader.clearAll();
+  }
+
   addAfterSave(afterSave) {
     this.afterSaves.push(afterSave);
   }
@@ -58,8 +62,14 @@ class CrudDao {
     })
   }
 
-  create(input) {
-    return this.db.insert(this.convertInput(input), '*').from(this.tableName).then(rows => {
+  create(input, trx = null) {
+    let q = this.db.insert(this.convertInput(input), '*').from(this.tableName);
+
+    if (trx != null) {
+      q.transacting(trx);
+    }
+
+    return q.then(rows => {
       const node = new this.model(rows[0], this.daos);
 
       this.afterSaves.map(afterSave => {

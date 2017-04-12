@@ -2,13 +2,8 @@ const SchemaBuilder = require('./schemaBuilder');
 
 class Config {
   constructor() {
-    this.loaders = {};
     this.endpoints = {};
     this.schemaBuilder = new SchemaBuilder();
-  }
-
-  getLoaders() {
-    return this.loaders;
   }
 
   getEndpoints() {
@@ -17,10 +12,6 @@ class Config {
 
   getSchema() {
     return this.schemaBuilder.build();
-  }
-
-  addLoaders(loader) {
-    this.loaders = Object.assign({}, this.loaders, loader);
   }
 
   addEndpoints(endpoints) {

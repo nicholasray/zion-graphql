@@ -21,6 +21,10 @@ class Dao {
     })
   }
 
+  resetCache() {
+    this.loader.clearAll();
+  }
+
   all({origin, destinations}) {
     return this.client.calculateTravels({
       origin,

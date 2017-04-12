@@ -12,6 +12,11 @@ class Dao {
     this.campsiteImageDao = campsiteImageDao;
   }
 
+  resetCache() {
+    this.loader.clearAll();
+    this.findByLoader.clearAll();
+  }
+
   findById(id) {
     return this.findByLoader.load(id);
   }

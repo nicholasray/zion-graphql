@@ -50,7 +50,9 @@ const { dao: itineraryDao } = Itinerary.init(knex, itineraryPlanDao, gqlConfig);
 const { dao: areaDao } = Area.init(knex, gqlConfig);
 const { dao: userDao } = User.init(knex, {}, gqlConfig);
 const { dao: reportDao } = TripReport.init(knex, { userDao },  gqlConfig);
-Trip.init(knex, { imageDao: tripImageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
+const { dao: tripDao } = Trip.init(knex, { imageDao: tripImageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
+
+const daos = [travelDao, tripImageDao, imageDao, campsiteImageDao, campsiteDao, itineraryPlanDao, itineraryDao, areaDao, userDao, reportDao, tripDao];
 
 const Newsletter = require('./newsletter').init(userDao, channel);
 
@@ -60,13 +62,16 @@ const schema = buildSchema(gqlConfig.getSchema());
 const app = express();
 app.use(cors());
 app.set('port', (process.env.PORT || 8080));
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', (req, res, next) => {
+  daos.forEach(dao => {
+    dao.resetCache();
+  })
+
+  next();
+}, graphqlHTTP({
   schema: schema,
   rootValue: gqlConfig.getEndpoints(),
-  graphiql: true,
-  context: {
-    dataLoaders: gqlConfig.getLoaders(),
-  }
+  graphiql: true
 }));
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
