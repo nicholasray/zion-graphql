@@ -27,8 +27,8 @@ function initSchema(config) {
     }
 
     input TripImageInput {
-      trip_id: ID!
-      image_id: ID!
+      trip_id: ID
+      image_id: ID
       rank: Int
     }
 
@@ -38,18 +38,22 @@ function initSchema(config) {
     }
   `;
 
+  const queryEndpoints = `
+    tripImagesWithTripId(id: ID!): [TripImage]!
+  `;
+
   const mutationEndpoints = `
     createTripImage(input: TripImageInput): TripImageResponse
     updateTripImage(id: ID!, input: TripImageInput): TripImageResponse
   `
 
-  config.addSchemaTypesAndEndpoints(types, '', mutationEndpoints);
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
 }
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    allImages: ({limit, offset}) => {
-      return dao.all({limit, offset});
+    tripImagesWithTripId: ({id}) => {
+      return dao.withTripId(id);
     },
     createTripImage: ({input}) => {
       return dao.create(input);

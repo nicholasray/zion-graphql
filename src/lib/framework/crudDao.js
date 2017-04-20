@@ -80,8 +80,14 @@ class CrudDao {
     });
   }
 
-  update(id, input) {
-    return this.db.update(this.convertInput(input), '*').from(this.tableName).where('id', id).then(rows => {
+  update(id, input, trx = null) {
+    let q = this.db.update(this.convertInput(input), '*').from(this.tableName).where('id', id)
+
+    if (trx != null) {
+      q.transacting(trx);
+    }
+
+    return q.then(rows => {
       if (rows.length == 0) {
         throw new Error('no record exists with id ' + id);
       }

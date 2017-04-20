@@ -35,6 +35,30 @@ class Dao extends CrudDao {
 
   }
 
+  update(id, input) {
+    return this.db.transaction(trx => {
+      return this.db.select(`${this.tableName}.*`).from(this.tableName).where({id}).transacting(trx).then(rows => {
+        const tripId = rows[0].trip_id
+
+        if (input.rank > rows[0].rank) {
+          // move lower on list
+          return this.db.from(this.tableName).where({trip_id: tripId}).andWhere('rank', '<=', input.rank).andWhere('rank', '>', rows[0].rank).decrement('rank', 1).transacting(trx).then(res => {
+            return super.update(id, input, trx);
+          })
+        }
+
+        if (input.rank < rows[0].rank) {
+          // move higher on list
+          return this.db.from(this.tableName).where({trip_id: tripId}).andWhere('rank', '>=', input.rank).andWhere('rank', '<', rows[0].rank).increment('rank', 1).transacting(trx).then(res => {
+            return super.update(id, input, trx);
+          })
+        }
+
+        return super.update(id, input, trx);
+      })
+    })
+  }
+
   withTripId(id) {
     return this.loader.load(id);
   }
