@@ -36,7 +36,7 @@ function initSchema(config) {
     }
 
     input ImageInput {
-      filename: String!
+      filename: String
       caption: String
       title: String
       alt: String
