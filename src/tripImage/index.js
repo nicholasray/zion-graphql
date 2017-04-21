@@ -45,6 +45,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createTripImage(input: TripImageInput): TripImageResponse
     updateTripImage(id: ID!, input: TripImageInput): TripImageResponse
+    deleteTripImage(id: ID!): Int!
   `
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
@@ -60,6 +61,9 @@ function initEndpoints(dao, config) {
     },
     updateTripImage: ({id, input}) => {
       return dao.update(id, input);
+    },
+    deleteTripImage: ({id}) => {
+      return dao.delete(id);
     }
   }
 
