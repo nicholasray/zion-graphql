@@ -32,6 +32,7 @@ const TripImage = require('./tripImage');
 const Image = require('./image');
 const CampsiteImage = require('./campsiteImage');
 const Campsite = require('./campsite');
+const TripCampsite = require('./tripCampsite');
 const Itinerary = require('./itinerary');
 const ItineraryPlan = require('./itineraryPlan');
 const Area = require('./area');
@@ -45,14 +46,15 @@ const { dao: tripImageDao } = TripImage.init(knex, gqlConfig);
 const { dao: imageDao } = Image.init(knex, gqlConfig);
 const { dao: campsiteImageDao } = CampsiteImage.init(knex, gqlConfig);
 const { dao: campsiteDao } = Campsite.init(knex, campsiteImageDao, gqlConfig);
+const { dao: tripCampsiteDao } = TripCampsite.init(knex, {campsiteImageDao}, gqlConfig);
 const { dao: itineraryPlanDao } = ItineraryPlan.init(knex, campsiteDao, gqlConfig);
 const { dao: itineraryDao } = Itinerary.init(knex, itineraryPlanDao, gqlConfig);
 const { dao: areaDao } = Area.init(knex, gqlConfig);
 const { dao: userDao } = User.init(knex, {}, gqlConfig);
 const { dao: reportDao } = TripReport.init(knex, { userDao },  gqlConfig);
-const { dao: tripDao } = Trip.init(knex, { imageDao: tripImageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
+const { dao: tripDao } = Trip.init(knex, { imageDao: tripImageDao, travelDao, tripCampsiteDao, itineraryDao, areaDao, reportDao }, gqlConfig);
 
-const daos = [travelDao, tripImageDao, imageDao, campsiteImageDao, campsiteDao, itineraryPlanDao, itineraryDao, areaDao, userDao, reportDao, tripDao];
+const daos = [travelDao, tripImageDao, imageDao, campsiteImageDao, campsiteDao, itineraryPlanDao, itineraryDao, areaDao, userDao, reportDao, tripCampsiteDao, tripDao];
 
 const Newsletter = require('./newsletter').init(userDao, channel);
 

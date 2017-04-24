@@ -1,7 +1,7 @@
 const Model = require('../lib/framework/model');
 
 class Campsite extends Model {
-  constructor(data, campsiteImageDao) {
+  constructor(data, {campsiteImageDao}) {
     super(data);
     this.campsiteImageDao = campsiteImageDao;
   }

@@ -4,11 +4,11 @@ const TravelDao = require('../travel/dao');
 const Model = require('../lib/framework/model');
 
 class Trip extends Model {
-  constructor(data, { imageDao, travelDao, campsiteDao, itineraryDao, areaDao, reportDao, tripDao }) {
+  constructor(data, { imageDao, travelDao, tripCampsiteDao, itineraryDao, areaDao, reportDao, tripDao }) {
     super(data);
     this.imageDao = imageDao;
     this.travelDao = travelDao;
-    this.campsiteDao = campsiteDao;
+    this.campsiteDao = tripCampsiteDao;
     this.areaDao = areaDao;
     this.reportDao = reportDao;
     this.itineraryDao = itineraryDao;

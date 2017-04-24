@@ -26,6 +26,13 @@ function initSchema(config) {
       updatedAt: String!
     }
 
+    type TripImageWrite {
+      id: ID!
+      tripId: ID!
+      imageId: ID!
+      rank: Int
+    }
+
     input TripImageInput {
       trip_id: ID
       image_id: ID
@@ -33,7 +40,7 @@ function initSchema(config) {
     }
 
     type TripImageResponse {
-      node: TripImage
+      node: TripImageWrite
       errors: [ResponseError!]!
     }
   `;

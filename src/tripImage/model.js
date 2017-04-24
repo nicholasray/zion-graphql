@@ -5,6 +5,10 @@ class TripImage extends Image {
     return this.data.trip_id;
   }
 
+  imageId() {
+    return this.data.image_id;
+  }
+
   rank() {
     return this.data.rank;
   }
