@@ -34,8 +34,8 @@ function initSchema(config) {
     }
 
     input TripImageInput {
-      trip_id: ID
-      image_id: ID
+      tripId: ID
+      imageId: ID
       rank: Int
     }
 

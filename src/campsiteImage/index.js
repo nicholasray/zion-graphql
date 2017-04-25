@@ -2,6 +2,7 @@ const Dao = require('./dao')
 
 function init(db, config) {
   const dao = new Dao(db);
+  initEndpoints(dao, config)
   initSchema(config);
 
   return {
@@ -23,9 +24,49 @@ function initSchema(config) {
       createdAt: String!
       updatedAt: String!
     }
+
+    type CampsiteImageWrite {
+      id: ID!
+      campsiteId: ID!
+      imageId: ID!
+      rank: Int
+    }
+
+    input CampsiteImageInput {
+      campsiteId: ID
+      imageId: ID
+      rank: Int
+    }
+
+    type CampsiteImageResponse {
+      node: CampsiteImageWrite
+      errors: [ResponseError!]!
+    }
   `;
 
-  config.addSchemaTypesAndEndpoints(types, '');
+  const mutationEndpoints = `
+    createCampsiteImage(input: CampsiteImageInput): CampsiteImageResponse
+    updateCampsiteImage(id: ID!, input: CampsiteImageInput): CampsiteImageResponse
+    campsiteImage(id: ID!): Int!
+  `
+
+  config.addSchemaTypesAndEndpoints(types, '', mutationEndpoints);
+}
+
+function initEndpoints(dao, config) {
+  const endpoints = {
+    createCampsiteImage: ({input}) => {
+      return dao.create(input);
+    },
+    updateCampsiteImage: ({id, input}) => {
+      return dao.update(id, input);
+    },
+    deleteCampsiteImage: ({id}) => {
+      return dao.delete(id);
+    }
+  }
+
+  config.addEndpoints(endpoints);
 }
 
 module.exports = {

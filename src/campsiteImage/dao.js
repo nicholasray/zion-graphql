@@ -1,17 +1,30 @@
 const CampsiteImage = require('./model');
 const DataLoader = require('dataloader');
-const Builder = require('../lib/sql/builder');
+const CrudDao = require('../lib/framework/crudDao');
+const Rankable = require('../lib/framework/rankable');
 
-class Dao {
+class Dao extends CrudDao {
   constructor(db, batchLoader) {
-    this.db = db;
-    this.tableName = 'campsite_images';
+    super({db, model: CampsiteImage, tableName: 'campsite_images'})
     this.loader = batchLoader || new DataLoader(keys => this.withCampsiteIds(keys));
-    this.builder = new Builder(db);
+    this.rankable = new Rankable(db, this.tableName);
   }
 
   resetCache() {
+    super.resetCache();
     this.loader.clearAll();
+  }
+
+  create(input) {
+    return this.rankable.create(this.convertInput(input), 'campsite_id', super.create.bind(this));
+  }
+
+  update(id, input) {
+    return this.rankable.update(id, this.convertInput(input), 'campsite_id', super.update.bind(this));
+  }
+
+  delete(id) {
+    return this.rankable.delete(id, 'campsite_id', super.delete.bind(this));
   }
 
   withCampsiteId(id) {
