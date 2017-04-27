@@ -99,7 +99,9 @@ class CrudDao {
   }
 
   delete(id) {
-    return this.db.from(this.tableName).where('id', id).del();
+    return this.db.from(this.tableName).where('id', id).del().then(res => {
+      return id;
+    });
   }
 
   convertInput(input) {

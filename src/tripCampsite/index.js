@@ -30,9 +30,9 @@ function initSchema(config) {
       campsiteId: ID!
     }
 
-    type TripCampsiteInput {
-      trip_id: ID
-      image_id: ID
+    input TripCampsiteInput {
+      tripId: ID
+      campsiteId: ID
     }
 
     type TripCampsiteResponse {
@@ -41,17 +41,28 @@ function initSchema(config) {
     }
   `;
 
+  const mutationEndpoints = `
+    createTripCampsite(input: TripCampsiteInput): TripCampsiteResponse
+    deleteTripCampsite(id: ID!): ID!
+  `
+
   const queryEndpoints = `
     campsitesWithTripId(id: ID!): [TripCampsite]!
   `
 
-  config.addSchemaTypesAndEndpoints(types, queryEndpoints);
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
 }
 
 function initEndpoints(dao, config) {
   const endpoints = {
+    createTripCampsite: ({input}) => {
+      return dao.create(input);
+    },
     campsitesWithTripId: ({id}) => {
       return dao.withTripId(id);
+    },
+    deleteTripCampsite: ({id}) => {
+      return dao.delete(id);
     }
   }
 

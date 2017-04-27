@@ -47,6 +47,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createCampsiteImage(input: CampsiteImageInput): CampsiteImageResponse
     updateCampsiteImage(id: ID!, input: CampsiteImageInput): CampsiteImageResponse
+    deleteCampsiteImage(id: ID!): ID!
     campsiteImage(id: ID!): Int!
   `
 

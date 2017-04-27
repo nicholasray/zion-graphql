@@ -52,7 +52,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createTripImage(input: TripImageInput): TripImageResponse
     updateTripImage(id: ID!, input: TripImageInput): TripImageResponse
-    deleteTripImage(id: ID!): Int!
+    deleteTripImage(id: ID!): ID!
   `
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);

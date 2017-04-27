@@ -50,13 +50,13 @@ class Rankable {
     })
   }
 
-  delete(id, parentColumn) {
+  delete(id, parentColumn, deleteFunc) {
     return this.db.transaction(trx => {
       return this.db.select(`${this.tableName}.*`).from(this.tableName).where({id}).transacting(trx).then(rows => {
         const parentId = rows[0][parentColumn]
 
         return this.db.from(this.tableName).where({[parentColumn]: parentId}).andWhere('rank', '>', rows[0].rank).decrement('rank', 1).transacting(trx).then(res => {
-          return this.baseDao.delete(id);
+          return deleteFunc(id);
         })
       })
     })
