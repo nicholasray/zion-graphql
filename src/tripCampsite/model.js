@@ -8,6 +8,10 @@ class TripCampsite extends Campsite {
   campsiteId() {
     return this.data.campsite_id;
   }
+
+  images() {
+    return this.campsiteImageDao.withCampsiteId(this.campsiteId());
+  }
 }
 
 module.exports = TripCampsite;
