@@ -16,6 +16,7 @@ function initSchema(config) {
     type TripImage {
       id: ID!
       tripId: ID!
+      imageId: ID!
       rank: Int
       filename: String!
       url: ImageUrl!

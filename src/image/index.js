@@ -55,6 +55,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createImage(input: ImageInput): ImageResponse
     updateImage(id: ID!, input: ImageInput): ImageResponse
+    deleteImage(id: ID!): ID!
   `;
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
@@ -73,6 +74,9 @@ function initEndpoints(dao, connectionDao, config) {
     },
     updateImage: ({id, input}) => {
       return dao.update(id, input);
+    },
+    deleteImage: ({id}) => {
+      return dao.delete(id);
     }
   };
 

@@ -15,6 +15,7 @@ function initSchema(config) {
     type CampsiteImage {
       id: ID!
       campsiteId: ID!
+      imageId: ID!
       rank: Int
       filename: String!
       url: ImageUrl!
