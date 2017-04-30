@@ -1,8 +1,11 @@
-const Itinerary = require('./model');
 const Dao = require('./dao')
+const ConnectionDao = require('../lib/framework/connectionDao');
 
-function init(db, itineraryPlanDao, config) {
-  const dao = new Dao(db, itineraryPlanDao);
+function init(db, daos, config) {
+  const dao = new Dao(db, daos);
+  const connectionDao = new ConnectionDao(dao);
+
+  initEndpoints(dao, connectionDao, config);
   initSchema(config);
 
   return {
@@ -12,6 +15,15 @@ function init(db, itineraryPlanDao, config) {
 
 function initSchema(config) {
   const types = `
+    type ItineraryConnection {
+      totalCount: Int!
+      edges: [ItineraryEdge]!
+    }
+
+    type ItineraryEdge {
+      node: Itinerary
+    }
+
     type Itinerary {
       id: ID!
       tripId: ID!
@@ -23,7 +35,21 @@ function initSchema(config) {
     }
   `;
 
-  config.addSchemaTypesAndEndpoints(types, '');
+  const queryEndpoints = `
+    allItineraries(limit: Int, offset: Int): ItineraryConnection!
+  `
+
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints, '');
+}
+
+function initEndpoints(dao, connectionDao, config) {
+  const endpoints = {
+    allItineraries: (args, ctx) => {
+      return connectionDao.all(args);
+    }
+  };
+
+  config.addEndpoints(endpoints);
 }
 
 module.exports = {

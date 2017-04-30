@@ -1,17 +1,15 @@
 const Itinerary = require('./model');
 const DataLoader = require('dataloader');
-const Builder = require('../lib/sql/builder');
+const CrudDao = require('../lib/framework/crudDao');
 
-class Dao {
-  constructor(db, itineraryPlanDao, batchLoader) {
-    this.db = db;
-    this.tableName = 'itineraries';
-    this.itineraryPlanDao = itineraryPlanDao;
+class Dao extends CrudDao {
+  constructor(db, daos, batchLoader) {
+    super({db, daos, model: Itinerary, tableName: 'itineraries'});
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
-    this.builder = new Builder(db);
   }
 
   resetCache() {
+    super.resetCache();
     this.loader.clearAll();
   }
 
@@ -25,11 +23,11 @@ class Dao {
 
       rows.forEach(row => {
         if (row.trip_id in rowMap) {
-          rowMap[row.trip_id].push(new Itinerary(row, this.itineraryPlanDao));
+          rowMap[row.trip_id].push(new Itinerary(row, this.daos));
           return;
         }
 
-        rowMap[row.trip_id] = [new Itinerary(row, this.itineraryPlanDao)];
+        rowMap[row.trip_id] = [new Itinerary(row, this.daos)];
       });
 
 

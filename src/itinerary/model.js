@@ -1,7 +1,7 @@
 const Model = require('../lib/framework/model');
 
 class Itinerary extends Model {
-  constructor(data, itineraryPlanDao) {
+  constructor(data, {itineraryPlanDao}) {
     super(data);
     this.itineraryPlanDao = itineraryPlanDao;
   }
