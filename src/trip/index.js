@@ -36,7 +36,7 @@ function initSchema(config) {
       id: ID!
       area: Area!
       images:[TripImage]!
-      campsites: [Campsite]!
+      campsites: [TripCampsite]!
       itineraries: [Itinerary]!
       reports: [TripReport]!
       slug: ID!
