@@ -33,19 +33,49 @@ function initSchema(config) {
       createdAt: String!
       updatedAt: String!
     }
+
+    input ItineraryInput {
+      tripId: ID
+      start: String
+      end: String
+    }
+
+    type ItineraryResponse {
+      node: Itinerary
+      errors: [ResponseError!]!
+    }
   `;
 
   const queryEndpoints = `
     allItineraries(limit: Int, offset: Int): ItineraryConnection!
+    itinerariesWithTripId(id: ID!): [Itinerary]!
   `
 
-  config.addSchemaTypesAndEndpoints(types, queryEndpoints, '');
+  const mutationEndpoints = `
+    createItinerary(input: ItineraryInput): ItineraryResponse
+    updateItinerary(id: ID!, input: ItineraryInput): ItineraryResponse
+    deleteItinerary(id: ID!): ID!
+  `
+
+  config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
 }
 
 function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allItineraries: (args, ctx) => {
       return connectionDao.all(args);
+    },
+    itinerariesWithTripId: ({id}) => {
+      return dao.withTripId(id);
+    },
+    createItinerary: ({input}) => {
+      return dao.create(input);
+    },
+    updateItinerary: ({id, input}) => {
+      return dao.update(id, input);
+    },
+    deleteItinerary: ({id}) => {
+      return dao.delete(id);
     }
   };
 
