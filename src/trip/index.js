@@ -52,6 +52,7 @@ function initSchema(config) {
       travelTime(lat: Float!, lng: Float!): Int
       season: String
       directions: String
+      isPublished: Boolean
       relatedTrips: [Trip]!
       createdAt: String!
       updatedAt: String!
@@ -70,6 +71,7 @@ function initSchema(config) {
       lng: Float
       season: String
       directions: String
+      isPublished: Boolean
     }
 
     type TripResponse {

@@ -23,6 +23,10 @@ class Trip extends Model {
     return this.areaDao.findById(this.data.area_id);
   }
 
+  area() {
+    return this.areaDao.findById(this.data.area_id);
+  }
+
   images() {
     return this.imageDao.withTripId(this.id());
   }
@@ -37,6 +41,10 @@ class Trip extends Model {
 
   reports() {
     return this.reportDao.withTripId(this.id());
+  }
+
+  isPublished() {
+    return this.data.is_published;
   }
 
   slug() {

@@ -107,6 +107,9 @@ $$ language 'plpgsql';`),
         table.text('season');
         table.text('directions');
         table.string('permit_path');
+        table.boolean('is_published')
+          .notNullable()
+          .defaultTo(false);
         table.unique('slug');
         table.index(['lat', 'lng']);
         table.index('area_id');
@@ -169,7 +172,6 @@ $$ language 'plpgsql';`),
       table.integer('campsite_id')
         .references('id')
         .inTable('campsites')
-        .notNullable()
         .onDelete('CASCADE');
       table.integer('day');
       table.float('distance');

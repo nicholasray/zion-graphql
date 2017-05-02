@@ -22,9 +22,9 @@ exports.seed = function(knex, Promise) {
             promises.push(createTripImage(tripId, 1, knex));
             promises.push(createTripImage(tripId, 2, knex));
             promises.push(createCampsiteWithImages(tripId, 1, knex));
-            promises.push(createCampsiteWithImages(tripId, 2, knex));
-            promises.push(createCampsiteWithImages(tripId, 3, knex));
-            promises.push(createCampsiteWithImages(tripId, 4, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, knex));
             promises.push(createCampsite(tripId, knex).then(campsiteId => {
                 let promises = [];
 
@@ -41,7 +41,7 @@ exports.seed = function(knex, Promise) {
                 }));
 
                 promises.push(createTripCampsite(tripId, campsiteId, knex));
-                promises.push(createCampsiteImage(campsiteId, 5, knex));
+                promises.push(createCampsiteImage(campsiteId, 1, knex));
 
                 return Promise.all(promises);
               })
@@ -177,7 +177,8 @@ function createTrip(areaId, knex) {
       min: -109,
       max: -112,
       precision: .0001
-    })
+    }),
+    is_published: true
   });
 }
 
