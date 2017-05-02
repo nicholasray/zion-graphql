@@ -1,16 +1,16 @@
 const Report = require('./model');
 const DataLoader = require('dataloader');
 const Builder = require('../lib/sql/builder');
+const CrudDao = require('../lib/framework/crudDao');
 
-class Dao {
+class Dao extends CrudDao {
   constructor(db, daos, batchLoader) {
-    this.db = db;
-    this.daos = daos;
-    this.tableName = 'trip_reports';
+    super({db, daos, model: Report, tableName: 'trip_reports'})
     this.loader = batchLoader || new DataLoader(keys => this.withTripIds(keys));
   }
 
   resetCache() {
+    super.resetCache();
     this.loader.clearAll();
   }
 

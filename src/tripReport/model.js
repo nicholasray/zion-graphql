@@ -6,6 +6,10 @@ class Report extends Model {
     this.userDao = userDao;
   }
 
+  tripId() {
+    return this.data.trip_id;
+  }
+
   user() {
     return this.userDao.findById(this.data.user_id);
   }
