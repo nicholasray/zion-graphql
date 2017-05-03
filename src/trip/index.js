@@ -100,6 +100,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createTrip(input: TripInput): TripResponse
     updateTrip(id: ID!, input: TripInput): TripResponse
+    deleteTrip(id: ID!): ID!
   `
 
   config.addSchemaTypesAndEndpoints(types, queryEndpoints, mutationEndpoints);
@@ -118,6 +119,9 @@ function initEndpoints(dao, connectionDao, config) {
     },
     updateTrip: ({id, input}) => {
       return dao.update(id, input);
+    },
+    deleteTrip: ({id}) => {
+      return dao.delete(id);
     }
   };
 
