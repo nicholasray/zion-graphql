@@ -95,17 +95,25 @@ $$ language 'plpgsql';`),
           .inTable('areas')
           .notNullable()
           .onDelete('CASCADE');
-        table.string('slug').notNullable();
+        table.string('slug')
+          .notNullable()
+          .defaultTo('');
         table.string('map_id');
-        table.string('name');
-        table.string('tagline');
+        table.string('name')
+          .defaultTo('');
+        table.string('tagline')
+          .defaultTo('');
         table.float('distance');
-        table.text('description');
-        table.text('permit');
+        table.text('description')
+          .defaultTo('');
+        table.text('permit')
+          .defaultTo('');
         table.float('lat');
         table.float('lng');
-        table.text('season');
-        table.text('directions');
+        table.text('season')
+          .defaultTo('');
+        table.text('directions')
+          .defaultTo('');
         table.string('permit_path');
         table.boolean('is_published')
           .notNullable()

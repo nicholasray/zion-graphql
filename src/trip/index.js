@@ -40,18 +40,18 @@ function initSchema(config) {
       itineraries: [Itinerary]!
       reports: [TripReport]!
       slug: ID!
-      permit: String
+      permit: String!
       permitPath: String
       mapUrl: String
       name: String!
-      tagline: String
+      tagline: String!
       description: String!
       distance: Int
       lat: Float
       lng: Float
       travelTime(lat: Float!, lng: Float!): Int
-      season: String
-      directions: String
+      season: String!
+      directions: String!
       isPublished: Boolean
       relatedTrips: [Trip]!
       createdAt: String!
