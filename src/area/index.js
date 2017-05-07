@@ -167,6 +167,7 @@ function initSchema(config) {
 
   const queryEndpoints = `
     allAreas(limit: Int, offset: Int): AreaConnection!
+    area(id: ID!): Area
   `
 
   const mutationEndpoints = `
@@ -182,6 +183,9 @@ function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allAreas: (args, ctx) => {
       return connectionDao.all(args);
+    },
+    area: ({id}) => {
+      return dao.findById(id);
     },
     createArea: ({input}) => {
       return dao.create(input);
