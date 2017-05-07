@@ -10,6 +10,10 @@ class Campsite extends Model {
     return this.campsiteImageDao.withCampsiteId(this.id());
   }
 
+  availabilityId() {
+    return this.data.availability_id;
+  }
+
   name() {
     return this.data.name;
   }

@@ -26,7 +26,7 @@ function initSchema(config) {
 
     type Area {
       id: ID!
-      name: String
+      name: String!
       lat: Float
       lng: Float
       janAvgHigh: Int

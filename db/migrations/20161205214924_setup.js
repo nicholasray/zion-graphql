@@ -19,8 +19,12 @@ END;
 $$ language 'plpgsql';`),
     knex.schema.createTable('areas', table => {
       defaultColumns(table);
-      table.string('slug').notNullable();
-      table.string('name');
+      table.string('slug')
+        .notNullable()
+        .defaultTo('');
+      table.string('name')
+        .notNullable()
+        .defaultTo('');
       table.float('lat');
       table.float('lng');
       table.float('jan_avg_high');
@@ -100,19 +104,25 @@ $$ language 'plpgsql';`),
           .defaultTo('');
         table.string('map_id');
         table.string('name')
+          .notNullable()
           .defaultTo('');
         table.string('tagline')
+          .notNullable()
           .defaultTo('');
         table.float('distance');
         table.text('description')
+          .notNullable()
           .defaultTo('');
         table.text('permit')
+          .notNullable()
           .defaultTo('');
         table.float('lat');
         table.float('lng');
         table.text('season')
+          .notNullable()
           .defaultTo('');
         table.text('directions')
+          .notNullable()
           .defaultTo('');
         table.string('permit_path');
         table.boolean('is_published')
@@ -137,7 +147,9 @@ $$ language 'plpgsql';`),
           .inTable('users')
           .notNullable()
           .onDelete('CASCADE');
-        table.text('description');
+        table.text('description')
+          .notNullable()
+          .defaultTo('');
         table.index('trip_id');
         table.index('user_id');
     }).then(() => {
@@ -163,8 +175,12 @@ $$ language 'plpgsql';`),
         .inTable('trips')
         .notNullable()
         .onDelete('CASCADE');
-      table.string('start');
+      table.string('start')
+        .notNullable()
+        .defaultTo('');
       table.string('end')
+        .notNullable()
+        .defaultTo('');
       table.index('trip_id');
     }).then(() => {
       return updatedAtTrigger(knex, 'itineraries');
@@ -192,7 +208,10 @@ $$ language 'plpgsql';`),
 
     knex.schema.createTable('campsites', table => {
       defaultColumns(table);
-      table.string('name');
+      table.string('availability_id')
+      table.string('name')
+        .notNullable()
+        .defaultTo('');
       table.float('lat');
       table.float('lng');
     }).then(() => {
@@ -237,10 +256,19 @@ $$ language 'plpgsql';`),
 
     knex.schema.createTable('images', function(table) {
         defaultColumns(table);
-        table.string('filename');
-        table.string('title');
-        table.string('caption');
-        table.string('alt');
+        table.string('filename')
+          .notNullable()
+          .defaultTo('');
+
+        table.string('title')
+          .notNullable()
+          .defaultTo('');
+        table.string('caption')
+          .notNullable()
+          .defaultTo('');
+        table.string('alt')
+          .notNullable()
+          .defaultTo('');
         table.index('filename');
     }).then(() => {
       return updatedAtTrigger(knex, 'images');

@@ -26,6 +26,7 @@ function initSchema(config) {
 
     type Campsite {
       id: ID!
+      availabilityId: ID
       images: [CampsiteImage]!
       name: String
       lat: Float
@@ -35,6 +36,7 @@ function initSchema(config) {
     }
 
     input CampsiteInput {
+      availabilityId: ID!
       name: String
       lat: Float
       lng: Float

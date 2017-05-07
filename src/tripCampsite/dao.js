@@ -18,7 +18,7 @@ class Dao extends CrudDao {
   }
 
   withTripIds(ids) {
-    return this.db.select([`${this.tableName}.*`, 'campsites.name', 'campsites.lat', 'campsites.lng']).from(this.tableName).innerJoin('campsites', 'trip_campsites.campsite_id', 'campsites.id').whereIn('trip_campsites.trip_id', ids).orderBy('updated_at', 'desc').then(rows => {
+    return this.db.select([`${this.tableName}.*`, 'campsites.name', 'campsites.lat', 'campsites.lng', 'campsites.availability_id']).from(this.tableName).innerJoin('campsites', 'trip_campsites.campsite_id', 'campsites.id').whereIn('trip_campsites.trip_id', ids).orderBy('updated_at', 'desc').then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {
