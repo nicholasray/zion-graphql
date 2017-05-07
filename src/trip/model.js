@@ -57,12 +57,14 @@ class Trip extends Model {
 
   permitPath() {
     return this.campsiteDao.withTripId(this.id()).then(campsites => {
-      console.log('*******', campsites)
-      const ids = campsites.filter(campsite => {
+      let ids = campsites.filter(campsite => {
         return campsite.availabilityId();
       }).map(campsite => {
         return campsite.availabilityId();
       })
+
+      const idSet = new Set(ids);
+      ids = [...idSet]
 
       return `/permits?ids=${ids.join(',')}`
     })

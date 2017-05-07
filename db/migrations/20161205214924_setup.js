@@ -124,7 +124,6 @@ $$ language 'plpgsql';`),
         table.text('directions')
           .notNullable()
           .defaultTo('');
-        table.string('permit_path');
         table.boolean('is_published')
           .notNullable()
           .defaultTo(false);
