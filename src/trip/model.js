@@ -56,7 +56,16 @@ class Trip extends Model {
   }
 
   permitPath() {
-    return this.data.permit_path;
+    return this.campsiteDao.withTripId(this.id()).then(campsites => {
+      console.log('*******', campsites)
+      const ids = campsites.filter(campsite => {
+        return campsite.availabilityId();
+      }).map(campsite => {
+        return campsite.availabilityId();
+      })
+
+      return `/permits?ids=${ids.join(',')}`
+    })
   }
 
   season() {
