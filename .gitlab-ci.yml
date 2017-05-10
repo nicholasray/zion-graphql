@@ -3,6 +3,14 @@ image: node:7.5.0
 before_script:
   - npm i
 
-unit:
+test:
   script:
     - npm run test
+
+production:
+  type: deploy
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=zionapi --api-key=$HEROKU_PRODUCTION_API_KEY
+  only:
+  - master
