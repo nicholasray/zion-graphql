@@ -1,7 +1,8 @@
-before_script:
-  - docker -v
-  - docker-compose -v
+image: node:7.5.0
 
-mocha:
+before_script:
+  - npm i
+
+unit:
   script:
     - npm run test
