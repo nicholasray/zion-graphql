@@ -1,9 +1,7 @@
-image: node:latest
-
-before_script:
-  - npm i
-
 test:
+  image: node:latest
+  before_script:
+    - npm i
   script:
     - npm run test
 
