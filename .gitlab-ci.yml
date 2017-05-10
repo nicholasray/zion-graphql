@@ -1,6 +1,8 @@
 test:
   image: node:latest
   before_script:
+    - docker -v
+    - docker-compose -v
     - npm i
   script:
     - npm run test
