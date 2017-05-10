@@ -1,4 +1,4 @@
-image: node:7.5.0
+image: node:latest
 
 before_script:
   - npm i
@@ -9,6 +9,7 @@ test:
 
 production:
   type: deploy
+  image: ruby:latest
   script:
   - gem install dpl
   - dpl --provider=heroku --app=zionapi --api-key=$HEROKU_PRODUCTION_API_KEY
