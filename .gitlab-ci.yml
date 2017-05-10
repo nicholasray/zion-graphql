@@ -6,8 +6,6 @@ services:
 test:
   image: node:latest
   before_script:
-    - apt-get install -y python-pip
-    - pip install docker-compose     # <--
     - docker-compose -v
     - docker-compose up -d
     - npm i
