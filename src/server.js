@@ -1,12 +1,18 @@
+const fs = require('fs');
+const jwt = require('express-jwt');
+const path = require('path');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 const cors = require('cors');
+const AuthUser = require('./lib/framework/auth/authUser');
+const NullUser = require('./lib/framework/auth/nullUser');
 const knex = require('knex')({
   debug: process.env.DEBUG || false,
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
+
 
 function initConnection() {
   return require('amqplib').connect(process.env.RABBITMQ_BIGWIG_TX_URL).then(conn => {
@@ -63,18 +69,31 @@ const schema = buildSchema(gqlConfig.getSchema());
 
 const app = express();
 app.use(cors());
+
+const publicKey = fs.readFileSync(path.join(__dirname, '..', 'keys', 'auth.pem'));
+const authorize = function() {
+  return jwt({
+    secret: publicKey,
+    audience: ['pajfF1T8hQbAeoov9mab2t7qVcTnawx4', 'zion-api'],
+    issuer: 'https://app60328304.auth0.com/',
+    credentialsRequired: false,
+    requestProperty: 'auth'
+  })
+}
+
 app.set('port', (process.env.PORT || 8080));
-app.use('/graphql', (req, res, next) => {
+app.use('/graphql', authorize(), (req, res, next) => {
   daos.forEach(dao => {
     dao.resetCache();
   })
 
   next();
-}, graphqlHTTP({
+}, graphqlHTTP(req => ({
   schema: schema,
   rootValue: gqlConfig.getEndpoints(),
-  graphiql: true
-}));
+  graphiql: true,
+  context: {user: req.auth ? new AuthUser(req.auth) : new NullUser()}
+})));
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
 }
