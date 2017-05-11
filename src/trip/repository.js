@@ -25,6 +25,22 @@ class Repository {
     })
   }
 
+  withIds(ids, user) {
+    if (user.isAdmin()) {
+      return this.dao.withIds(ids);
+    }
+
+    return this.dao.withIds(ids).then(trips => {
+      return trips.map(trip => {
+        if (trip.isPublished()) {
+          return trip;
+        }
+
+        return null;
+      })
+    })
+  }
+
   related(trip, user) {
     if (user.isAdmin()) {
       return this.dao.related(trip);
