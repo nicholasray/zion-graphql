@@ -40,6 +40,30 @@ class Repository {
 
     return this.dao.all(Object.assign({}, opts, {isPublished: true}))
   }
+
+  create(input, user) {
+    if (user.isAdmin()) {
+      return this.dao.create(input);
+    }
+
+    throw new Error("Unauthorized to perform this action.");
+  }
+
+  update(id, input, user) {
+    if (user.isAdmin()) {
+      return this.dao.update(input);
+    }
+
+    throw new Error("Unauthorized to perform this action.");
+  }
+
+  delete(id, user) {
+    if (user.isAdmin()) {
+      return this.dao.delete(id);
+    }
+
+    throw new Error("Unauthorized to perform this action.");
+  }
 }
 
 module.exports = Repository;
