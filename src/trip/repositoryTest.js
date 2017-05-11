@@ -22,7 +22,7 @@ describe('Repository', () => {
     beforeEach(() => {
       var dao = {totalCount: () => {}}
       var stub = sinon.stub(dao, "totalCount")
-      stub.withArgs({published: true}).resolves(1);
+      stub.withArgs({isPublished: true}).resolves(1);
       stub.withArgs({}).resolves(2);
 
       subject = new Repository(dao)
@@ -38,7 +38,7 @@ describe('Repository', () => {
       })
     })
 
-    context("with authenticated user", () => {
+    context("with admin user", () => {
       it("returns count of all trips", () => {
         // when
         const resp = subject.totalCount({}, authenticated)
@@ -52,13 +52,13 @@ describe('Repository', () => {
   describe("#findById", () => {
     beforeEach(() => {
       var dao = {findById: () => {}}
-      var stub = sinon.stub(dao, "findById").resolves({isPublished: false})
-      stub.withArgs(1).resolves({id: 1, isPublished: () => false})
-      stub.withArgs(2).resolves({id: 2, isPublished: () => true})
+      var stub = sinon.stub(dao, "findById");
+      stub.withArgs(1).resolves({id: 1, isPublished: () => false});
+      stub.withArgs(2).resolves({id: 2, isPublished: () => true});
       subject = new Repository(dao)
     })
 
-    context("with authenticated user", () => {
+    context("with admin user", () => {
       it("returns unpublished trip", () => {
         // when
         const unpublishedResp = subject.findById(1, authenticated)
@@ -87,9 +87,73 @@ describe('Repository', () => {
       it("returns published trip", () => {
         // when
         const publishedResp = subject.findById(2, unauthenticated)
+
         // expect
         return expect(publishedResp).to.eventually.have.property('id', 2);
       })
     })
   })
+
+  describe("#related", () => {
+    beforeEach(() => {
+      var dao = {related: () => {}}
+      var stub = sinon.stub(dao, "related");
+      stub.withArgs({}).resolves([{id: 1}, {id: 2}])
+      stub.withArgs({}, {isPublished: true}).resolves([{id: 1}])
+
+      subject = new Repository(dao)
+    })
+
+    context("with admin user", () => {
+      it("returns published and unpublished trips", () => {
+        // when
+        const resp = subject.related({}, authenticated)
+
+        // expect
+        return expect(resp).to.eventually.have.lengthOf(2)
+      })
+    })
+
+    context("with unauthenticated user", () => {
+      it("returns published trips", () => {
+        // when
+        const resp = subject.related({}, unauthenticated)
+
+        // expect
+        return expect(resp).to.eventually.have.lengthOf(1)
+      })
+    })
+  })
+
+  describe("#all", () => {
+    beforeEach(() => {
+      var dao = {all: () => {}}
+      var stub = sinon.stub(dao, "all");
+      stub.withArgs({}).resolves([{id: 1}, {id: 2}])
+      stub.withArgs({isPublished: true}).resolves([{id: 1}])
+
+      subject = new Repository(dao)
+    })
+
+    context("with admin user", () => {
+      it("returns published and unpublished trips", () => {
+        // when
+        const resp = subject.all({}, authenticated)
+
+        // expect
+        return expect(resp).to.eventually.have.lengthOf(2)
+      })
+    })
+
+    context("with unauthenticated user", () => {
+      it("returns published trips", () => {
+        // when
+        const resp = subject.all({}, unauthenticated)
+
+        // expect
+        return expect(resp).to.eventually.have.lengthOf(1)
+      })
+    })
+  })
+
 });

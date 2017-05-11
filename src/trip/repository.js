@@ -4,11 +4,11 @@ class Repository {
   }
 
   totalCount(opts, user) {
-    if (!user.isAdmin()) {
-      return this.dao.totalCount(Object.assign({}, opts, {published: true}))
+    if (user.isAdmin()) {
+      return this.dao.totalCount(opts);
     }
 
-    return this.dao.totalCount(opts);
+    return this.dao.totalCount(Object.assign({}, opts, {isPublished: true}))
   }
 
   findById(id, user) {
@@ -26,9 +26,19 @@ class Repository {
   }
 
   related(trip, user) {
+    if (user.isAdmin()) {
+      return this.dao.related(trip);
+    }
+
+    return this.dao.related(trip, {isPublished: true});
   }
 
   all(opts, user) {
+    if (user.isAdmin()) {
+      return this.dao.all(opts);
+    }
+
+    return this.dao.all(Object.assign({}, opts, {isPublished: true}))
   }
 }
 
