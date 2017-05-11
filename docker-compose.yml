@@ -2,6 +2,10 @@ version: '2'
 services:
   db:
     image: postgres
+    environment:
+      - POSTGRES_DB=zion
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     container_name: zionapi_db
     ports:
       - '5433:5432'

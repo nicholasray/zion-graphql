@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node --harmony-async-await src/server.js",
     "dev": "nodemon -r dotenv/config --harmony-async-await src/server.js",
-    "migrate": "node -r dotenv/config db/migrateSeeds.js",
+    "seed": "node -r dotenv/config db/seed.js",
+    "migrate": "node -r dotenv/config db/migrate.js",
     "test": "find ./src -name '*Test.js' | xargs mocha -R spec",
     "test:watch": "npm test -- --watch",
     "integration": "find ./integration -name '*Test.js' | xargs mocha -r dotenv/config -R spec"

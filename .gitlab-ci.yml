@@ -4,11 +4,12 @@ test:
     - postgres
     - rabbitmq:management
   variables:
-    DATABASE_URL: "postgres://postgres@postgres:5432/postgres"
+    POSTGRES_DB: "zion_test"
+    DATABASE_URL: "postgres://postgres@postgres:5432/zion_test"
     PORT: "4000"
   before_script:
     - npm i
-    - node db/migrateSeeds.js
+    - node db/migrate.js
   script:
     - npm run test
     - npm run integration
