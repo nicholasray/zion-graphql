@@ -4,10 +4,10 @@ services:
   - docker:dind
 
 test:
-  image: node:latest
   before_script:
+    - apk add --update py-pip
+    - pip install docker-compose
     - docker-compose -v
-    - docker-compose up -d
     - npm i
   script:
     - npm run test
