@@ -8,7 +8,6 @@ test:
     PORT: "4000"
   before_script:
     - npm i
-    - docker ps
   script:
     - npm run test
     - npm run integration
