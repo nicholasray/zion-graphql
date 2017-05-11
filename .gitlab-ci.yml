@@ -8,6 +8,7 @@ test:
     - apk add --update py-pip
     - pip install docker-compose
     - docker-compose -v
+    - apk add --update nodejs
     - npm i
   script:
     - npm run test
