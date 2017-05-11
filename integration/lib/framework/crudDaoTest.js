@@ -126,7 +126,8 @@ exports.shouldBehaveLikeCrudDao = function() {
 
         //expect
         return promise.then(result => {
-          expect(result.updatedAt()).to.not.eql(this.updatedAt);
+          console.log(result)
+          expect(result.node().updatedAt()).to.not.eql(this.updatedAt);
         })
       })
     })
