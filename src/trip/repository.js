@@ -41,20 +41,20 @@ class Repository {
     })
   }
 
-  related(trip, user) {
-    if (user.isAdmin()) {
-      return this.dao.related(trip);
-    }
-
-    return this.dao.related(trip, {isPublished: true});
-  }
-
   all(opts, user) {
     if (user.isAdmin()) {
       return this.dao.all(opts);
     }
 
     return this.dao.all(Object.assign({}, opts, {isPublished: true}))
+  }
+
+  related(trip, user) {
+    if (user.isAdmin()) {
+      return this.dao.related(trip);
+    }
+
+    return this.dao.related(trip, {isPublished: true});
   }
 
   create(input, user) {
