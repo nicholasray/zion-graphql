@@ -4,24 +4,19 @@ services:
   - docker:dind
 
 test:
+  image: node
+  services:
+    - postgres
+    - rabbitmq:management
   variables:
-    DATABASE_URL: "postgres://postgres@127.0.0.1:5433/postgres"
+    DATABASE_URL: "postgres://postgres@postgres:5432/postgres"
     PORT: "4000"
   before_script:
-    - apk add --update py-pip
-    - pip install docker-compose
-    - docker-compose -v
-    - docker-compose up -d
-    - docker ps
-    - sleep 5
-    - docker ps
-    - apk add --update nodejs
     - npm i
     - docker ps
   script:
     - npm run test
     - npm run integration
-    - find ./integration -name '*Test.js' | xargs mocha -R spec
 
 production:
   type: deploy
