@@ -155,7 +155,6 @@ describe('Repository', () => {
           expect(r.length).to.eql(1)
           expect(r[0].id).to.equal(1)
         })
-        return expect(resp).to.eventually.have.lengthOf(1)
       })
     })
   })
@@ -186,7 +185,10 @@ describe('Repository', () => {
         const resp = subject.all({}, unauthenticated)
 
         // expect
-        return expect(resp).to.eventually.have.lengthOf(1)
+        return resp.then(r => {
+          expect(r.length).to.eql(1)
+          expect(r[0].id).to.equal(1)
+        })
       })
     })
   })
