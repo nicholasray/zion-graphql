@@ -13,6 +13,7 @@ test:
     - npm i
   script:
     - npm run test
+    - npm run integration
     - find ./integration -name '*Test.js' | xargs mocha -R spec
 
 production:
