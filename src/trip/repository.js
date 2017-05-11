@@ -12,6 +12,17 @@ class Repository {
   }
 
   findById(id, user) {
+    if (user.isAdmin()) {
+      return this.dao.findById(id);
+    }
+
+    return this.dao.findById(id).then(trip => {
+      if (trip.isPublished()) {
+        return trip;
+      }
+
+      return null;
+    })
   }
 
   related(trip, user) {
