@@ -13,7 +13,7 @@
     "migrate": "node -r dotenv/config db/migrate.js",
     "test": "find ./src -name '*Test.js' | xargs mocha -R spec",
     "test:watch": "npm test -- --watch",
-    "integration": "find ./integration -name '*Test.js' | xargs mocha -r dotenv/config -R spec"
+    "integration": "find ./integration -name '*Test.js' | xargs mocha  -r dotenv/config -R spec dotenv_config_path=./.env.test"
   },
   "author": "",
   "license": "ISC",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "dotenv": "^2.0.0",
+    "dotenv": "^4.0.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sinon": "^2.2.0"
