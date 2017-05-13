@@ -5,6 +5,10 @@ class Repository {
     this.dao = dao;
   }
 
+  resetCache() {
+    return this.dao.resetCache();
+  }
+
   totalCount(opts, user) {
     return this.dao.totalCount(opts);
   }
