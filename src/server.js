@@ -91,7 +91,7 @@ app.use('/graphql', authorize(), (req, res, next) => {
 }, graphqlHTTP(req => ({
   schema: schema,
   rootValue: gqlConfig.getEndpoints(),
-  graphiql: true,
+  graphiql: (process.env.GRAPHIQL == 'true') || false,
   context: {user: req.auth ? new AuthUser(req.auth) : new NullUser()}
 })));
 
