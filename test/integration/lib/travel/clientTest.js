@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const Client = require('../../../src/lib/travel/client');
+const Client = require('../../../../src/lib/travel/client');
 
 describe('Client', () => {
   var subject;

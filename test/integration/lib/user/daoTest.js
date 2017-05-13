@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const Dao = require('../../../src/user/dao');
+const Dao = require('../../../../src/user/dao');
 const factory = require('../../support/factories/user');
 const knex = require('../../support/db');
 const shared = require('../framework/crudDaoTest');

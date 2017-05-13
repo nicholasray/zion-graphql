@@ -4,7 +4,7 @@ chai.use(chaiPromise)
 const { expect } = require('chai');
 const Repository = require('./repository');
 const sinon = require('sinon');
-const shared = require('../../integration/lib/framework/writeAuthTest');
+const shared = require('../../test/unit/support/writeAuthTest');
 
 describe('Repository', () => {
   var subject;
