@@ -9,6 +9,10 @@ class Repository {
     return this.dao.resetCache();
   }
 
+  addAfterSave(afterSave) {
+    return this.dao.addAfterSave(afterSave);
+  }
+
   totalCount(opts, user) {
     if (user.isAdmin()) {
       return this.dao.totalCount(opts);

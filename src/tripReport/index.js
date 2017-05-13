@@ -1,8 +1,9 @@
 const Dao = require('./dao')
 const ConnectionDao = require('../lib/framework/connectionDao');
+const Repository = require('./repository');
 
 function init(db, daos, config) {
-  const dao = new Dao(db, daos);
+  const dao = new Repository(new Dao(db, daos));
   const connectionDao = new ConnectionDao(dao);
 
   initEndpoints(dao, connectionDao, config);
@@ -61,22 +62,22 @@ function initSchema(config) {
 function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allTripReports: (args, ctx) => {
-      return connectionDao.all(args);
+      return connectionDao.all(args, ctx.user);
     },
-    tripReportsWithTripId: ({id}) => {
-      return dao.withTripId(id);
+    tripReportsWithTripId: ({id}, ctx) => {
+      return dao.withTripId(id, ctx.user);
     },
-    createTripReport: ({input}) => {
+    createTripReport: ({input}, ctx) => {
       // TODO: Don't hard code this
       const newInput = Object.assign({}, input, {userId: 1});
 
-      return dao.create(newInput);
+      return dao.create(newInput, ctx.user);
     },
-    updateTripReport: ({id, input}) => {
-      return dao.update(id, input);
+    updateTripReport: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     },
-    deleteTripReport: ({id}) => {
-      return dao.delete(id);
+    deleteTripReport: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   };
 

@@ -1,9 +1,10 @@
 const Dao = require('./dao');
 const ConnectionDao = require('../lib/framework/connectionDao');
+const Repository = require('./repository');
 
 function init(db, config) {
   const dao = new Dao(db, {});
-  const connectionDao = new ConnectionDao(dao);
+  const connectionDao = new Repository(new ConnectionDao(dao));
 
   initEndpoints(dao, connectionDao, config);
   initSchema(config);
@@ -64,19 +65,19 @@ function initSchema(config) {
 function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allImages: (args, ctx) => {
-      return connectionDao.all(args);
+      return connectionDao.all(args, ctx.user);
     },
-    image: ({id}) => {
-      return dao.findById(id);
+    image: ({id}, ctx) => {
+      return dao.findById(id, ctx.user);
     },
-    createImage: ({input}) => {
-      return dao.create(input);
+    createImage: ({input}, ctx) => {
+      return dao.create(input, ctx.user);
     },
-    updateImage: ({id, input}) => {
-      return dao.update(id, input);
+    updateImage: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     },
-    deleteImage: ({id}) => {
-      return dao.delete(id);
+    deleteImage: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   };
 

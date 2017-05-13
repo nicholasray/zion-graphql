@@ -1,8 +1,9 @@
 const Dao = require('./dao')
 const ConnectionDao = require('../lib/framework/connectionDao');
+const Repository = require('./repository');
 
 function init(db, daos, config) {
-  const dao = new Dao(db, daos);
+  const dao = new Repository(new Dao(db, daos));
   const connectionDao = new ConnectionDao(dao);
 
   initEndpoints(dao, connectionDao, config);
@@ -64,16 +65,16 @@ function initSchema(config) {
 function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allCampsites: (args, ctx) => {
-      return connectionDao.all(args);
+      return connectionDao.all(args, ctx.user);
     },
-    createCampsite: ({input}) => {
-      return dao.create(input);
+    createCampsite: ({input}, ctx) => {
+      return dao.create(input, ctx.user);
     },
-    updateCampsite: ({id, input}) => {
-      return dao.update(id, input);
+    updateCampsite: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     },
-    deleteCampsite: ({id}) => {
-      return dao.delete(id);
+    deleteCampsite: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   };
 

@@ -1,10 +1,11 @@
 const Dao = require('./dao');
+const Repository = require('./repository');
 const ConnectionDao = require('../lib/framework/connectionDao');
 const Validator = require('./validator');
 const Response = require('../lib/framework/response');
 
 function init(db, daos, config) {
-  const dao = new Dao(db, daos);
+  const dao = new Repository(new Dao(db, daos));
   const connectionDao = new ConnectionDao(dao);
   const validator = new Validator(dao);
 
@@ -71,22 +72,19 @@ function initSchema(config) {
 function initEndpoints(dao, validator, connectionDao, config) {
   const endpoints = {
     allUsers: (args, ctx) => {
-      return connectionDao.all(args);
+      return connectionDao.all(args, ctx.user);
     },
-    user: ({id}) => {
-      return dao.findById(id);
-    },
-    createUser: ({input}) => {
+    createUser: ({input}, ctx) => {
       return validator.validate(input).then(errors => {
         if (errors.length > 0) {
           return new Response(null, [], errors);
         }
 
-        return dao.create(input);
+        return dao.create(input, ctx.user);
       })
     },
-    updateUser: ({id, input}) => {
-      return dao.update(id, input);
+    updateUser: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     }
   };
 

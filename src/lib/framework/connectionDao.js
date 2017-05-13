@@ -5,7 +5,7 @@ class ConnectionDao {
     this.dao = dao;
   }
 
-  all(opts) {
+  all(opts, user) {
     return new Connection(opts, this.dao);
   }
 }

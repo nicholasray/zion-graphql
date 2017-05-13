@@ -6,12 +6,12 @@ class Connection {
     this.dao = dao;
   }
 
-  totalCount() {
-    return this.dao.totalCount(this.opts);
+  totalCount(_, ctx) {
+    return this.dao.totalCount(this.opts, ctx.user);
   }
 
-  edges() {
-    return this.dao.all(this.opts).then(rows => {
+  edges(_, ctx) {
+    return this.dao.all(this.opts, ctx.user).then(rows => {
       return rows.map(row => {
         return new Edge(row);
       })

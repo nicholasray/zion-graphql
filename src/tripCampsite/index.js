@@ -1,7 +1,8 @@
 const Dao = require('./dao')
+const Repository = require('./repository');
 
 function init(db, daos, config) {
-  const dao = new Dao(db, daos);
+  const dao = new Repository(new Dao(db, daos));
   initEndpoints(dao, config);
   initSchema(config);
 
@@ -56,14 +57,14 @@ function initSchema(config) {
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    createTripCampsite: ({input}) => {
-      return dao.create(input);
+    createTripCampsite: ({input}, ctx) => {
+      return dao.create(input, ctx.user);
     },
-    campsitesWithTripId: ({id}) => {
-      return dao.withTripId(id);
+    campsitesWithTripId: ({id}, ctx) => {
+      return dao.withTripId(id, ctx.user);
     },
-    deleteTripCampsite: ({id}) => {
-      return dao.delete(id);
+    deleteTripCampsite: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   }
 

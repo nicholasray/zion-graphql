@@ -1,9 +1,10 @@
 const ItineraryPlan = require('./model');
 const Dao = require('./dao')
 const ConnectionDao = require('../lib/framework/connectionDao');
+const Repository = require('./repository');
 
 function init(db, daos, config) {
-  const dao = new Dao(db, daos);
+  const dao = new Repository(new Dao(db, daos));
   const connectionDao = new ConnectionDao(dao);
 
   initEndpoints(dao, connectionDao, config);
@@ -66,16 +67,16 @@ function initSchema(config) {
 function initEndpoints(dao, connectionDao, config) {
   const endpoints = {
     allItineraryPlans: (args, ctx) => {
-      return connectionDao.all(args);
+      return connectionDao.all(args, ctx.user);
     },
-    createItineraryPlan: ({input}) => {
-      return dao.create(input);
+    createItineraryPlan: ({input}, ctx) => {
+      return dao.create(input, ctx.user);
     },
-    updateItineraryPlan: ({id, input}) => {
-      return dao.update(id, input);
+    updateItineraryPlan: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     },
-    deleteItineraryPlan: ({id}) => {
-      return dao.delete(id);
+    deleteItineraryPlan: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   };
 

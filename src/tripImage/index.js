@@ -1,8 +1,9 @@
 const Image = require('./model');
 const Dao = require('./dao')
+const Repository = require('./repository');
 
 function init(db, config) {
-  const dao = new Dao(db);
+  const dao = new Repository(new Dao(db));
   initEndpoints(dao, config);
   initSchema(config);
 
@@ -61,17 +62,17 @@ function initSchema(config) {
 
 function initEndpoints(dao, config) {
   const endpoints = {
-    tripImagesWithTripId: ({id}) => {
-      return dao.withTripId(id);
+    tripImagesWithTripId: ({id}, ctx) => {
+      return dao.withTripId(id, ctx.user);
     },
-    createTripImage: ({input}) => {
-      return dao.create(input);
+    createTripImage: ({input}, ctx) => {
+      return dao.create(input, ctx.user);
     },
-    updateTripImage: ({id, input}) => {
-      return dao.update(id, input);
+    updateTripImage: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
     },
-    deleteTripImage: ({id}) => {
-      return dao.delete(id);
+    deleteTripImage: ({id}, ctx) => {
+      return dao.delete(id, ctx.user);
     }
   }
 
