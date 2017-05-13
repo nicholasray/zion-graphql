@@ -21,6 +21,10 @@ class User extends Model {
     return this.data.newsletter_subscribed_at;
   }
 
+  facebookId() {
+    return this.data.facebook_id;
+  }
+
   profilePicUrl() {
     return `https://graph.facebook.com/${this.data.facebook_id}/picture?type=normal`
   }

@@ -28,9 +28,14 @@ class Repository {
       return this.dao.findById(id);
     }
 
-    return new Promise(resolve => {
-      resolve(null);
-    });
+    return this.dao.findById(id).then(user => {
+      if (user == null) return null;
+
+      // hard coding this for now
+      if (user.facebookId() == '584807405') return user;
+
+      return null;
+    })
   }
 
   withIds(ids, user) {

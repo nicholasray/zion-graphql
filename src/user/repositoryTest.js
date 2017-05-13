@@ -54,9 +54,18 @@ describe('Repository', () => {
   describe("#findById", function() {
     beforeEach(() => {
       var dao = {findById: () => {}}
-      var stub = sinon.stub(dao, "findById").resolves({
-        id: 1
-      });
+      var stub = sinon.stub(dao, "findById");
+      stub.withArgs(1).resolves({
+        id: 1,
+        facebookId: () => 1
+      })
+
+      stub.withArgs(2).resolves({
+        id: 2,
+        facebookId: () => '584807405'
+      })
+
+      stub.withArgs(3).resolves(null);
 
       subject = new Repository(dao)
     })
@@ -72,12 +81,34 @@ describe('Repository', () => {
     })
 
     context("with unauthenticated user", () => {
-      it("returns null", () => {
-        // when
-        const resp = subject.findById(1, unauthenticated)
+      context("when request user is not nray", () => {
+        it("returns null", () => {
+          // when
+          const resp = subject.findById(1, unauthenticated)
 
-        // expect
-        return expect(resp).to.eventually.equal(null);
+          // expect
+          return expect(resp).to.eventually.equal(null);
+        })
+      })
+
+      context("when requested user is nray", () => {
+        it("returns nray", () => {
+          // when
+          const resp = subject.findById(2, unauthenticated)
+
+          // expect
+          return expect(resp).to.eventually.have.property('id', 2);
+        })
+      })
+
+      context("when requested user is null", () => {
+        it("returns null", () => {
+          // when
+          const resp = subject.findById(3, unauthenticated)
+
+          // expect
+          return expect(resp).to.eventually.eql(null);
+        })
       })
     })
   })
