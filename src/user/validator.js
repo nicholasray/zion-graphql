@@ -1,5 +1,6 @@
 const ValidatorJS = require('validator');
 const ResponseError = require('../lib/framework/responseError');
+const SystemUser = require('../lib/framework/auth/systemUser');
 
 class Validator {
   constructor(dao, validator) {
@@ -23,7 +24,7 @@ class Validator {
       errors.push(new ResponseError('newsletterSubscribedAt', 'Newsletter subscribed at must be a valid date.'))
     }
 
-    const promise = this.dao.findByEmail(model.email).then(result => {
+    const promise = this.dao.findByEmail(model.email, new SystemUser()).then(result => {
       if (result != null) {
         errors.push(new ResponseError('email', 'Email is already registered.'));
       }
