@@ -10,8 +10,8 @@ class Itinerary extends Model {
     return this.data.trip_id;
   }
 
-  plans() {
-    return this.itineraryPlanDao.withItineraryId(this.id());
+  plans(args, ctx) {
+    return this.itineraryPlanDao.withItineraryId(this.id(), ctx.user);
   }
 
   start() {

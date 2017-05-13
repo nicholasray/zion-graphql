@@ -6,8 +6,8 @@ class Campsite extends Model {
     this.campsiteImageDao = campsiteImageDao;
   }
 
-  images() {
-    return this.campsiteImageDao.withCampsiteId(this.id());
+  images(args, ctx) {
+    return this.campsiteImageDao.withCampsiteId(this.id(), ctx.user);
   }
 
   availabilityId() {

@@ -19,28 +19,24 @@ class Trip extends Model {
     return this.data.area_id;
   }
 
-  area() {
-    return this.areaDao.findById(this.data.area_id);
+  area(args, ctx) {
+    return this.areaDao.findById(this.data.area_id, ctx.user);
   }
 
-  area() {
-    return this.areaDao.findById(this.data.area_id);
+  images(args, ctx) {
+    return this.imageDao.withTripId(this.id(), ctx.user);
   }
 
-  images() {
-    return this.imageDao.withTripId(this.id());
+  campsites(args, ctx) {
+    return this.campsiteDao.withTripId(this.id(), ctx.user);
   }
 
-  campsites() {
-    return this.campsiteDao.withTripId(this.id());
+  itineraries(args, ctx) {
+    return this.itineraryDao.withTripId(this.id(), ctx.user);
   }
 
-  itineraries() {
-    return this.itineraryDao.withTripId(this.id());
-  }
-
-  reports() {
-    return this.reportDao.withTripId(this.id());
+  reports(args, ctx) {
+    return this.reportDao.withTripId(this.id(), ctx.user);
   }
 
   isPublished() {
@@ -55,8 +51,8 @@ class Trip extends Model {
     return this.data.permit;
   }
 
-  permitPath() {
-    return this.campsiteDao.withTripId(this.id()).then(campsites => {
+  permitPath(args, ctx) {
+    return this.campsiteDao.withTripId(this.id(), ctx.user).then(campsites => {
       let ids = campsites.filter(campsite => {
         return campsite.availabilityId();
       }).map(campsite => {
@@ -121,8 +117,8 @@ class Trip extends Model {
     return this.data.distance;
   }
 
-  relatedTrips() {
-    return this.tripDao.related(this);
+  relatedTrips(args, ctx) {
+    return this.tripDao.related(this, ctx.user);
   }
 }
 

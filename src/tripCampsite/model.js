@@ -9,8 +9,8 @@ class TripCampsite extends Campsite {
     return this.data.campsite_id;
   }
 
-  images() {
-    return this.campsiteImageDao.withCampsiteId(this.campsiteId());
+  images(args, ctx) {
+    return this.campsiteImageDao.withCampsiteId(this.campsiteId(), ctx.user);
   }
 }
 

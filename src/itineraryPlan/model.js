@@ -10,8 +10,8 @@ class ItineraryPlan extends Model {
     return this.data.itinerary_id;
   }
 
-  campsite() {
-    return this.campsiteDao.findById(this.data.campsite_id);
+  campsite(args, ctx) {
+    return this.campsiteDao.findById(this.data.campsite_id, ctx.user);
   }
 
   day() {
