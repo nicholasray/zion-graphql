@@ -7,7 +7,6 @@ function createIfAuthorized(input, user, dao) {
 }
 
 function updateIfAuthorized(id, input, user, dao) {
-  console.log("wtf*********", user)
     if (user.isAdmin()) {
       return dao.update(id, input);
     }
