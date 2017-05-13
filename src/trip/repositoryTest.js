@@ -4,6 +4,7 @@ chai.use(chaiPromise)
 const { expect } = require('chai');
 const Repository = require('./repository');
 const sinon = require('sinon');
+const shared = require('../../integration/lib/framework/writeAuthTest');
 
 describe('Repository', () => {
   var subject;
@@ -11,12 +12,17 @@ describe('Repository', () => {
   var unauthenticated;
   var authenticated;
 
-  beforeEach(() => {
+  beforeEach(function() {
     unauthenticated = {isAdmin: () => {}};
     authenticated = {isAdmin: () => {}};
     sinon.stub(unauthenticated, 'isAdmin').returns(false);
     sinon.stub(authenticated, 'isAdmin').returns(true);
+    this.subject = Repository;
+    this.authenticated = authenticated;
+    this.unauthenticated = unauthenticated;
   })
+
+  shared.shouldBehaveLikeWriteAuth();
 
   describe("#totalCount", () => {
     beforeEach(() => {
@@ -192,83 +198,4 @@ describe('Repository', () => {
       })
     })
   })
-
-  describe("#create", () => {
-    beforeEach(() => {
-      var dao = {create: () => {}}
-      sinon.stub(dao, "create").resolves({});
-
-      subject = new Repository(dao)
-    })
-
-    context("with admin user", () => {
-      it("permits creation", () => {
-        // when
-        const resp = subject.create({}, authenticated)
-
-        // expect
-        return expect(resp).to.eventually.eql({});
-      })
-    })
-
-    context("with unauthenticated user", () => {
-      it("throws error", () => {
-        // expect
-        return expect(() => {subject.create({}, unauthenticated)}).to.throw(Error)
-      })
-    })
-  })
-
-  describe("#update", () => {
-    beforeEach(() => {
-      var dao = {update: () => {}}
-      sinon.stub(dao, "update").resolves({});
-
-      subject = new Repository(dao)
-    })
-
-    context("with admin user", () => {
-      it("permits update", () => {
-        // when
-        const resp = subject.update(1, {}, authenticated)
-
-        // expect
-        return expect(resp).to.eventually.eql({});
-      })
-    })
-
-    context("with unauthenticated user", () => {
-      it("throws error", () => {
-        // expect
-        return expect(() => {subject.update(1, {}, unauthenticated)}).to.throw(Error)
-      })
-    })
-  })
-
-  describe("#delete", () => {
-    beforeEach(() => {
-      var dao = {delete: () => {}}
-      sinon.stub(dao, "delete").resolves({});
-
-      subject = new Repository(dao)
-    })
-
-    context("with admin user", () => {
-      it("permits deletion", () => {
-        // when
-        const resp = subject.delete(1, authenticated)
-
-        // expect
-        return expect(resp).to.eventually.eql({});
-      })
-    })
-
-    context("with unauthenticated user", () => {
-      it("throws error", () => {
-        // expect
-        return expect(() => {subject.delete({}, unauthenticated)}).to.throw(Error)
-      })
-    })
-  })
-
 });

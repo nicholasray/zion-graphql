@@ -1,3 +1,5 @@
+const { createIfAuthorized, updateIfAuthorized, deleteIfAuthorized } = require('../lib/framework/auth/writeAuth');
+
 class Repository {
   constructor(dao) {
     this.dao = dao;
@@ -58,27 +60,15 @@ class Repository {
   }
 
   create(input, user) {
-    if (user.isAdmin()) {
-      return this.dao.create(input);
-    }
-
-    throw new Error("Unauthorized to perform this action.");
+    return createIfAuthorized(input, user, this.dao)
   }
 
   update(id, input, user) {
-    if (user.isAdmin()) {
-      return this.dao.update(input);
-    }
-
-    throw new Error("Unauthorized to perform this action.");
+    return updateIfAuthorized(input, user, this.dao);
   }
 
   delete(id, user) {
-    if (user.isAdmin()) {
-      return this.dao.delete(id);
-    }
-
-    throw new Error("Unauthorized to perform this action.");
+    return deleteIfAuthorized(id, user, this.dao)
   }
 }
 

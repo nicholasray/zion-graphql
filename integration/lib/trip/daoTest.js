@@ -13,8 +13,8 @@ describe('Dao', function() {
     this.factory = factory;
     this.tableName = this.subject.tableName;
 
-    return this.db("areas").del();
-    return this.db(this.tableName).del();
+    this.db("areas").del();
+    this.db(this.tableName).del();
   })
 
   shared.shouldBehaveLikeCrudDao();
