@@ -25,6 +25,11 @@ class Dao extends CrudDao {
       builder.withinDistance(opts.distance);
     }
 
+    const isPublished = opts.isPublished;
+    if (isPublished != undefined) {
+      builder.filter(this.convertInput({isPublished}));
+    }
+
     return builder.build().then(rows => {
       return parseInt(rows[0].count);
     })
@@ -55,7 +60,7 @@ class Dao extends CrudDao {
     })
   }
 
-  all({limit, offset, bounds, sort, distance}) {
+  all({limit, offset, bounds, sort, distance, isPublished}) {
     const builder = new Builder(this.db);
 
     builder.select({limit, offset, table: this.tableName})
@@ -70,6 +75,10 @@ class Dao extends CrudDao {
 
     if (sort) {
       builder.orderBy(sort)
+    }
+
+    if (isPublished != undefined) {
+      builder.filter(this.convertInput({isPublished}));
     }
 
     return builder.build().then(rows => {

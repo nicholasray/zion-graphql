@@ -28,6 +28,12 @@ class Builder {
     return this;
   }
 
+  filter(f) {
+    this.query = this.query.where(f);
+
+    return this;
+  }
+
   orderBy(sorters) {
     sorters.forEach(sorter => {
       if (sorter == "FEATURED") {
