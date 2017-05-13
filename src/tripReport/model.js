@@ -10,8 +10,8 @@ class Report extends Model {
     return this.data.trip_id;
   }
 
-  user() {
-    return this.userDao.findById(this.data.user_id);
+  user(args, ctx) {
+    return this.userDao.findById(this.data.user_id, ctx.user);
   }
 
   description() {
