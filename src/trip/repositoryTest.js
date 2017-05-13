@@ -40,7 +40,7 @@ describe('Repository', () => {
         const resp = subject.totalCount({}, unauthenticated)
 
         // expect
-        expect(resp).to.eventually.equal(1)
+        return expect(resp).to.eventually.equal(1)
       })
     })
 
@@ -50,7 +50,7 @@ describe('Repository', () => {
         const resp = subject.totalCount({}, authenticated)
 
         // expect
-        expect(resp).to.eventually.equal(2);
+        return expect(resp).to.eventually.equal(2);
       })
     })
   })

@@ -14,7 +14,7 @@ class Repository {
   }
 
   withIds(ids, user) {
-    return this.dao.withIds.load(id);
+    return this.dao.withIds(id);
   }
 
   all(opts, user) {

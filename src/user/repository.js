@@ -6,23 +6,55 @@ class Repository {
   }
 
   totalCount(opts, user) {
-    return this.dao.totalCount(opts);
+    if (user.isAdmin()) {
+      return this.dao.totalCount(opts);
+    }
+
+    return new Promise((resolve) => {
+      resolve(0);
+    });
   }
 
   findById(id, user) {
-    return this.dao.findById(id);
+    if (user.isAdmin()) {
+      return this.dao.findById(id);
+    }
+
+    return new Promise(resolve => {
+      resolve(null);
+    });
   }
 
   withIds(ids, user) {
-    return this.dao.withIds.load(id);
+    if (user.isAdmin()) {
+      return this.dao.withIds(ids);
+    }
+
+    return new Promise(resolve => {
+      resolve(ids.map(id => {
+        return null;
+      }));
+    })
   }
 
   all(opts, user) {
-    return this.dao.all(opts);
+    if (user.isAdmin()) {
+      return this.dao.all(opts);
+    }
+
+    return new Promise(resolve => {
+      resolve([]);
+    });
   }
 
   findByEmail(email, user) {
-    return this.dao.findByEmail(email);
+    if (user.isAdmin()) {
+      return this.dao.findByEmail(email);
+    }
+
+    return new Promise(resolve => {
+      resolve(null);
+    });
   }
 
   create(input, user) {
