@@ -17,14 +17,6 @@ class Repository {
     return this.dao.withIds.load(id);
   }
 
-  withTripId(id, user) {
-    return this.dao.withTripId(id)
-  }
-
-  withTripIds(ids, user) {
-    return this.dao.withTripIds(ids, user);
-  }
-
   all(opts, user) {
     return this.dao.all(opts);
   }

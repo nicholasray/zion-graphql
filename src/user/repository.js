@@ -17,20 +17,16 @@ class Repository {
     return this.dao.withIds.load(id);
   }
 
-  withTripId(id, user) {
-    return this.dao.withTripId(id)
-  }
-
-  withTripIds(ids, user) {
-    return this.dao.withTripIds(ids, user);
-  }
-
   all(opts, user) {
     return this.dao.all(opts);
   }
 
+  findByEmail(email, user) {
+    return this.dao.findByEmail(email);
+  }
+
   create(input, user) {
-    return createIfAuthorized(input, user, this.dao)
+    return this.dao.create(input);
   }
 
   update(id, input, user) {

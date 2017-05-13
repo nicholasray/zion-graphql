@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-exports.shouldBehaveLikeWriteAuth = function() {
+function shouldBehaveLikeCreateAuth() {
   describe("#create", function() {
     var subject;
 
@@ -28,7 +28,9 @@ exports.shouldBehaveLikeWriteAuth = function() {
       })
     })
   })
+}
 
+function shouldBehaveLikeUpdateAuth() {
   describe("#update", function() {
     var subject;
 
@@ -56,7 +58,9 @@ exports.shouldBehaveLikeWriteAuth = function() {
       })
     })
   })
+}
 
+function shouldBehaveLikeDeleteAuth() {
   describe("#delete", function() {
     var subject;
 
@@ -84,5 +88,17 @@ exports.shouldBehaveLikeWriteAuth = function() {
       })
     })
   })
+}
 
+function shouldBehaveLikeWriteAuth() {
+  shouldBehaveLikeCreateAuth();
+  shouldBehaveLikeUpdateAuth();
+  shouldBehaveLikeDeleteAuth();
+}
+
+module.exports = {
+  shouldBehaveLikeWriteAuth,
+  shouldBehaveLikeCreateAuth,
+  shouldBehaveLikeUpdateAuth,
+  shouldBehaveLikeDeleteAuth
 }

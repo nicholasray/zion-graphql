@@ -17,12 +17,12 @@ class Repository {
     return this.dao.withIds.load(id);
   }
 
-  withTripId(id, user) {
-    return this.dao.withTripId(id)
+  withCampsiteId(id, user) {
+    return this.dao.withCampsiteId(id);
   }
 
-  withTripIds(ids, user) {
-    return this.dao.withTripIds(ids, user);
+  withCampsiteIds(ids, user) {
+    return this.dao.withCampsiteIds(ids);
   }
 
   all(opts, user) {
