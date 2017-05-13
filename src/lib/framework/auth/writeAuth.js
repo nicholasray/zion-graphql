@@ -6,9 +6,10 @@ function createIfAuthorized(input, user, dao) {
     throw new Error("Unauthorized to perform this action.");
 }
 
-function updateIfAuthorized(input, user, dao) {
+function updateIfAuthorized(id, input, user, dao) {
+  console.log("wtf*********", user)
     if (user.isAdmin()) {
-      return dao.update(input);
+      return dao.update(id, input);
     }
 
     throw new Error("Unauthorized to perform this action.");

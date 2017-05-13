@@ -75,7 +75,7 @@ class Repository {
   }
 
   update(id, input, user) {
-    return updateIfAuthorized(input, user, this.dao);
+    return updateIfAuthorized(id, input, user, this.dao);
   }
 
   delete(id, user) {
