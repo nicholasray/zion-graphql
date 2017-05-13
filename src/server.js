@@ -94,6 +94,7 @@ app.use('/graphql', authorize(), (req, res, next) => {
   graphiql: true,
   context: {user: req.auth ? new AuthUser(req.auth) : new NullUser()}
 })));
+
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
 }

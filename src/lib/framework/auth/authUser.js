@@ -4,7 +4,15 @@ class AuthUser {
   }
 
   isAdmin() {
-    return this.token.roles.indexOf('admin') > -1;
+    if (this.token.roles) {
+      return this.token.roles.indexOf('admin') > -1;
+    }
+
+    if (this.token.scope) {
+      return this.token.scope.split(' ').indexOf('write') > -1;
+    }
+
+    return false;
   }
 }
 
