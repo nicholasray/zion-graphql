@@ -23,6 +23,10 @@ class Repository {
     }
 
     return this.dao.findById(id).then(trip => {
+      if (trip == null) {
+        return null;
+      }
+
       if (trip.isPublished()) {
         return trip;
       }
@@ -38,6 +42,10 @@ class Repository {
 
     return this.dao.withIds(ids).then(trips => {
       return trips.map(trip => {
+        if (trip == null) {
+          return null;
+        }
+
         if (trip.isPublished()) {
           return trip;
         }

@@ -61,6 +61,7 @@ describe('Repository', () => {
       var stub = sinon.stub(dao, "findById");
       stub.withArgs(1).resolves({id: 1, isPublished: () => false});
       stub.withArgs(2).resolves({id: 2, isPublished: () => true});
+      stub.withArgs(3).resolves(null);
       subject = new Repository(dao)
     })
 
@@ -83,19 +84,31 @@ describe('Repository', () => {
     })
 
     context("with unauthenticated user", () => {
-      it("returns null when finding unpublished trip", () => {
-        // when
-        const unpublishedResp = subject.findById(1, unauthenticated)
-        // expect
-        return expect(unpublishedResp).to.eventually.equal(null);
+      context("when present", () => {
+        it("returns null when finding unpublished trip", () => {
+          // when
+          const unpublishedResp = subject.findById(1, unauthenticated)
+          // expect
+          return expect(unpublishedResp).to.eventually.equal(null);
+        })
+
+        it("returns published trip", () => {
+          // when
+          const publishedResp = subject.findById(2, unauthenticated)
+
+          // expect
+          return expect(publishedResp).to.eventually.have.property('id', 2);
+        })
       })
 
-      it("returns published trip", () => {
-        // when
-        const publishedResp = subject.findById(2, unauthenticated)
+      context("when absent", () => {
+        it('returns null', () => {
+          // when
+          const resp = subject.findById(3, unauthenticated)
 
-        // expect
-        return expect(publishedResp).to.eventually.have.property('id', 2);
+          // expect
+          return expect(resp).to.eventually.eql(null);
+        })
       })
     })
   })
@@ -103,29 +116,35 @@ describe('Repository', () => {
   describe("#withIds", () => {
     beforeEach(() => {
       var dao = {withIds: () => {}}
-      var stub = sinon.stub(dao, "withIds").resolves([{id: 1, isPublished: () => false}, {id: 2, isPublished: () => true}]);
+      var stub = sinon.stub(dao, "withIds").resolves([{id: 1, isPublished: () => false}, {id: 2, isPublished: () => true}, null]);
       subject = new Repository(dao)
     })
 
     context("with admin user", () => {
       it("returns unpublished and published trip", () => {
         // when
-        const resp = subject.withIds([1, 2], authenticated);
+        const resp = subject.withIds([1, 2, 3], authenticated);
 
         // expect
-        return expect(resp).to.eventually.have.lengthOf(2);
+        return resp.then(r => {
+          expect(r).to.have.lengthOf(3);
+          expect(r[0].id).to.eq(1);
+          expect(r[1].id).to.eq(2);
+          expect(r[2]).to.eql(null);
+        })
       })
     })
 
     context("with unauthenticated user", () => {
       it("returns null when finding unpublished trip", () => {
         // when
-        const resp = subject.withIds([1, 2], unauthenticated)
+        const resp = subject.withIds([1, 2, 3], unauthenticated)
         // expect
         return resp.then(r => {
-          expect(r.length).to.eql(2);
+          expect(r.length).to.eql(3);
           expect(r[0]).to.eql(null);
           expect(r[1]).to.have.property('id', 2);
+          expect(r[2]).to.eql(null);
         })
       })
     })
