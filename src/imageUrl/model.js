@@ -1,7 +1,7 @@
 class ImageUrl {
   constructor(data) {
     this.data = data;
-    this.rootPath = "https://adventuretrailhead-dest.s3.amazonaws.com/images";
+    this.rootPath = "https://d12tvlgrri3gxf.cloudfront.net/images";
   }
 
   small() {
