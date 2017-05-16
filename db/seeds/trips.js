@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
   return knex('trips').del()
     .then(function () {
       let promises = [];
-      for (var i = 0; i < 1000; i++) {
+      for (var i = 0; i < 100; i++) {
         promises.push(createArea(knex).then(areaId => {
           let promises = [];
 

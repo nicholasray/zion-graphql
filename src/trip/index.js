@@ -63,7 +63,7 @@ function initSchema(config) {
       areaId: ID
       slug: ID
       permit: String
-      mapUrl: String
+      mapId: String
       name: String
       tagline: String
       description: String
