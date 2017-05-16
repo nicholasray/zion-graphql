@@ -161,7 +161,7 @@ function createTrip(areaId, knex) {
     }),
     season: faker.lorem.paragraph(),
     slug: slugify(name) + faker.random.number({min: 1, max: 100000}),
-    map_id: 'DG1G',
+    map_id: 'm/DG1G',
     name,
     tagline: faker.lorem.words(7),
     description: getMarkdown(),

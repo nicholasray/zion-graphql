@@ -74,12 +74,16 @@ class Trip extends Model {
     return this.data.directions;
   }
 
+  mapId() {
+    return this.data.map_id;
+  }
+
   mapUrl() {
     if (this.data.map_id == null) {
       return null;
     }
 
-    return `https://caltopo.com/m/${this.data.map_id}`;
+    return `https://caltopo.com/${this.data.map_id}`;
   }
 
   name() {
