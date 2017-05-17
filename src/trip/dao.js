@@ -7,9 +7,12 @@ class Dao extends CrudDao {
     super({db, daos, model: Trip, tableName: "trips"});
   }
 
+  addToDaos(dao) {
+    this.daos = Object.assign({}, this.daos, dao);
+  }
+
   getDaos() {
-    const daos = Object.assign({}, this.daos, {tripDao: this});
-    return daos;
+    return this.daos;
   }
 
   totalCount(opts) {
@@ -46,7 +49,8 @@ class Dao extends CrudDao {
     })
   }
 
-  related(trip, filter) {
+  related(trip, filter = {}) {
+    console.log("FILTER", filter);
     return this.db.select('*').from(this.tableName).where(Object.assign({}, {area_id: trip.areaId()}, this.convertInput(filter))).whereNot({id: trip.id()}).limit(3).orderBy('created_at', 'desc').then(rows => {
       var trips = rows.map(row => new Trip(row, this.getDaos()))
 

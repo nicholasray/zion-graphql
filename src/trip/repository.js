@@ -5,6 +5,10 @@ class Repository {
     this.dao = dao;
   }
 
+  addToDaos(dao) {
+    return this.dao.addToDaos(dao);
+  }
+
   resetCache() {
     return this.dao.resetCache();
   }

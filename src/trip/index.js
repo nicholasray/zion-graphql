@@ -6,6 +6,8 @@ const Repository = require('./repository');
 
 function init(db, daos, config) {
   const dao = new Repository(new Dao(db, daos));
+  dao.addToDaos({tripDao: dao});
+
   const connectionDao = new ConnectionDao(dao);
 
   initEndpoints(dao, connectionDao, config);
