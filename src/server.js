@@ -97,7 +97,7 @@ app.use('/graphql', authorize(), (req, res, next) => {
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
-    res.status(401).send('invalid token...');
+    res.status(401).send('Invalid token.');
   }
 });
 
