@@ -95,6 +95,12 @@ app.use('/graphql', authorize(), (req, res, next) => {
   context: {user: req.auth ? new AuthUser(req.auth) : new NullUser()}
 })));
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token...');
+  }
+});
+
 app.listen(app.get('port'));
 console.log(`Running a GraphQL API server at localhost:${app.get('port')}/graphql`);
 }
