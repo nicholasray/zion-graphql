@@ -62,6 +62,10 @@ class Trip extends Model {
       const idSet = new Set(ids);
       ids = [...idSet]
 
+      if (ids.length == 0) {
+        return '';
+      }
+
       return `/permits?ids=${ids.join(',')}`
     })
   }

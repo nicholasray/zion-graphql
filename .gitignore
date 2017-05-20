@@ -6,4 +6,3 @@ npm-debug.log
 tmp/*
 .tern-port
 /db/seeds/photos
-
