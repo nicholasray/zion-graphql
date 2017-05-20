@@ -71,7 +71,7 @@ const schema = buildSchema(gqlConfig.getSchema());
 const app = express();
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:8080', 'https://wildcairn.herokuapp.com', /\.outtraverse\.com$/]
+  origin: ['http://localhost:8080', 'https://wildcairn.herokuapp.com', /(?:.*\.)?outtraverse\.com$/]
 }));
 
 const publicKey = fs.readFileSync(path.join(__dirname, '..', 'keys', 'auth.pem'));
