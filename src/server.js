@@ -12,6 +12,7 @@ const knex = require('knex')({
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
+const helmet = require('helmet');
 
 
 function initConnection() {
@@ -68,6 +69,7 @@ const Newsletter = require('./newsletter').init(userDao, channel);
 const schema = buildSchema(gqlConfig.getSchema());
 
 const app = express();
+app.use(helmet());
 app.use(cors());
 
 const publicKey = fs.readFileSync(path.join(__dirname, '..', 'keys', 'auth.pem'));
