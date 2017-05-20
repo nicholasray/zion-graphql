@@ -5,3 +5,4 @@ npm-debug.log
 .env.test
 tmp/*
 .tern-port
+/db/seeds/photos
