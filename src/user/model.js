@@ -26,7 +26,7 @@ class User extends Model {
   }
 
   profilePicUrl() {
-    return `https://graph.facebook.com/${this.data.facebook_id}/picture?type=normal`
+    return `https://graph.facebook.com/${this.data.facebook_id}/picture?type=large`;
   }
 }
 
