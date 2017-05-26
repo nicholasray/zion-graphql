@@ -32,7 +32,7 @@ class Dao extends CrudDao {
   }
 
   withTripIds(ids) {
-    return this.db.select(`${this.tableName}.*`, 'images.filename', 'images.alt', 'images.title', 'images.caption').from(this.tableName).innerJoin('images', `${this.tableName}.image_id`, 'images.id').whereIn('trip_id', ids).orderBy('rank', 'asc').then(rows => {
+    return this.db.select(`${this.tableName}.*`, 'images.filename', 'images.alt', 'images.path', 'images.title', 'images.caption').from(this.tableName).innerJoin('images', `${this.tableName}.image_id`, 'images.id').whereIn('trip_id', ids).orderBy('rank', 'asc').then(rows => {
       const rowMap = {};
 
       rows.forEach(row => {
