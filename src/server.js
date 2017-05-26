@@ -74,10 +74,9 @@ app.use(cors({
   origin: [/http:\/\/localhost:\d+/, 'https://wildcairn.herokuapp.com', /(?:.*\.)?outtraverse\.com$/]
 }));
 
-const publicKey = fs.readFileSync(path.join(__dirname, '..', 'keys', 'auth.pem'));
 const authorize = function() {
   return jwt({
-    secret: publicKey,
+    secret: process.env.OAUTH_SIGNING_KEY,
     audience: ['pajfF1T8hQbAeoov9mab2t7qVcTnawx4', 'zion-api'],
     issuer: 'https://app60328304.auth0.com/',
     credentialsRequired: false,
