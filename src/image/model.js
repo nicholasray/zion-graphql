@@ -15,6 +15,10 @@ class Image extends Model {
     return this.data.filename
   }
 
+  path() {
+    return this.data.path;
+  }
+
   caption() {
     return this.data.caption;
   }

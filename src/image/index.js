@@ -28,6 +28,7 @@ function initSchema(config) {
     type Image {
       id: ID!
       filename: String!
+      path: String!
       caption: String
       title: String
       alt: String
@@ -38,6 +39,7 @@ function initSchema(config) {
 
     input ImageInput {
       filename: String
+      path: String
       caption: String
       title: String
       alt: String
