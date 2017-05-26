@@ -1,14 +1,9 @@
 module.exports = function(knex) {
-  return Promise.all([
-      knex.raw('DROP TABLE IF EXISTS trip_images CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS campsite_images CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS itinerary_plans CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS trip_campsites CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS campsites CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS trip_reports CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS images CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS trips CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS areas CASCADE'),
-      knex.raw('DROP TABLE IF EXISTS users CASCADE'),
-  ]);
+  return knex.raw('DROP SCHEMA public CASCADE;').then(function() {
+    return knex.raw('CREATE SCHEMA public');
+  }).then(function() {
+    return knex.raw('GRANT ALL ON SCHEMA public TO postgres;');
+  }).then(function() {
+    return knex.raw('GRANT ALL ON SCHEMA public TO public;');
+  });
 }
