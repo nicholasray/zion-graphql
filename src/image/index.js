@@ -29,10 +29,10 @@ function initSchema(config) {
       id: ID!
       filename: String!
       path: String!
+      url: String!
       caption: String
       title: String
       alt: String
-      url: ImageUrl!
       createdAt: String!
       updatedAt: String!
     }

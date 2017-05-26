@@ -1,10 +1,8 @@
 const Model = require('../lib/framework/model');
-const ImageUrl = require('../imageUrl/model');
 
 class Image extends Model {
   constructor(data) {
     super(data);
-    this.imageUrl = new ImageUrl(data);
   }
 
   id() {
@@ -32,7 +30,7 @@ class Image extends Model {
   }
 
   url() {
-    return this.imageUrl;
+    return process.env.IMAGE_CDN + this.path();
   }
 }
 
