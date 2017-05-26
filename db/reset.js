@@ -8,8 +8,8 @@ module.exports = function(knex) {
       knex.schema.dropTableIfExists('campsites'),
       knex.schema.dropTableIfExists('trip_reports'),
       knex.schema.dropTableIfExists('images'),
-      knex.schema.dropTableIfExists('users'),
       knex.schema.dropTableIfExists('trips'),
-      knex.schema.dropTableIfExists('areas')
+      knex.schema.dropTableIfExists('areas'),
+      knex.schema.dropTableIfExists('users')
   ]);
 }
