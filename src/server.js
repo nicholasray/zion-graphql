@@ -77,7 +77,7 @@ app.use(cors({
 const authorize = function() {
   return jwt({
     secret: process.env.OAUTH_SIGNING_KEY,
-    audience: ['pajfF1T8hQbAeoov9mab2t7qVcTnawx4', 'zion-api'],
+    audience: [process.env.CAIRN_CLIENT_ID, 'zion-api'],
     issuer: process.env.OAUTH_ISSUER,
     credentialsRequired: false,
     requestProperty: 'auth'
