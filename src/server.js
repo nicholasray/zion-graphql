@@ -78,7 +78,7 @@ const authorize = function() {
   return jwt({
     secret: process.env.OAUTH_SIGNING_KEY,
     audience: ['pajfF1T8hQbAeoov9mab2t7qVcTnawx4', 'zion-api'],
-    issuer: 'https://app60328304.auth0.com/',
+    issuer: process.env.OAUTH_ISSUER,
     credentialsRequired: false,
     requestProperty: 'auth'
   })
