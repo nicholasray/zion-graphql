@@ -237,8 +237,10 @@ function createCampsiteWithImages(tripId, rank, knex) {
 }
 
 function createImage(knex) {
+  const path = getPaths()[0];
   return knex('images').returning('id').insert({
-    filename: getFilenames()[0],
+    filename: path.split('/').pop(),
+    path: path,
     title: faker.lorem.word(),
     caption: faker.lorem.word(),
     alt: faker.lorem.words(2),
@@ -277,11 +279,54 @@ function slugify(text) {
     .replace(/-+$/, '');            // Trim - from end of text
 }
 
-function getFilenames() {
+function getPaths() {
+ const paths = [
+ "/2017/5/26/37_5dea084e-11dd-46d2-896d-8906f4bae8ec.jpg",
+ "/2017/5/26/35_15bc501e-e236-4769-b8ad-84f1c7cf54a8.jpg",
+ "/2017/5/26/33_66eeaacf-adb1-441a-b193-456ed2af1d15.jpg",
+ "/2017/5/26/31_1b78adcc-f693-4265-b1dd-366269c35f79.jpg",
+ "/2017/5/26/32_21e6b358-d5aa-4615-9635-8a042d7846fc.jpg",
+ "/2017/5/26/29_56bb5b10-93d7-4723-b8d9-2fffef04398b.jpg",
+ "/2017/5/26/28_23a193d4-2924-40e7-8eb1-1e99ba866c55.jpg",
+ "/2017/5/26/26_b4be35d3-d736-49f3-9f7c-44ba11b52c2e.jpg",
+ "/2017/5/26/25_e874e2ea-4c4c-4bd3-98e3-5d10b5fa4120.jpg",
+ "/2017/5/26/24_6c110cd5-40c4-4ad0-b7d1-994240137c52.jpg",
+ "/2017/5/26/23_a2f692ce-1291-4038-9f1f-533fff4c4329.jpg",
+ "/2017/5/26/22_a57c8987-0fc4-4913-b200-c96d57a960c5.jpg",
+ "/2017/5/26/21_3ae59546-f646-461d-b667-357c736e06b4.jpg",
+ "/2017/5/26/20_ae439203-3424-4cd8-9e49-8aa43a4f8da6.jpg",
+ "/2017/5/26/19_bfcee4a3-8512-47c7-8913-4522bde03188.jpg",
+ "/2017/5/26/18_2a1029f0-a250-4c1d-ab20-180a8de088dc.jpg",
+ "/2017/5/26/17_b97f9e09-9601-4f2f-bb02-9a5f706b702b.jpg",
+ "/2017/5/26/16_af0277c3-635a-4de3-b92b-4db0d52e1a7e.jpg",
+ "/2017/5/26/15_93421e14-2fd9-42eb-a54b-53db757f1cfb.jpg",
+ "/2017/5/26/14_fe684d1b-3019-4c39-abe5-06a5a8d639b0.jpg",
+ "/2017/5/26/13_2026f364-a146-4ddd-a2db-bc22a1d96589.jpg",
+ "/2017/5/26/12_a8d7e176-915e-46b4-9896-dfb05938f92b.jpg",
+ "/2017/5/26/11_95c82a9e-b18a-4228-8cb1-c45ba6a69a06.jpg",
+ "/2017/5/26/10_3b8886b6-e2a5-4e7b-9db0-9e116217b7f0.jpg",
+ "/2017/5/26/9_120378c9-9919-49fd-91c7-8e09f3e2a3b3.jpg",
+ "/2017/5/26/8_116949b8-e412-4248-8a98-81989bf16694.jpg",
+ "/2017/5/26/7_22ef72fa-5905-4caf-87eb-fc826e66abaa.jpg",
+ "/2017/5/26/6_f3ea3ae2-aedc-4224-878e-526529db8242.jpg",
+ "/2017/5/26/5_5b62e7a1-f54c-476f-86e1-1cb5ce2a381d.jpg",
+ "/2017/5/26/4_023d9dce-0399-4d28-b9f3-e755fb4a484d.jpg",
+ "/2017/5/26/2_6d47dbd8-2ebb-4910-ac0c-ad628b082922.jpg",
+ "/2017/5/26/1_34ff4afe-d015-4a5a-b6f9-ab180e590a6e.jpg",
+ "/2017/5/26/36_755553df-1c20-418a-9826-98d6e75dd396.jpg",
+ "/2017/5/26/34_c2c8c564-e839-44c7-853c-433f994ac4b4.jpg",
+ "/2017/5/26/30_e664c0cb-0e0e-4d54-8034-cf6b52cffa77.jpg",
+ "/2017/5/26/27_570ce441-6452-4824-a3b2-dfedd73b70e9.jpg",
+ "/2017/5/26/3_f44c305b-3aee-475c-9326-98b8a2c17599.jpg",
+ "/2017/5/26/38_f0b823f2-d6d8-4a99-adb9-3a0fa400a4af.jpg",
+ "/2017/5/26/39_dc49b4a7-f14c-4071-abe3-32ee36795b95.jpg",
+ "/2017/5/26/40_811c9ce6-04a5-4b62-9d09-83b63a4144a7.jpg",
+ ];
+
   const random = faker.random.number({
-    min: 1,
-    max: 40
+    min: 0,
+    max: 39
   });
 
-  return [random + ".jpg"];
+  return [paths[random]];
 }
