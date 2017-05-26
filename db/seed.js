@@ -1,7 +1,11 @@
 var config      = require('../knexfile.js');
 var knex        = require('knex')(config);
 
-knex.migrate.rollback()
+if (process.env.NODE_ENV == 'production') {
+  console.log("Can't run in production");
+  process.exit();
+}
+require('./reset')(knex)
 .then(() => {
   return knex.migrate.latest();
 })
