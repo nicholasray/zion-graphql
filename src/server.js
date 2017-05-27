@@ -71,7 +71,7 @@ const schema = buildSchema(gqlConfig.getSchema());
 const app = express();
 app.use(helmet());
 app.use(cors({
-  origin: [/http:\/\/localhost:\d+/, 'https://wildcairn.herokuapp.com', /(?:.*\.)?outtraverse\.com$/]
+  origin: [/http:\/\/localhost:\d+/, 'https://wildcairn.herokuapp.com', 'https://wildcairn-staging.herokuapp.com', /(?:.*\.)?outtraverse\.com$/]
 }));
 
 const authorize = function() {
