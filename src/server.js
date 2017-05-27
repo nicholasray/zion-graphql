@@ -13,7 +13,7 @@ const knex = require('knex')({
   connection: process.env.DATABASE_URL
 });
 const helmet = require('helmet');
-
+const jwks = require('jwks-rsa');
 
 function initConnection() {
   return require('amqplib').connect(process.env.RABBITMQ_BIGWIG_TX_URL).then(conn => {
@@ -76,9 +76,15 @@ app.use(cors({
 
 const authorize = function() {
   return jwt({
-    secret: process.env.OAUTH_SIGNING_KEY,
+    secret: jwks.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: process.env.OAUTH_JWKS_URI
+    }),
     audience: [process.env.CAIRN_CLIENT_ID, 'zion-api'],
     issuer: process.env.OAUTH_ISSUER,
+    algorithms: [ 'RS256' ],
     credentialsRequired: false,
     requestProperty: 'auth'
   })
