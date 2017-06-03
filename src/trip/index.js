@@ -71,6 +71,7 @@ function initSchema(config) {
       name: String
       tagline: String
       description: String
+      shortDescription: String
       distance: Int
       lat: Float
       lng: Float
