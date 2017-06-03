@@ -102,6 +102,10 @@ class Trip extends Model {
     return this.data.description;
   }
 
+  shortDescription() {
+    return this.data.short_description;
+  }
+
   season() {
     return this.data.season;
   }

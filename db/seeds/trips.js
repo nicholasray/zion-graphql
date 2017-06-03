@@ -164,6 +164,7 @@ function createTrip(areaId, knex) {
     map_id: 'm/DG1G',
     name,
     tagline: faker.lorem.words(7),
+    short_description: faker.lorem.words(15),
     description: getMarkdown(),
     directions: faker.lorem.paragraph(),
     permit: faker.lorem.paragraph(),
