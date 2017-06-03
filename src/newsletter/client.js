@@ -14,7 +14,7 @@ class Client {
   subscribe(user, listId) {
     return this.client.post(`${this.root}/lists/${listId}/members`, {
       email_address: user.email,
-      status: "pending",
+      status: "subscribed",
     }, {
       auth: this.auth
     }).then(response => {
