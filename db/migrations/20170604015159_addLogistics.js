@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.table('trips', function(table) {
-    table.string('logistics')
+    table.text('logistics')
       .notNullable()
       .defaultTo('');
   });
