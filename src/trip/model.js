@@ -129,6 +129,10 @@ class Trip extends Model {
     return this.data.distance;
   }
 
+  logistics() {
+    return this.data.logistics;
+  }
+
   relatedTrips(args, ctx) {
     return this.tripDao.related(this, ctx.user);
   }

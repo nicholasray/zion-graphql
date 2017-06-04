@@ -170,6 +170,7 @@ function createTrip(areaId, knex) {
     description: getMarkdown(),
     directions: faker.lorem.paragraph(),
     permit: faker.lorem.paragraph(),
+    logistics: faker.lorem.paragraph(),
     lat: faker.random.number({
       min: 38,
       max: 41,
