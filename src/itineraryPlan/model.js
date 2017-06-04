@@ -21,10 +21,6 @@ class ItineraryPlan extends Model {
   distance() {
     return this.data.distance;
   }
-
-  elevationGain() {
-    return this.data.elevation_gain;
-  }
 }
 
 module.exports = ItineraryPlan;

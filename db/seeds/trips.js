@@ -214,8 +214,7 @@ function createItineraryPlans(day, itineraryId, campsiteId, knex) {
     itinerary_id: itineraryId[0],
     campsite_id: campsiteId[0],
     day,
-    distance: faker.random.number({min: 1, max: 10}),
-    elevation_gain: faker.random.number({min: -500, max: 500})
+    distance: faker.random.number({min: 1, max: 10})
   });
 }
 
