@@ -31,6 +31,7 @@ function initSchema(config) {
       lat: Float
       lng: Float
       weatherSource: String
+      weatherSourceLink: String
       janAvgHigh: Int
       janAvgLow: Int
       janAvgPrecip: Float
@@ -100,6 +101,7 @@ function initSchema(config) {
       lat: Float
       lng: Float
       weatherSource: String
+      weatherSourceLink: String
       janAvgHigh: Int
       janAvgLow: Int
       janAvgPrecip: Float

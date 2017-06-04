@@ -88,6 +88,8 @@ function createArea(knex) {
       max: -112,
       precision: .0001
     }),
+    weather_source: 'Western Regional Climate Center',
+    weather_source_link: 'http://www.wrcc.dri.edu/cgi-bin/cliMAIN.pl?ut2592',
     jan_avg_high: 52,
     jan_avg_low: 29,
     jan_record_high: 71,

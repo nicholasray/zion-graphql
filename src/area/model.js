@@ -21,6 +21,10 @@ class Area extends Model {
     return this.data.weather_source;
   }
 
+  weatherSourceLink() {
+    return this.data.weather_source_link;
+  }
+
   janAvgLow() {
     return this.data.jan_avg_low;
   }
