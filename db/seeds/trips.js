@@ -167,6 +167,7 @@ function createTrip(areaId, knex) {
     name,
     tagline: faker.lorem.words(7),
     short_description: faker.lorem.words(15),
+    campsites_description: faker.lorem.words(15),
     description: getMarkdown(),
     directions: faker.lorem.paragraph(),
     permit: faker.lorem.paragraph(),

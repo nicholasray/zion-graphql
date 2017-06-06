@@ -54,6 +54,7 @@ function initSchema(config) {
       distance: Int
       lat: Float
       lng: Float
+      campsitesDescription: String!
       travelTime(lat: Float!, lng: Float!): Int
       season: String!
       directions: String!
@@ -79,6 +80,7 @@ function initSchema(config) {
       season: String
       directions: String
       logistics: String
+      campsitesDescription: String!
       isPublished: Boolean
     }
 

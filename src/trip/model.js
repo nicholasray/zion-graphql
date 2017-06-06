@@ -31,12 +31,17 @@ class Trip extends Model {
     return this.campsiteDao.withTripId(this.id(), ctx.user);
   }
 
+
   itineraries(args, ctx) {
     return this.itineraryDao.withTripId(this.id(), ctx.user);
   }
 
   reports(args, ctx) {
     return this.reportDao.withTripId(this.id(), ctx.user);
+  }
+
+  campsitesDescription() {
+    return this.data.campsites_description;
   }
 
   isPublished() {
