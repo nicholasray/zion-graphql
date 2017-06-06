@@ -92,7 +92,7 @@ class Trip extends Model {
       return null;
     }
 
-    return `https://www.google.com/maps/d/u/1/embed?mid=${this.data.map_id}&z=11`;
+    return `https://www.google.com/maps/d/u/1/embed?mid=${this.data.map_id}`;
   }
 
   name() {
