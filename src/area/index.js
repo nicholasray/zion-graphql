@@ -28,6 +28,7 @@ function initSchema(config) {
     type Area {
       id: ID!
       name: String!
+      slug: ID!
       lat: Float
       lng: Float
       weatherSource: String
@@ -98,6 +99,7 @@ function initSchema(config) {
 
     input AreaInput {
       name: String
+      slug: ID
       lat: Float
       lng: Float
       weatherSource: String

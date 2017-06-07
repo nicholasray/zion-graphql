@@ -9,6 +9,10 @@ class Area extends Model {
     return this.data.name;
   }
 
+  slug() {
+    return this.data.slug;
+  }
+
   lat() {
     return this.data.lat;
   }
