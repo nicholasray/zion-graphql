@@ -80,7 +80,7 @@ function initSchema(config) {
       season: String
       directions: String
       logistics: String
-      campsitesDescription: String!
+      campsitesDescription: String
       isPublished: Boolean
     }
 
