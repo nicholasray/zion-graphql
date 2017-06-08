@@ -12,6 +12,10 @@ class TripCampsite extends Campsite {
   images(args, ctx) {
     return this.campsiteImageDao.withCampsiteId(this.campsiteId(), ctx.user);
   }
+
+  rank() {
+    return this.data.rank;
+  }
 }
 
 module.exports = TripCampsite;

@@ -21,10 +21,10 @@ exports.seed = function(knex, Promise) {
             promises.push(createTripReport(tripId, userId, knex));
             promises.push(createTripImage(tripId, 1, knex));
             promises.push(createTripImage(tripId, 2, knex));
-            promises.push(createCampsiteWithImages(tripId, 1, knex));
-            promises.push(createCampsiteWithImages(tripId, 1, knex));
-            promises.push(createCampsiteWithImages(tripId, 1, knex));
-            promises.push(createCampsiteWithImages(tripId, 1, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, 1, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, 2, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, 3, knex));
+            promises.push(createCampsiteWithImages(tripId, 1, 4, knex));
             promises.push(createCampsite(tripId, knex).then(campsiteId => {
                 let promises = [];
 
@@ -40,7 +40,7 @@ exports.seed = function(knex, Promise) {
                   return Promise.all(promises);
                 }));
 
-                promises.push(createTripCampsite(tripId, campsiteId, knex));
+                promises.push(createTripCampsite(tripId, campsiteId, 5, knex));
                 promises.push(createCampsiteImage(campsiteId, 1, knex));
 
                 return Promise.all(promises);
@@ -186,10 +186,11 @@ function createTrip(areaId, knex) {
   });
 }
 
-function createTripCampsite(tripId, campsiteId, knex) {
+function createTripCampsite(tripId, campsiteId, rank, knex) {
   return knex('trip_campsites').returning('id').insert({
     trip_id: tripId[0],
-    campsite_id: campsiteId[0]
+    campsite_id: campsiteId[0],
+    rank: rank
   });
 }
 
@@ -230,11 +231,11 @@ function createCampsiteImage(campsiteId, rank, knex) {
   })
 }
 
-function createCampsiteWithImages(tripId, rank, knex) {
+function createCampsiteWithImages(tripId, rank, tripCampsiteRank, knex) {
   return createCampsite(tripId, knex).then(campsiteId => {
     let promises = [];
     promises.push(createCampsiteImage(campsiteId, rank, knex));
-    promises.push(createTripCampsite(tripId, campsiteId, knex));
+    promises.push(createTripCampsite(tripId, campsiteId, tripCampsiteRank, knex));
 
     return Promise.all(promises);
   });

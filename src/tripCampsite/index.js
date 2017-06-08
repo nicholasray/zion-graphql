@@ -20,6 +20,7 @@ function initSchema(config) {
       availabilityId: ID
       images: [CampsiteImage]!
       name: String
+      rank: Int
       lat: Float
       lng: Float
       createdAt: String!
@@ -30,11 +31,13 @@ function initSchema(config) {
       id: ID!
       tripId: ID!
       campsiteId: ID!
+      rank: Int
     }
 
     input TripCampsiteInput {
       tripId: ID
       campsiteId: ID
+      rank: Int
     }
 
     type TripCampsiteResponse {
@@ -46,6 +49,7 @@ function initSchema(config) {
   const mutationEndpoints = `
     createTripCampsite(input: TripCampsiteInput): TripCampsiteResponse
     deleteTripCampsite(id: ID!): ID!
+    updateTripCampsite(id: ID!, input: TripCampsiteInput): TripCampsiteResponse
   `
 
   const queryEndpoints = `
@@ -65,7 +69,10 @@ function initEndpoints(dao, config) {
     },
     deleteTripCampsite: ({id}, ctx) => {
       return dao.delete(id, ctx.user);
-    }
+    },
+    updateTripCampsite: ({id, input}, ctx) => {
+      return dao.update(id, input, ctx.user);
+    },
   }
 
   config.addEndpoints(endpoints);
