@@ -37,7 +37,7 @@ function initSchema(config) {
     }
 
     input CampsiteInput {
-      availabilityId: ID!
+      availabilityId: ID
       name: String
       lat: Float
       lng: Float
