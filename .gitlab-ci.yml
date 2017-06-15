@@ -14,6 +14,15 @@ test:
     - npm run test
     - npm run integration
 
+staging:
+  type: deploy
+  image: ruby:latest
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=zionapi-staging --api-key=$HEROKU_STAGING_API_KEY
+  except:
+  - master
+
 production:
   type: deploy
   image: ruby:latest
