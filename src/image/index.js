@@ -53,6 +53,7 @@ function initSchema(config) {
 
   const queryEndpoints = `
     allImages(limit: Int, offset: Int): ImageConnection!
+    image(id: ID!): Image
   `;
 
   const mutationEndpoints = `
