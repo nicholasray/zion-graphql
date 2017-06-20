@@ -2,7 +2,8 @@ const fs = require('fs');
 const jwt = require('express-jwt');
 const path = require('path');
 const express = require('express');
-const graphqlHTTP = require('express-graphql');
+const bodyParser = require('body-parser');
+const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
 const { buildSchema } = require('graphql');
 const cors = require('cors');
 const AuthUser = require('./lib/framework/auth/authUser');
@@ -97,12 +98,17 @@ app.use('/graphql', authorize(), (req, res, next) => {
   })
 
   next();
-}, graphqlHTTP(req => ({
+}, bodyParser.json(), graphqlExpress(req => ({
   schema: schema,
   rootValue: gqlConfig.getEndpoints(),
-  graphiql: (process.env.GRAPHIQL == 'true') || false,
   context: {user: req.auth ? new AuthUser(req.auth) : new NullUser()}
 })));
+
+if (process.env.GRAPHIQL == 'true') {
+  app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql',
+  }));
+}
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
