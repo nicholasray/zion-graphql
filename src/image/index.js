@@ -53,7 +53,7 @@ function initSchema(config) {
 
   const queryEndpoints = `
     allImages(limit: Int, offset: Int): ImageConnection!
-    imagesWithIds(ids: [ID]!): [Image]
+    image(id: ID!): Image
   `;
 
   const mutationEndpoints = `
@@ -70,8 +70,8 @@ function initEndpoints(dao, connectionDao, config) {
     allImages: (args, ctx) => {
       return connectionDao.all(args, ctx.user);
     },
-    imagesWithIds: ({ids}, ctx) => {
-      return dao.withIds(ids, ctx.user);
+    image: ({id}, ctx) => {
+      return dao.findById(id, ctx.user);
     },
     createImage: ({input}, ctx) => {
       return dao.create(input, ctx.user);
