@@ -51,7 +51,7 @@ function initSchema(config) {
       tagline: String!
       description: String!
       shortDescription: String!
-      distance: Int
+      distance: Float
       lat: Float
       lng: Float
       campsitesDescription: String!
