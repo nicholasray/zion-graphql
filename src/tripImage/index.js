@@ -24,6 +24,8 @@ function initSchema(config) {
       url: String!
       title: String
       alt: String
+      focalPointX: Float!
+      focalPointY: Float!
       caption: String
       createdAt: String!
       updatedAt: String!
