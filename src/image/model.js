@@ -32,6 +32,14 @@ class Image extends Model {
   url() {
     return process.env.IMAGE_CDN + this.path();
   }
+
+  focalPointX() {
+    return this.data.focal_point_y;
+  }
+
+  focalPointY() {
+    return this.data.focal_point_x;
+  }
 }
 
 module.exports = Image;

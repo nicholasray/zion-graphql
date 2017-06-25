@@ -33,6 +33,8 @@ function initSchema(config) {
       caption: String
       title: String
       alt: String
+      focalPointX: Float!
+      focalPointY: Float!
       createdAt: String!
       updatedAt: String!
     }
@@ -42,6 +44,8 @@ function initSchema(config) {
       path: String
       caption: String
       title: String
+      focalPointX: Float
+      focalPointY: Float
       alt: String
     }
 
