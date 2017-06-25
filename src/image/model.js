@@ -34,11 +34,11 @@ class Image extends Model {
   }
 
   focalPointX() {
-    return this.data.focal_point_y;
+    return this.data.focal_point_x;
   }
 
   focalPointY() {
-    return this.data.focal_point_x;
+    return this.data.focal_point_y;
   }
 }
 
