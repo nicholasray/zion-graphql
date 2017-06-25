@@ -7,6 +7,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "prestart": "npm install --unsafe-perm && node db/migrate.js",
     "start": "node --harmony-async-await src/server.js",
     "dev": "nodemon -r dotenv/config --harmony-async-await src/server.js",
     "seed": "node -r dotenv/config db/seed.js",
