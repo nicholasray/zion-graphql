@@ -26,6 +26,8 @@ function initSchema(config) {
       alt: String
       focalPointX: Float!
       focalPointY: Float!
+      width: Int!
+      height: Int!
       caption: String
       createdAt: String!
       updatedAt: String!

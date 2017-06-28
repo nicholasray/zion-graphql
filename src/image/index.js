@@ -35,6 +35,8 @@ function initSchema(config) {
       alt: String
       focalPointX: Float!
       focalPointY: Float!
+      width: Int!
+      height: Int!
       createdAt: String!
       updatedAt: String!
     }
@@ -46,6 +48,8 @@ function initSchema(config) {
       title: String
       focalPointX: Float
       focalPointY: Float
+      width: Int
+      height: Int
       alt: String
     }
 

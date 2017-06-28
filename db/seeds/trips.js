@@ -249,6 +249,8 @@ function createImage(knex) {
     title: faker.lorem.word(),
     caption: faker.lorem.word(),
     alt: faker.lorem.words(2),
+    width: 1500,
+    height: 1500
   });
 }
 

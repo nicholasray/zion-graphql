@@ -40,6 +40,14 @@ class Image extends Model {
   focalPointY() {
     return this.data.focal_point_y;
   }
+
+  width() {
+    return this.data.width;
+  }
+
+  height() {
+    return this.data.height;
+  }
 }
 
 module.exports = Image;
