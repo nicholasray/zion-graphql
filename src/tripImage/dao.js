@@ -27,6 +27,25 @@ class Dao extends CrudDao {
     return this.rankable.delete(id, 'trip_id', super.delete.bind(this));
   }
 
+  findById(id) {
+    return this.findByLoader.load(id);
+  }
+
+  withIds(ids) {
+    return this.db.select('*').from(`${this.tableName}_view`).whereIn('id', ids).orderBy('updated_at', 'desc').then(rows => {
+      const rowMap = {};
+
+      rows.forEach(row => {
+        rowMap[row.id] = new this.model(row, this.daos);
+      })
+
+      return ids.map(id => {
+        return rowMap[id] ? rowMap[id] : null;
+      })
+    })
+  }
+
+
   withTripId(id) {
     return this.loader.load(id);
   }

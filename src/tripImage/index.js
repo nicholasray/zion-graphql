@@ -54,6 +54,7 @@ function initSchema(config) {
 
   const queryEndpoints = `
     tripImagesWithTripId(id: ID!): [TripImage]!
+    tripImage(id: ID!): TripImage
   `;
 
   const mutationEndpoints = `
@@ -69,6 +70,9 @@ function initEndpoints(dao, config) {
   const endpoints = {
     tripImagesWithTripId: ({id}, ctx) => {
       return dao.withTripId(id, ctx.user);
+    },
+    tripImage: ({id}, ctx) => {
+      return dao.findById(id, ctx.user);
     },
     createTripImage: ({input}, ctx) => {
       return dao.create(input, ctx.user);
