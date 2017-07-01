@@ -75,6 +75,10 @@ app.use(cors({
   origin: [/http:\/\/localhost:\d+/, 'https://wildcairn.herokuapp.com', 'https://wildcairn-staging.herokuapp.com', /(?:.*\.)?outtraverse\.com$/]
 }));
 
+app.get('/status', function(req, res) {
+  res.send('up');
+})
+
 const authorize = function() {
   return jwt({
     secret: jwks.expressJwtSecret({
