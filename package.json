@@ -10,8 +10,8 @@
     "prestart": "npm install --unsafe-perm && node db/migrate.js",
     "start": "node --harmony-async-await src/server.js",
     "dev": "nodemon -r dotenv/config --harmony-async-await src/server.js",
-    "seed": "node -r dotenv/config db/seed.js",
-    "migrate": "node -r dotenv/config db/migrate.js",
+    "db:seed": "node -r dotenv/config db/seed.js",
+    "db:migrate": "node -r dotenv/config db/migrate.js",
     "test": "find ./src -name '*Test.js' | xargs mocha -R spec",
     "test:watch": "npm test -- --watch",
     "integration": "find ./test/integration -name '*Test.js' | dotenv_config_path=./.env.test xargs  mocha -r dotenv/config -R spec"
